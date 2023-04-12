@@ -25,7 +25,7 @@ public class Entity {
             posSavePoint = {64, 128}, posTrashBag = {32,128}, posJuncaoTopoEsquerda = {192,32},
             posJuncaoFundoEsquerda = {192,64}, posJuncaoTopoDireita = {224,32}, posJuncaoFundoDireita = {224,64},
             posJuncaoDupla1 = {256,32},posJuncaoDupla2 = {256,64}, posJuncaoSimplesLateralTopoDireita = {192,96},
-            posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0};
+            posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0};
     // ajustar ceu e nuvens
     // ajustar inimigo
 
@@ -63,6 +63,7 @@ public class Entity {
     public static BufferedImage juncaoDupla1 = Game.sprite.getSprite(posJuncaoDupla1[0], posJuncaoDupla1[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoDupla2 = Game.sprite.getSprite(posJuncaoDupla2[0], posJuncaoDupla2[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoSimplesLateralTopoDireita = Game.sprite.getSprite(posJuncaoSimplesLateralTopoDireita[0], posJuncaoSimplesLateralTopoDireita[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage juncaoSimplesFundoDireita = Game.sprite.getSprite(posJuncaoSimplesFundoDireita[0], posJuncaoSimplesFundoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage tijoloDeserto = Game.sprite.getSprite(posTijoloDeserto[0], posTijoloDeserto[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage empty = Game.sprite.getSprite(posEmpty[0], posEmpty[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 3200, 800);
