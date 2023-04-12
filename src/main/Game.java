@@ -1,5 +1,5 @@
 package main;
-
+// teste
 import Mundo.Mundo;
 import entidades.*;
 import entidades.interativos.Escada;
@@ -220,7 +220,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             // se não houver lixo, vai pra proxiuma fase
             if (trashBags.size() == 0) {
-                // level inicia em 1 (lá em cima)
+                // level inicia em 1 (lá em cima) teste
                 level++;
                 // caso o level (após o incremento) seja maior do que o level máximo, voltaremos para a fase 1
                 // isso será substituído pela tela de finalização do jogo (jogo zerado)
