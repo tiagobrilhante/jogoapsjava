@@ -156,6 +156,7 @@ public class Player extends Entity {
         atualX = (int) x;
         atualY = (int) y;
 
+        System.out.println("x: " + x + "y: " + y);
         timerPlayer++;
         double rawTime = timerPlayer / 60;
         tempoParado = (int) rawTime;
@@ -257,15 +258,28 @@ public class Player extends Entity {
 
 
         //Só deve ser implementado nas fases de nave e para subir e descer escadas
-        if (emEscada) {
+        if (emEscada && !colisao((int)x, (int)(y+2))) {
             if (down) {
                 y += speed;
+                y = (int)y;
             }
             if (up) {
                 y -= speed;
+                y = (int)y;
             }
             movimentacao = 1;
             timerPlayer = 0;
+        }
+
+        if (emEscada && colisao((int)x, (int)(y+2))) {
+            System.out.println("estou aqui");
+            if (up) {
+                y -= speed;
+                y = (int)y;
+            }
+            if (down){
+                y = (int)y-4;
+            }
         }
 
         if (attack) {
@@ -551,6 +565,7 @@ public class Player extends Entity {
             }
 
         }
+
         return false;
     }
 
