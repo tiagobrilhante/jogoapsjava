@@ -1,6 +1,6 @@
-# Jogo APS Java
-Jogo em Java para APS da UNIP
-O desafio foi criar o jogo do zero, usando apenas o Java sem nenhuma engine
-Plataforma 2d usando conceitos básicos de POO
-Seja feliz, é obrigatório
-Todo poder emana do código
+# Jogo APS Java<br>
+Jogo em Java para APS da UNIP<br>
+O desafio foi criar o jogo do zero, usando apenas o Java sem nenhuma engine<br>
+Plataforma 2d usando conceitos básicos de POO<br>
+Seja feliz, é obrigatório<br>
+Todo poder emana do código<br>
