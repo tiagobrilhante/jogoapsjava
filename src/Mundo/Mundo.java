@@ -4,6 +4,7 @@ import entidades.Entity;
 import entidades.Grama;
 import entidades.interativos.*;
 import entidades.naoSolidos.Ceu;
+import entidades.naoSolidos.FundoDarkBrick;
 import entidades.naoSolidos.GalhosSecos;
 import entidades.naoSolidos.Nuvens;
 import entidades.player.Player;
@@ -50,7 +51,8 @@ public class Mundo {
             corCeu = 0xFF639bff, corPlayer = 0xFFffff00, corChaoIsoladoTopo = 0xFF7845ac, corChaoIsoladoFundo = 0xFFaad5c0,
             corNucleoBifurcaChaoIsoladoTopo = 0xFF45acac, corNucleoBifurcaChaoIsoladoFundo = 0xFFd57d29,
             corTrashBag = 0xFFf600F6, corChaoIsoladoEsquerda = 0xFF355240, corChaoIsoladoDireita = 0xFF793b34,
-            corJuncaoSimplesFundoDireita = 0xFFf22778;
+            corJuncaoSimplesFundoDireita = 0xFFf22778, corFundoDarkBrickBase = 0xFF0e5050,
+            corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949;
 
     public String playerSpritePath = "/res/spritesheets/spritesheetPlayer.png";
     public static String gameSpritePath = "/res/spritesheets/spritesheet32.png";
@@ -83,8 +85,23 @@ public class Mundo {
                     int pixelAtual = pixels[x + (y * level.getWidth())];
                     // popula os tiles vazios
                     tiles[x + (y * WIDTH)] = new Empty(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.empty);
+                    if (pixelAtual == corFundoDarkBrickBase) {
+                        FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickBase);
+                        Game.darkBricksFundo.add(fundoDarkBrick);
+                    }
 
-                    if (pixelAtual == corEscadaTopo) {
+                    if (pixelAtual == corFundoDarkBrickEsquerdo) {
+                        FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickEsquerdo);
+                        Game.darkBricksFundo.add(fundoDarkBrick);
+                    }
+
+                    if (pixelAtual == corFundoDarkBrickDireito) {
+                        FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickDireito);
+                        Game.darkBricksFundo.add(fundoDarkBrick);
+                    }
+
+
+                    else if (pixelAtual == corEscadaTopo) {
                         Escada escada = new Escada(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, 3, Entity.escadaTopo);
                         Game.escada.add(escada);
                     } else if (pixelAtual == corEscada) {

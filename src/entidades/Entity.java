@@ -25,7 +25,8 @@ public class Entity {
             posSavePoint = {64, 128}, posTrashBag = {32,128}, posJuncaoTopoEsquerda = {192,32},
             posJuncaoFundoEsquerda = {192,64}, posJuncaoTopoDireita = {224,32}, posJuncaoFundoDireita = {224,64},
             posJuncaoDupla1 = {256,32},posJuncaoDupla2 = {256,64}, posJuncaoSimplesLateralTopoDireita = {192,96},
-            posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0};
+            posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0},
+            posFundoDarkBrickEsquerdo = {96,128}, posFundoDarkBrickDireito = {160,128}, posFundoDarkBrickBase = {128,128};
     // ajustar ceu e nuvens
     // ajustar inimigo
 
@@ -71,6 +72,9 @@ public class Entity {
     public static BufferedImage grama = Game.sprite.getSprite(posGrama[0], posGrama[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escadaTopo = Game.sprite.getSprite(posEscadaTopo[0], posEscadaTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escada = Game.sprite.getSprite(posEscada[0], posEscada[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage fundoDarkBrickEsquerdo = Game.sprite.getSprite(posFundoDarkBrickEsquerdo[0], posFundoDarkBrickEsquerdo[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage fundoDarkBrickDireito = Game.sprite.getSprite(posFundoDarkBrickDireito[0], posFundoDarkBrickDireito[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage fundoDarkBrickBase = Game.sprite.getSprite(posFundoDarkBrickBase[0], posFundoDarkBrickBase[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escadaBase = Game.sprite.getSprite(posEscadaBase[0], posEscadaBase[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage espinho = Game.sprite.getSprite(posEspinho[0], posEspinho[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage galhoSeco = Game.sprite.getSprite(posGalhoSeco[0], posGalhoSeco[1], SIZEENTITYX, SIZEENTITYY);

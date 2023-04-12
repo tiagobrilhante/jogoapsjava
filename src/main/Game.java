@@ -7,6 +7,7 @@ import entidades.interativos.Inimigo;
 import entidades.interativos.KitHealth;
 import entidades.interativos.TrashBag;
 import entidades.naoSolidos.Ceu;
+import entidades.naoSolidos.FundoDarkBrick;
 import entidades.naoSolidos.Nuvens;
 import entidades.naoSolidos.StarSpawner;
 import entidades.player.Player;
@@ -83,6 +84,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<Grama> grama;
 
     public static List<Escada> escada;
+    public static List<FundoDarkBrick> darkBricksFundo;
 
     // chama o menu
     public static String gameState = "MENU";
@@ -144,6 +146,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         grama = new ArrayList<>();
         // escadas
         escada = new ArrayList<>();
+        darkBricksFundo = new ArrayList<>();
         // chama o player (de acordo com a posição inicial no sprite)
         player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
         // adiciona o player em entidades (só pode haver 1)
@@ -274,6 +277,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
+            // atribuo a responsabilidade para darkBricks, que é uma entidade não colisora, realize os seus ticks
+            for (FundoDarkBrick entidade : darkBricksFundo) {
+                entidade.tick();
+            }
+
             starSpawner.update();
         }
     }
@@ -330,6 +338,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // renderiza escadas
         for (Escada entidade : escada) {
+            entidade.render(g);
+        }
+
+        // renderiza darkBrickFundo
+        for (FundoDarkBrick entidade : darkBricksFundo) {
             entidade.render(g);
         }
 
