@@ -3,10 +3,7 @@ package Mundo;
 import entidades.Entity;
 import entidades.Grama;
 import entidades.interativos.*;
-import entidades.naoSolidos.Ceu;
-import entidades.naoSolidos.FundoDarkBrick;
-import entidades.naoSolidos.GalhosSecos;
-import entidades.naoSolidos.Nuvens;
+import entidades.naoSolidos.*;
 import entidades.player.Player;
 import entidades.solidos.Solido;
 import graficos.Spritsheet;
@@ -52,7 +49,8 @@ public class Mundo {
             corNucleoBifurcaChaoIsoladoTopo = 0xFF45acac, corNucleoBifurcaChaoIsoladoFundo = 0xFFd57d29,
             corTrashBag = 0xFFf600F6, corChaoIsoladoEsquerda = 0xFF355240, corChaoIsoladoDireita = 0xFF793b34,
             corJuncaoSimplesFundoDireita = 0xFFf22778, corFundoDarkBrickBase = 0xFF0e5050,
-            corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949;
+            corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949,
+            corFundoDarkBrickBrokenBase1 = 0xFF0e1052, corWallFundo1 = 0xFF2d3425;
 
     public String playerSpritePath = "/res/spritesheets/spritesheetPlayer.png";
     public static String gameSpritePath = "/res/spritesheets/spritesheet32.png";
@@ -87,6 +85,11 @@ public class Mundo {
                     tiles[x + (y * WIDTH)] = new Empty(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.empty);
                     if (pixelAtual == corFundoDarkBrickBase) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickBase);
+                        Game.darkBricksFundo.add(fundoDarkBrick);
+                    }
+
+                    if (pixelAtual == corFundoDarkBrickBrokenBase1) {
+                        FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickBrokenBase1);
                         Game.darkBricksFundo.add(fundoDarkBrick);
                     }
 
@@ -257,7 +260,13 @@ public class Mundo {
                     } else if (pixelAtual == corCeu) {
                         Ceu ceu = new Ceu(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.ceu);
                         Game.ceuVetor.add(ceu);
-                    } else if (pixelAtual == corPlayer) {
+                    }
+                    else if (pixelAtual == corWallFundo1) {
+                        WallFundo1 wallFundo1 = new WallFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.wallFundo1);
+                        Game.wallFundo1Vetor.add(wallFundo1);
+                    }
+
+                    else if (pixelAtual == corPlayer) {
                         Game.player.setX(x * Player.SIZEPLAYERX);
                         Game.player.setY(y * Player.SIZEPLAYERY);
                     }

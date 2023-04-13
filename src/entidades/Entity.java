@@ -26,7 +26,8 @@ public class Entity {
             posJuncaoFundoEsquerda = {192,64}, posJuncaoTopoDireita = {224,32}, posJuncaoFundoDireita = {224,64},
             posJuncaoDupla1 = {256,32},posJuncaoDupla2 = {256,64}, posJuncaoSimplesLateralTopoDireita = {192,96},
             posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0},
-            posFundoDarkBrickEsquerdo = {96,128}, posFundoDarkBrickDireito = {160,128}, posFundoDarkBrickBase = {128,128};
+            posFundoDarkBrickEsquerdo = {96,128}, posFundoDarkBrickDireito = {160,128}, posFundoDarkBrickBase = {128,128},
+            posFundoDarkBrickBrokenBase1 = {96,160};
     // ajustar ceu e nuvens
     // ajustar inimigo
 
@@ -68,6 +69,7 @@ public class Entity {
     public static BufferedImage tijoloDeserto = Game.sprite.getSprite(posTijoloDeserto[0], posTijoloDeserto[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage empty = Game.sprite.getSprite(posEmpty[0], posEmpty[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 3200, 800);
+    public static BufferedImage wallFundo1 = Game.wallFundo1.getSprite(0, 0, 224, 128);
     public static BufferedImage nuvens = Game.nuvens.getSprite(0, 0, 1471, 700);
     public static BufferedImage grama = Game.sprite.getSprite(posGrama[0], posGrama[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escadaTopo = Game.sprite.getSprite(posEscadaTopo[0], posEscadaTopo[1], SIZEENTITYX, SIZEENTITYY);
@@ -75,6 +77,7 @@ public class Entity {
     public static BufferedImage fundoDarkBrickEsquerdo = Game.sprite.getSprite(posFundoDarkBrickEsquerdo[0], posFundoDarkBrickEsquerdo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage fundoDarkBrickDireito = Game.sprite.getSprite(posFundoDarkBrickDireito[0], posFundoDarkBrickDireito[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage fundoDarkBrickBase = Game.sprite.getSprite(posFundoDarkBrickBase[0], posFundoDarkBrickBase[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage fundoDarkBrickBrokenBase1 = Game.sprite.getSprite(posFundoDarkBrickBrokenBase1[0], posFundoDarkBrickBrokenBase1[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escadaBase = Game.sprite.getSprite(posEscadaBase[0], posEscadaBase[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage espinho = Game.sprite.getSprite(posEspinho[0], posEspinho[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage galhoSeco = Game.sprite.getSprite(posGalhoSeco[0], posGalhoSeco[1], SIZEENTITYX, SIZEENTITYY);

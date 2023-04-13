@@ -6,10 +6,7 @@ import entidades.interativos.Escada;
 import entidades.interativos.Inimigo;
 import entidades.interativos.KitHealth;
 import entidades.interativos.TrashBag;
-import entidades.naoSolidos.Ceu;
-import entidades.naoSolidos.FundoDarkBrick;
-import entidades.naoSolidos.Nuvens;
-import entidades.naoSolidos.StarSpawner;
+import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
 
@@ -58,7 +55,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<Entity> entidades;
 
     // instancia sprites
-    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, nuvens;
+    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, nuvens;
 
     // instancia o mundo
     public static Mundo mundo;
@@ -68,6 +65,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     // prepara a lista de CEU (cenário)
     public static List<Ceu> ceuVetor;
+    public static List<WallFundo1> wallFundo1Vetor;
 
     public static List<Nuvens> nuvemVetor;
 
@@ -97,6 +95,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public String spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png";
     public String spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png";
     public String spriteCeuPath = "/res/spritesheets/ceusprite.png";
+    public String spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png";
     public String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
     public String levelPath = "/res/fases/level1.png";
 
@@ -133,9 +132,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
         spriteEnemy = new Spritsheet(spriteEnemyPath);
         // chama o céu
         ceuVetor = new ArrayList<>();
+        wallFundo1Vetor = new ArrayList<>();
         nuvemVetor = new ArrayList<>();
         // define o sprite a ser usado pelo ceu
         ceu = new Spritsheet(spriteCeuPath);
+        wallFundo1 = new Spritsheet(spriteFundo1Path);
         nuvens = new Spritsheet(spriteNuvemPath);
         // chama os kits de vida
         kitHealth = new ArrayList<>();
@@ -247,6 +248,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
+            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
+            for (WallFundo1 entidade : wallFundo1Vetor) {
+                entidade.tick();
+            }
+
             // atribuo a responsabilidade para o nuvens realizar os ticks dos seus filhos
             for (Nuvens entidade : nuvemVetor) {
                 entidade.tick();
@@ -310,6 +316,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
         for (Ceu ceu : ceuVetor) {
             ceu.render(g);
         }
+
+        // popula o mundo com o vetor do céu (de acordo com a fase)
+        for (WallFundo1 wallFundo1 : wallFundo1Vetor) {
+            wallFundo1.render(g);
+        }
+
 
         // popula o mundo com o vetor do céu (de acordo com a fase)
         for (Nuvens nuvem : nuvemVetor) {
