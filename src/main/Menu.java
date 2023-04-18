@@ -87,7 +87,7 @@ public class Menu {
                 //inicia o jogo
                 Game.gameState = "NORMAL";
                 audio.stop();
-                AudioMundo audio = new AudioMundo("src/res/sounds/soundtracks/fase1.wav");
+                AudioMundo audio = new AudioMundo("src/res/sounds/soundtracks/fase"+Game.level+".wav");
                 audio.start();
 
             }

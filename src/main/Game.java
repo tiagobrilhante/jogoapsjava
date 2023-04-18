@@ -112,7 +112,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // ainda deve implementar a tela inicial do jogo e o menu de opções
     // bem como o game over
     // por enquanto inicia no lvl 1, mas o ocrreto é iniciar no menu
-    public int level = 1, levelMaximo = 2;
+    public static int level = 1;
+    public int levelMaximo = 2;
 
     // método construtor
     public Game() {
