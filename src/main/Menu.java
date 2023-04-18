@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import Mundo.Audio;
 
 public class Menu {
     public String[] options = {"Jogar", "Leaderboards", "Sair"};
@@ -33,7 +34,7 @@ public class Menu {
     public BufferedImage[] playerMenuAnima;
     public BufferedImage[] fundoMenuSimples;
 
-    AudioMundo audio = new AudioMundo(soundPath); // Chamando a classe aonde está o audio.
+    Audio audio = new Audio(soundPath); // Chamando a classe aonde está o audio.
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
@@ -87,7 +88,7 @@ public class Menu {
                 //inicia o jogo
                 Game.gameState = "NORMAL";
                 audio.stop();
-                AudioMundo audio = new AudioMundo("src/res/sounds/soundtracks/fase"+Game.level+".wav");
+                Audio audio = new Audio("src/res/sounds/soundtracks/fase"+Game.level+".wav");
                 audio.start();
 
             }
@@ -139,40 +140,6 @@ public class Menu {
 
         g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
 
-    }
-
-
-
-    public class AudioMundo {
-        private Clip clip;
-
-        public AudioMundo(String soundPath) {
-            try {
-                // Local absoluto de onde tá o arquivo
-                // funciona com WAV - ainda não testei mp3
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath).getAbsoluteFile());
-                clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                // Repete a música continuamente
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } catch (Exception ex) {
-                // exception no console
-                System.out.println("Erro ao executar SOM!");
-                ex.printStackTrace();
-            }
-        }
-
-        public void start() {
-            if (clip != null) {
-                clip.start();
-            }
-        }
-
-        public void stop() {
-            if (clip != null) {
-                clip.stop();
-            }
-        }
     }
 
 }
