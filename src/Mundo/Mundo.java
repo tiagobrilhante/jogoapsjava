@@ -8,12 +8,17 @@ import entidades.player.Player;
 import entidades.solidos.Solido;
 import graficos.Spritsheet;
 import main.Game;
+import main.Menu;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,6 +33,8 @@ public class Mundo {
     public static Tile[] tiles;
 
     public int timer = 0;
+
+    public static String soundPath = "src/res/sounds/soundtracks/fase1.wav";
 
     public static double posX = 0, posY = 0;
 
@@ -59,6 +66,13 @@ public class Mundo {
 
     // método construtor
     public Mundo(String path) {
+
+        System.out.println(Game.gameState);
+
+        if (Game.gameState != "MENU") {
+            AudioMundo audio = new AudioMundo(); // Chamando a classe aonde está o audio.
+            audio.AudioMundo(soundPath); // Chamando o método do audio
+        }
         try {
 
             // mapeamento do mundo (de acordo com os pixel da base da fase)
@@ -333,6 +347,28 @@ public class Mundo {
 
         Game.player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, Game.sprite.getSprite(32, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
         Game.entidades.add(Game.player);
+    }
+
+
+    public class AudioMundo {
+
+        void AudioMundo(String soundPath) { //Método AudioMundo para chamar na classe executavel.
+            try {
+                //Local absoluto de onde tá o arquivo
+                // funciona com WAV - ainda não testei mp3
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath).getAbsoluteFile());
+                Clip clip = AudioSystem.getClip();
+                clip.stop();
+                clip.open(audioInputStream);
+                clip.start();
+                // repete a música continuamente
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (Exception ex) {
+                // exception no console
+                System.out.println("Erro ao executar SOM!");
+                ex.printStackTrace();
+            }
+        }
     }
 
 

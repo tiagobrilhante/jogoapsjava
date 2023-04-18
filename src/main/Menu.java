@@ -1,20 +1,22 @@
 package main;
 
-import Mundo.Camera;
-import Mundo.Mundo;
-import entidades.Entity;
-import entidades.interativos.Inimigo;
-import entidades.naoSolidos.Particula;
 import graficos.Spritsheet;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class Menu {
     public String[] options = {"Jogar", "Leaderboards", "Sair"};
+
+    public static String gameState = "MENU";
+    
     public int currentOption = 0;
     public int maxOption = options.length - 1;
     public boolean up, down, ok;
@@ -26,18 +28,26 @@ public class Menu {
     public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
     public String fundoMenuPath = "/res/spritesheets/testemenu.png";
 
+    public static String soundPath = "src/res/sounds/soundtracks/fase0.wav";
+
     public BufferedImage[] playerMenuAnima;
     public BufferedImage[] fundoMenuSimples;
+
+    AudioMundo audio = new AudioMundo(soundPath); // Chamando a classe aonde está o audio.
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
     public Menu() {
 
+        System.out.println(Game.gameState);
+
         animaMenu = new Spritsheet(menuAnimaPath);
         fundoMenu = new Spritsheet(fundoMenuPath);
         playerMenuAnima = new BufferedImage[25];
         fundoMenuSimples = new BufferedImage[1];
+       audio.start();
 
+        // animacao do personagem no menu
         for (int i = 0; i < 25; i++) {
             playerMenuAnima[i] = animaMenu.getSprite((i * 64), 0, 64, 128);
         }
@@ -76,6 +86,10 @@ public class Menu {
             if (currentOption == 0) {
                 //inicia o jogo
                 Game.gameState = "NORMAL";
+                audio.stop();
+                AudioMundo audio = new AudioMundo("src/res/sounds/soundtracks/fase1.wav");
+                audio.start();
+
             }
             if (currentOption == 1) {
                 //leaderboards (falta implementar)
@@ -88,6 +102,8 @@ public class Menu {
     }
 
     public void tick() {
+
+        System.out.println("tick: "+ Game.gameState);
         frames++;
         if (frames >= maxFrames/3) {
             index++;
@@ -100,8 +116,6 @@ public class Menu {
     }
 
     public void render(Graphics g) {
-
-
 
         g.fillRect(0, 0, Game.WIDTH * Game.SCALE, Game.HEIGTH * Game.SCALE);
         g.setColor(new Color(255, 255, 255));
@@ -126,4 +140,39 @@ public class Menu {
         g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
 
     }
+
+
+
+    public class AudioMundo {
+        private Clip clip;
+
+        public AudioMundo(String soundPath) {
+            try {
+                // Local absoluto de onde tá o arquivo
+                // funciona com WAV - ainda não testei mp3
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath).getAbsoluteFile());
+                clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                // Repete a música continuamente
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (Exception ex) {
+                // exception no console
+                System.out.println("Erro ao executar SOM!");
+                ex.printStackTrace();
+            }
+        }
+
+        public void start() {
+            if (clip != null) {
+                clip.start();
+            }
+        }
+
+        public void stop() {
+            if (clip != null) {
+                clip.stop();
+            }
+        }
+    }
+
 }

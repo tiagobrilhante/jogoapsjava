@@ -104,7 +104,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public String spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png";
     public String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
     public String levelPath = "/res/fases/level1.png";
-    public static String soundPath = "src/res/sounds/soundtracks/fase0.wav";
+
 
     public String gameName = "JOGO APS";
 
@@ -131,6 +131,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         ui = new UserInterface();
         // chama o fundo
         fundo = new BufferedImage(WIDTH, HEIGTH, BufferedImage.TYPE_INT_RGB);
+
+
         // chama as entidades (classe abstrata)
         entidades = new ArrayList<>();
         // define o sprite a ser usado pelas entidades
@@ -162,9 +164,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         starSpawner = new StarSpawner();
 
-
-        AudioMundo audio = new AudioMundo(); // Chamando a classe aonde está o audio.
-        audio.AudioMundo(); // Chamando o método do audio
 
         // por fim carrega o mundo....
         //isso provavelmente vai ser modificado para carregar a tela inicial primeiro,
@@ -227,9 +226,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void tick() {
 
         if (gameState == "MENU") {
+
             menu.choose();
             // atribuo a responsabilidade para o ceu realizar os ticks do menu
-
             menu.tick();
         }
 
@@ -261,7 +260,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
             for (Ceu entidade : ceuVetor) {
                 entidade.tick();
             }
-
 
 
             // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
@@ -325,7 +323,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, WIDTH, HEIGTH);
 
-
         // renderiza o mundo
         Mundo.render(g);
 
@@ -338,7 +335,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         for (WallFundo1 wallFundo1 : wallFundo1Vetor) {
             wallFundo1.render(g);
         }
-
 
         // popula o mundo com o vetor do céu (de acordo com a fase)
         for (Nuvens nuvem : nuvemVetor) {
@@ -392,6 +388,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         if (gameState == "MENU") {
             menu.render(g);
+        } if (gameState == "NORMAL"){
+            Mundo.render(g);
         }
 
         buffer.show();
@@ -524,23 +522,5 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
     }
 
-    public class AudioMundo {
 
-        void AudioMundo() { //Método AudioMundo para chamar na classe executavel.
-            try {
-                //Local absoluto de onde tá o arquivo
-                // funciona com WAV - ainda não testei mp3
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath).getAbsoluteFile());
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
-                // repete a música continuamente
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } catch (Exception ex) {
-                // exception no console
-                System.out.println("Erro ao executar SOM!");
-                ex.printStackTrace();
-            }
-        }
-    }
 }
