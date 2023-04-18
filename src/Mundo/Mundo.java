@@ -10,12 +10,10 @@ import graficos.Spritsheet;
 import main.Game;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -57,7 +55,7 @@ public class Mundo {
     public static String ceuSpritePath = "/res/spritesheets/ceusprite.png";
     public static String nuvemSpritePath = "/res/spritesheets/ceuspriteClouds.png";
     public static String levelPath = "/res/fases/";
-    public static String soundPath = "src/res/sounds/soundtracks/fase1.wav";
+
 
     // método construtor
     public Mundo(String path) {
@@ -277,9 +275,6 @@ public class Mundo {
             Nuvens nuvem = new Nuvens(Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.nuvens);
             Game.nuvemVetor.add(nuvem);
 
-            AudioMundo audio = new AudioMundo(); // Chamando a classe aonde está o audio.
-            audio.AudioMundo(); // Chamando o método do audio
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -340,23 +335,5 @@ public class Mundo {
         Game.entidades.add(Game.player);
     }
 
-    public class AudioMundo {
 
-        void AudioMundo() { //Método AudioMundo para chamar na classe executavel.
-            try {
-                //Local absoluto de onde tá o arquivo
-                // funciona com WAV - ainda não testei mp3
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath).getAbsoluteFile());
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
-                // repete a música continuamente
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            } catch (Exception ex) {
-                // exception no console
-                System.out.println("Erro ao executar SOM!");
-                ex.printStackTrace();
-            }
-        }
-    }
 }

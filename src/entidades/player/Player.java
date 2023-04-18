@@ -152,11 +152,8 @@ public class Player extends Entity {
     public void tick() {
         // aqui eu inicio a movimentação em parado ==== 0
         movimentacao = 0;
-
         atualX = (int) x;
         atualY = (int) y;
-
-        System.out.println("x: " + x + "y: " + y);
         timerPlayer++;
         double rawTime = timerPlayer / 60;
         tempoParado = (int) rawTime;
@@ -272,7 +269,6 @@ public class Player extends Entity {
         }
 
         if (emEscada && colisao((int)x, (int)(y+2))) {
-            System.out.println("estou aqui");
             if (up) {
                 y -= speed;
                 y = (int)y;
@@ -288,16 +284,10 @@ public class Player extends Entity {
             for (int i = 0; i < Game.inimigo.size(); i++) {
                 Inimigo e = Game.inimigo.get(i);
                 // se o player estiver no eixo x e y do personagem
-
                 // tenho que ajustar a lógica disso...
                 // na verdade, implementar logo o tiro e arpa de impacto
-                System.out.println("this.getx"+this.getX());
-                System.out.println("this.gety"+this.getY());
-                System.out.println("enemyGetx" + e.getX());
-                System.out.println("enemyGetY" + e.getY());
                 if (ataqueCano(this.getX(), this.getY())) {
 
-                    System.out.println("life: " + e.life);
                     e.life--;
                     e.setX(e.getX()-20);
                     if (e.life == 0) {
@@ -316,8 +306,6 @@ public class Player extends Entity {
 
 
             }
-
-
 
             timerPlayer = 0;
             movimentacao = 1;
@@ -491,14 +479,11 @@ public class Player extends Entity {
 
         int incremento = 0;
         if (direcaoAtual == esquerda){
-            System.out.println("esquerda");
             incremento -= Player.SIZEPLAYERX;
         } else {
-            System.out.println("direita");
             incremento += Player.SIZEPLAYERX;
         }
 
-        System.out.println("incremento" + incremento);
 
         Rectangle retanguloPlayer = new Rectangle(nextx + maskx + incremento, nexty + masky, maskw, maskh);
 
@@ -508,12 +493,10 @@ public class Player extends Entity {
                 Rectangle retanguloInimigo = new Rectangle(inimigo.getX() + maskx, inimigo.getY() + masky, maskw, maskh);
                 if (retanguloPlayer.intersects(retanguloInimigo)) {
                     enemy = inimigo;
-                    System.out.println("contato");
                     return true;
                 }
             }
         }
-        System.out.println("erro");
         return false;
     }
 

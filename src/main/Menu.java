@@ -1,5 +1,12 @@
 package main;
 
+import Mundo.Camera;
+import Mundo.Mundo;
+import entidades.Entity;
+import entidades.interativos.Inimigo;
+import entidades.naoSolidos.Particula;
+import graficos.Spritsheet;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,27 +17,50 @@ public class Menu {
     public String[] options = {"Jogar", "Leaderboards", "Sair"};
     public int currentOption = 0;
     public int maxOption = options.length - 1;
-    public boolean up,down,ok;
+    public boolean up, down, ok;
     private BufferedImage imagem;
     private Font font;
 
-    public Menu() {try {
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("res/spaceship1small.png");
-        imagem = ImageIO.read(inputStream);
-        // agora você pode usar a variável 'imagem' para manipular a imagem PNG
+    public static Spritsheet animaMenu;
+    public static Spritsheet fundoMenu;
+    public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
+    public String fundoMenuPath = "/res/spritesheets/testemenu.png";
 
-        font = new Font("Arial", Font.BOLD, 24);
-    } catch (IOException e) {
-        System.out.println("Erro ao carregar a imagem: " + e.getMessage());
-    }
+    public BufferedImage[] playerMenuAnima;
+    public BufferedImage[] fundoMenuSimples;
+
+    public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
+
+    public Menu() {
+
+        animaMenu = new Spritsheet(menuAnimaPath);
+        fundoMenu = new Spritsheet(fundoMenuPath);
+        playerMenuAnima = new BufferedImage[25];
+        fundoMenuSimples = new BufferedImage[1];
+
+        for (int i = 0; i < 25; i++) {
+            playerMenuAnima[i] = animaMenu.getSprite((i * 64), 0, 64, 128);
+        }
+
+        fundoMenuSimples[0] = fundoMenu.getSprite(0,0, 520,292);
+
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream("res/spaceship1small.png");
+            imagem = ImageIO.read(inputStream);
+            // agora você pode usar a variável 'imagem' para manipular a imagem PNG
+
+            font = new Font("Arial", Font.BOLD, 24);
+        } catch (IOException e) {
+            System.out.println("Erro ao carregar a imagem: " + e.getMessage());
+        }
     }
 
     public void choose() {
-        if(down) {
+        if (down) {
             currentOption++;
             down = false;
-            if(currentOption > maxOption) {
+            if (currentOption > maxOption) {
                 currentOption = 0;
             }
         }
@@ -41,39 +71,59 @@ public class Menu {
                 currentOption = maxOption;
             }
         }
-        if(ok) {
+        if (ok) {
             ok = false;
-            if(currentOption == 0) {
+            if (currentOption == 0) {
                 //inicia o jogo
                 Game.gameState = "NORMAL";
             }
-            if(currentOption == 1) {
+            if (currentOption == 1) {
                 //leaderboards (falta implementar)
             }
-            if(currentOption == 2) {
+            if (currentOption == 2) {
                 //fecha o jogo
                 System.exit(0);
             }
         }
     }
 
+    public void tick() {
+        frames++;
+        if (frames >= maxFrames/3) {
+            index++;
+            frames = 0;
+            if (index > maxIndex) {
+                index = 0;
+            }
+        }
+
+    }
+
     public void render(Graphics g) {
-        g.fillRect(0, 0, Game.WIDTH*Game.SCALE, Game.HEIGTH*Game.SCALE);
-        g.setColor(new Color(255, 255,255));
+
+
+
+        g.fillRect(0, 0, Game.WIDTH * Game.SCALE, Game.HEIGTH * Game.SCALE);
+        g.setColor(new Color(255, 255, 255));
+
+        g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);
 
         // define a nova fonte
         Font biggerFont = font.deriveFont(60f);
         g.setFont(biggerFont);
-        g.drawString("GameAps", ((Game.WIDTH*Game.SCALE)/2) - 140, 280);
+        g.drawString("GameAps", (Game.WIDTH * Game.SCALE)  - 650, 100);
 
         // define a fonte original para os demais textos
         g.setFont(font);
-        g.drawString("JOGAR", ((Game.WIDTH*Game.SCALE) / 2) - 35, 380);
-        g.drawString("LEADERBOARDS", ((Game.WIDTH*Game.SCALE) / 2) - 90, 420);
-        g.drawString("SAIR", ((Game.WIDTH*Game.SCALE) / 2) - 23, 460);
+        g.drawString("JOGAR", 650, 380);
+        g.drawString("LEADERBOARDS", 650, 420);
+        g.drawString("SAIR", 650, 460);
 
-        if(currentOption == 0)g.drawImage(imagem, ((Game.WIDTH*Game.SCALE) / 2) + 55, 360, null);
-        if(currentOption == 1)g.drawImage(imagem, ((Game.WIDTH*Game.SCALE) / 2) + 117, 400, null);
-        if(currentOption == 2)g.drawImage(imagem, ((Game.WIDTH*Game.SCALE) / 2) + 40, 440, null);
+        if (currentOption == 0) g.drawImage(imagem, 620, 360, null);
+        if (currentOption == 1) g.drawImage(imagem, 620, 400, null);
+        if (currentOption == 2) g.drawImage(imagem, 620, 440, null);
+
+        g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
+
     }
 }

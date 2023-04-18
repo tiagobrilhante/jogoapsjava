@@ -1,7 +1,9 @@
 package main;
 // teste
+
 import Mundo.Mundo;
-import entidades.*;
+import entidades.Entity;
+import entidades.Grama;
 import entidades.interativos.Escada;
 import entidades.interativos.Inimigo;
 import entidades.interativos.KitHealth;
@@ -10,12 +12,16 @@ import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +104,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public String spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png";
     public String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
     public String levelPath = "/res/fases/level1.png";
+    public static String soundPath = "src/res/sounds/soundtracks/fase0.wav";
 
     public String gameName = "JOGO APS";
 
@@ -154,6 +161,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         entidades.add(player);
 
         starSpawner = new StarSpawner();
+
+
+        AudioMundo audio = new AudioMundo(); // Chamando a classe aonde está o audio.
+        audio.AudioMundo(); // Chamando o método do audio
 
         // por fim carrega o mundo....
         //isso provavelmente vai ser modificado para carregar a tela inicial primeiro,
@@ -217,6 +228,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         if (gameState == "MENU") {
             menu.choose();
+            // atribuo a responsabilidade para o ceu realizar os ticks do menu
+
+            menu.tick();
         }
 
         if (gameState == "NORMAL") {
@@ -247,6 +261,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
             for (Ceu entidade : ceuVetor) {
                 entidade.tick();
             }
+
+
 
             // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (WallFundo1 entidade : wallFundo1Vetor) {
@@ -304,6 +320,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // seta o fundo do jogo quando não há elementos gráficos carregados
         Graphics g = fundo.getGraphics();
+
         //g.setColor(new Color(0, 0, 0, 0));
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, WIDTH, HEIGTH);
@@ -373,7 +390,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g = buffer.getDrawGraphics();
         g.drawImage(fundo, 0, 0, WIDTH * SCALE, HEIGTH * SCALE, null);
 
-        if(gameState == "MENU") {
+        if (gameState == "MENU") {
             menu.render(g);
         }
 
@@ -427,7 +444,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         // temos que ter cuidado aqui, pois as teclas podem significar eventos diferentes de acordo com a fase
         // menu, tela inicial e game over tb
-        if(gameState == "NORMAL") {
+        if (gameState == "NORMAL") {
             if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 // tecla D movimenta o player para a direita
                 player.right = true;
@@ -451,7 +468,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
-        if(gameState == "MENU") {
+        if (gameState == "MENU") {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 menu.up = true;
@@ -472,7 +489,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // momento em que a tlecla apertada é solta
     @Override
     public void keyReleased(KeyEvent e) {
-        if(gameState == "NORMAL") {
+        if (gameState == "NORMAL") {
             if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 // tecla D movimenta o player para a direita
                 player.right = false;
@@ -492,7 +509,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
-        if(gameState == "MENU") {
+        if (gameState == "MENU") {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 menu.up = false;
@@ -503,6 +520,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla SPACE faz o plauer pular
                 menu.ok = false;
+            }
+        }
+    }
+
+    public class AudioMundo {
+
+        void AudioMundo() { //Método AudioMundo para chamar na classe executavel.
+            try {
+                //Local absoluto de onde tá o arquivo
+                // funciona com WAV - ainda não testei mp3
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath).getAbsoluteFile());
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioInputStream);
+                clip.start();
+                // repete a música continuamente
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (Exception ex) {
+                // exception no console
+                System.out.println("Erro ao executar SOM!");
+                ex.printStackTrace();
             }
         }
     }
