@@ -87,8 +87,6 @@ public class Player extends Entity {
     public int timerPlayer = 0, tempoParado;
     public int timerEnemy = 0;
 
-    public int tempoDeDanoInimigo = 0;
-
     public List<Particula> particulas = new ArrayList<>();
 
 
