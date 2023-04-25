@@ -10,7 +10,7 @@ public class Particula extends Rectangle {
     public Color color;
 
     // velocidade das particulas
-    public int speed = 0;
+    public int speed;
 
     // direções das particulas
     public double xa, ya;

@@ -8,18 +8,9 @@ import entidades.player.Player;
 import entidades.solidos.Solido;
 import graficos.Spritsheet;
 import main.Game;
-import Mundo.Audio;
-import main.Menu;
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -34,8 +25,6 @@ public class Mundo {
     public static Tile[] tiles;
 
     public int timer = 0;
-
-    public static String soundPath = "src/res/sounds/soundtracks/fase2.wav";
 
     public static double posX = 0, posY = 0;
 
@@ -58,7 +47,6 @@ public class Mundo {
             corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949,
             corFundoDarkBrickBrokenBase1 = 0xFF0e1052, corWallFundo1 = 0xFF2d3425;
 
-    public String playerSpritePath = "/res/spritesheets/spritesheetPlayer.png";
     public static String gameSpritePath = "/res/spritesheets/spritesheet32.png";
     public static String ceuSpritePath = "/res/spritesheets/ceusprite.png";
     public static String nuvemSpritePath = "/res/spritesheets/ceuspriteClouds.png";
@@ -318,19 +306,19 @@ public class Mundo {
 
     // inicia o level 1
     public static void newlevel(String level) {
-        Game.entidades = new ArrayList<Entity>();
+        Game.entidades = new ArrayList<>();
         // spriteSheet e player
         Game.sprite = new Spritsheet(gameSpritePath);
 
         // vetor do ceu
-        Game.ceuVetor = new ArrayList<Ceu>();
-        Game.nuvemVetor = new ArrayList<Nuvens>();
+        Game.ceuVetor = new ArrayList<>();
+        Game.nuvemVetor = new ArrayList<>();
 
         // kit de vida
-        Game.kitHealth = new ArrayList<KitHealth>();
+        Game.kitHealth = new ArrayList<>();
 
         // inimigo
-        Game.inimigo = new ArrayList<Inimigo>();
+        Game.inimigo = new ArrayList<>();
 
         // ceu
         Game.ceu = new Spritsheet(ceuSpritePath);
@@ -338,7 +326,7 @@ public class Mundo {
         Game.nuvens = new Spritsheet(nuvemSpritePath);
 
         // escada
-        Game.escada = new ArrayList<Escada>();
+        Game.escada = new ArrayList<>();
         // carrega a fase
         Game.mundo = new Mundo(levelPath + level);
 

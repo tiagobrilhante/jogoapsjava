@@ -89,6 +89,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static String gameState = "MENU";
     private final Menu menu;
     private final Historia historia;
+    private final Controles controles;
     // instancia a interface do usuário
     // tem que ser melhorada
     public UserInterface ui;
@@ -102,7 +103,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public String levelPath = "/res/fases/level1.png";
 
 
-    public String gameName = "JOGO APS";
+    public static String gameName = "JOGO APS";
 
     // definições de level
     // ainda deve implementar a tela inicial do jogo e o menu de opções
@@ -116,6 +117,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         menu = new Menu();
         historia = new Historia();
+        controles = new Controles();
         // escutador de teclado
         addKeyListener(this);
         // ajusta a preferência do tamanho do container do jogo
@@ -243,6 +245,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
             historia.choose();
             // atribuo a responsabilidade para o ceu realizar os ticks do menu
             historia.tick();
+        }
+
+        if (Objects.equals(gameState, "CONTROLES")) {
+
+            controles.choose();
+            // atribuo a responsabilidade para o ceu realizar os ticks do menu
+            controles.tick();
         }
 
         if (Objects.equals(gameState, "NORMAL")) {
@@ -410,6 +419,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (Objects.equals(gameState, "HISTORIA")) {
             historia.render(g);
         }
+        if (Objects.equals(gameState, "CONTROLES")) {
+            controles.render(g);
+        }
         if (Objects.equals(gameState, "NORMAL")){
             Mundo.render(g);
         }
@@ -486,6 +498,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ENTER ) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 historia.end = true;
+            }
+        }
+
+        if (Objects.equals(gameState, "CONTROLES")) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                controles.end = true;
             }
         }
 

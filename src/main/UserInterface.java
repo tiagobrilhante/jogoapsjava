@@ -23,7 +23,7 @@ public class UserInterface {
 
         g.setColor(Color.GREEN);
 
-        g.fillRect(60, (Game.HEIGTH) - (Game.HEIGTH - 266), (int) ((Game.player.life / Game.player.maxLife) * 50), 7);
+        g.fillRect(60, (Game.HEIGTH) - (Game.HEIGTH - 266), (int) ((Player.life / Player.maxLife) * 50), 7);
 
         g.setFont(new Font("Arial", Font.BOLD, 7));
         g.setColor(Color.BLACK);

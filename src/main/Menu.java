@@ -3,21 +3,15 @@ package main;
 import graficos.Spritsheet;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import Mundo.Audio;
 
 public class Menu {
-    public String[] options = {"Jogar", "Leaderboards", "Sair"};
+    public String[] options = {"Jogar", "Leaderboards", "Controles", "Sair"};
 
-    public static String gameState = "MENU";
-    
     public int currentOption = 0;
     public int maxOption = options.length - 1;
     public boolean up, down, ok;
@@ -56,6 +50,7 @@ public class Menu {
         try {
             ClassLoader classLoader = getClass().getClassLoader();
             InputStream inputStream = classLoader.getResourceAsStream("res/spaceship1small.png");
+            assert inputStream != null;
             imagem = ImageIO.read(inputStream);
             // agora você pode usar a variável 'imagem' para manipular a imagem PNG
 
@@ -91,7 +86,12 @@ public class Menu {
             if (currentOption == 1) {
                 //leaderboards (falta implementar)
             }
+
             if (currentOption == 2) {
+                //mostra os controles
+                Game.gameState = "CONTROLES";
+            }
+            if (currentOption == 3) {
                 //fecha o jogo
                 System.exit(0);
             }
@@ -120,17 +120,19 @@ public class Menu {
         // define a nova fonte
         Font biggerFont = font.deriveFont(60f);
         g.setFont(biggerFont);
-        g.drawString("GameAps", (Game.WIDTH * Game.SCALE)  - 650, 100);
+        g.drawString(Game.gameName, (Game.WIDTH * Game.SCALE)  - 650, 100);
 
         // define a fonte original para os demais textos
         g.setFont(font);
-        g.drawString("JOGAR", 650, 380);
-        g.drawString("LEADERBOARDS", 650, 420);
-        g.drawString("SAIR", 650, 460);
+        g.drawString("JOGAR", 650, 350);
+        g.drawString("LEADERBOARDS", 650, 390);
+        g.drawString("CONTROLES", 650, 430);
+        g.drawString("SAIR", 650, 470);
 
-        if (currentOption == 0) g.drawImage(imagem, 620, 360, null);
-        if (currentOption == 1) g.drawImage(imagem, 620, 400, null);
-        if (currentOption == 2) g.drawImage(imagem, 620, 440, null);
+        if (currentOption == 0) g.drawImage(imagem, 620, 330, null);
+        if (currentOption == 1) g.drawImage(imagem, 620, 370, null);
+        if (currentOption == 2) g.drawImage(imagem, 620, 410, null);
+        if (currentOption == 3) g.drawImage(imagem, 620, 450, null);
 
         g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
 
