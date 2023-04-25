@@ -40,13 +40,11 @@ public class Menu {
 
     public Menu() {
 
-        System.out.println(Game.gameState);
-
         animaMenu = new Spritsheet(menuAnimaPath);
         fundoMenu = new Spritsheet(fundoMenuPath);
         playerMenuAnima = new BufferedImage[25];
         fundoMenuSimples = new BufferedImage[1];
-       audio.start();
+        audio.start();
 
         // animacao do personagem no menu
         for (int i = 0; i < 25; i++) {
@@ -103,8 +101,6 @@ public class Menu {
     }
 
     public void tick() {
-
-        System.out.println("tick: "+ Game.gameState);
         frames++;
         if (frames >= maxFrames/3) {
             index++;

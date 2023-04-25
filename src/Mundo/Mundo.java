@@ -35,7 +35,7 @@ public class Mundo {
 
     public int timer = 0;
 
-    public static String soundPath = "src/res/sounds/soundtracks/fase1.wav";
+    public static String soundPath = "src/res/sounds/soundtracks/fase2.wav";
 
     public static double posX = 0, posY = 0;
 

@@ -59,6 +59,9 @@ public class Player extends Entity {
 
     // altura de incremento do pulo
     public int jumpHeigth = 64;
+
+    // velocidade do pulo
+    public int jumpSpeed = 4;
     // frame inicial do pulo
     public int jumpFrames = 0;
 
@@ -68,6 +71,9 @@ public class Player extends Entity {
     // kits de vida
     public KitHealth vida;
     public TrashBag trashBag;
+
+    public boolean posTopoEscada;
+    public int yTopoEscada;
 
     // posicionamento do player
     public int posx, posy;
@@ -80,6 +86,8 @@ public class Player extends Entity {
 
     public int timerPlayer = 0, tempoParado;
     public int timerEnemy = 0;
+
+    public int tempoDeDanoInimigo = 0;
 
     public List<Particula> particulas = new ArrayList<>();
 
@@ -155,13 +163,11 @@ public class Player extends Entity {
         atualX = (int) x;
         atualY = (int) y;
         timerPlayer++;
-        double rawTime = timerPlayer / 60;
+        double rawTime = (double) timerPlayer / 60;
         tempoParado = (int) rawTime;
-
-
         timerEnemy++;
 
-        // gerenciamento de update das particulas
+        // gerenciamento de update das particulas (quando o inimigo é derrotado)
         for (int i = 0; i < particulas.size(); i++) {
             particulas.get(i).update();
             Particula part = particulas.get(i);
@@ -171,43 +177,48 @@ public class Player extends Entity {
             }
         }
 
+        // testa se estou em uma escada
+        emEscada = colisaoEscada(this.getX(), this.getY());
 
+        // Gravidade
+        // Situação de ação da GRAVIDADE e MOVIMENTO de PLAYER em ESCADAS (pois desafia a gravidade)
         if (!colisao((int) x, (int) (y + 1)) && !isJump && !emEscada) {
-            // não existe a colisão e não estou pulando no inimigo
+            // não existe a colisão não estou em pulo e nem em escada
             // situação normal do player
-            // estou parado de boas
-            // sou empurrado para o chão
-            y += 2;
-
-            // esssa situação foi posta apenas pra teste
-            // caso eu pule em cima do inimigo, eu reduzo a vida dele (e mato se zerar)
-            for (int i = 0; i < Game.inimigo.size(); i++) {
-                Inimigo e = Game.inimigo.get(i);
-                // se o player estiver no eixo x e y do personagem
-
-                // tenho que ajustar a lógica disso...
-                // na verdade, implementar logo o tiro e arpa de impacto
-                if (ataquePulo(this.getX(), this.getY() - 1) && e.getX() == this.getX()) {
-                    isJump = true;
-                    e.life--;
-                    if (e.life == 0) {
-
-                        // adiciona particulas da explosao
-
-                        // adiciona particulas da explosao
-                        for (int j = 0; j < 320; j++) {
-                            particulas.add(new Particula((int) e.x, (int) e.y, 3, 3, Color.BLUE));
-                        }
-
-                        Game.inimigo.remove(e);
-
-                        break;
-                    }
-                    break;
+            // se não existe colisão, eu sou afetado pela gravidade
+            // quando estou em uma escada, a gravidade não me afeta (posso subir e descer)
+            // quando estou em pulo, eu desafio a gravidade pelo tempo do pulo
+            y += 4; // índice de velocidade de queda
+        } else {
+            // regras para movimento em escadas
+            if (emEscada && !colisao((int) x, (int) (y))) {
+                if (down) {
+                    y += speed;
+                    y = (int) y;
                 }
-
-
+                if (up) {
+                    y -= speed;
+                    y = (int) y;
+                }
+                movimentacao = 1;
+                timerPlayer = 0;
             }
+            else {
+                // nesse caso, eu tento me colocar no nivel y da entidade solida ao qual eu colido
+                // evita que o player fique travado no chão
+                Rectangle playerRect = new Rectangle((int) x + maskx, (int) y + masky, maskw, maskh);
+
+                for (int i = 0; i < Game.entidades.size(); i++) {
+                    Entity entidade = Game.entidades.get(i);
+                    if (entidade instanceof Solido) {
+                        Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                        if (playerRect.intersects(solido)) {
+                            this.y = entidade.getY() - (SIZEPLAYERY);
+                        }
+                    }
+                }
+            }
+
         }
 
         // caso eu me movimente para a direita
@@ -226,7 +237,7 @@ public class Player extends Entity {
             direcaoAtual = esquerda;
         }
 
-        // momento do pulo
+        // momento do pulo (habilita a condição de estar pulando)
         if (jump) {
             if (colisao(this.getX(), this.getY() + 1)) {
                 isJump = true;
@@ -234,12 +245,12 @@ public class Player extends Entity {
             }
         }
 
-        // durante a execução do pulo
+        // durante a execução do pulo (comportamento)
         if (isJump) {
             timerPlayer = 0;
             if (!colisao(this.getX(), this.getY() - 2)) {
-                y -= 2;
-                jumpFrames += 2;
+                y -= jumpSpeed;
+                jumpFrames += jumpSpeed;
                 if (jumpFrames == jumpHeigth) {
                     isJump = false;
                     jump = false;
@@ -253,43 +264,36 @@ public class Player extends Entity {
 
         }
 
-
-        //Só deve ser implementado nas fases de nave e para subir e descer escadas
-        if (emEscada && !colisao((int)x, (int)(y+2))) {
-            if (down) {
-                y += speed;
-                y = (int)y;
-            }
-            if (up) {
-                y -= speed;
-                y = (int)y;
-            }
-            movimentacao = 1;
-            timerPlayer = 0;
-        }
-
-        if (emEscada && colisao((int)x, (int)(y+2))) {
-            if (up) {
-                y -= speed;
-                y = (int)y;
-            }
-            if (down){
-                y = (int)y-4;
-            }
-        }
-
+        // ação de ataque em relação ao inimigo (com o cano)
         if (attack) {
-
-
             for (int i = 0; i < Game.inimigo.size(); i++) {
                 Inimigo e = Game.inimigo.get(i);
-                // se o player estiver no eixo x e y do personagem
-                // tenho que ajustar a lógica disso...
-                // na verdade, implementar logo o tiro e arpa de impacto
+
                 if (ataqueCano(this.getX(), this.getY())) {
 
-                    e.life--;
-                    e.setX(e.getX()-20);
+                    // movimenta o inimigo na direção oposta a que eu me encontro
+                    if (direcaoAtual == 1){
+                        for (int j = 0; j < 19; j++) {
+                            e.setX(e.getX() +1);
+                            if (j == 0){
+                                // removo a vida do inimigo
+                                e.life--;
+                            }
+                        }
+                    } else {
+                        for (int j = 0; j < 19; j++) {
+                            e.setX(e.getX() - 1);
+                            if (j == 0){
+                                // removo a vida
+                                e.life--;
+                            }
+                        }
+                    }
+
+                    // tenho que ajustar a colisão do inimigo com elementos do cenário
+                    // para que ele não entre na parede
+
+                    // se a vida do inimigo chegar a zero, destruo ele
                     if (e.life == 0) {
 
                         // adiciona particulas da explosao
@@ -304,7 +308,6 @@ public class Player extends Entity {
                     break;
                 }
 
-
             }
 
             timerPlayer = 0;
@@ -318,10 +321,9 @@ public class Player extends Entity {
                 }
             }
 
-
         }
 
-        // mnovimentação do player
+        // movimentação do player
         if (movimentacao == 1) {
             timerPlayer = 0;
             frames++;
@@ -335,6 +337,7 @@ public class Player extends Entity {
 
         } else {
 
+            // em pulo
             if (isJump) {
                 timerPlayer = 0;
                 frames++;
@@ -346,6 +349,8 @@ public class Player extends Entity {
                     }
                 }
             } else {
+
+                // teste para idle
                 if (tempoParado > 4) {
                     frames++;
                     if (frames == maxFrames) {
@@ -361,10 +366,8 @@ public class Player extends Entity {
 
         // dano contra o player (deverá levar em consideração a ameaça)
         if (damage((int) (x + speed), this.getY())) {
-
             life -= damageFactor;
         }
-
 
         // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
         if (vida(this.getX(), this.getY()) && life < 100) {
@@ -380,9 +383,6 @@ public class Player extends Entity {
             pontos++;
             Game.trashBags.remove(trashBag);
         }
-
-
-        emEscada = colisaoEscada(this.getX(), this.getY());
 
         // guarda a posição da placa de checkpoint
         if (checkPoint(this.getX(), this.getY())) {
@@ -411,14 +411,13 @@ public class Player extends Entity {
     // colisor base do player
     public boolean colisao(int nextx, int nexty) {
 
-        // tenho que ajustar a colisão da escada
-        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+        Rectangle playerRectangle = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
 
         for (int i = 0; i < Game.entidades.size(); i++) {
             Entity entidade = Game.entidades.get(i);
             if (entidade instanceof Solido) {
                 Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
-                if (player.intersects(solido)) {
+                if (playerRectangle.intersects(solido)) {
                     return true;
                 }
             }
@@ -458,32 +457,14 @@ public class Player extends Entity {
         return false;
     }
 
-    // player ataca com pulo o inimigo
-    public boolean ataquePulo(int nextx, int nexty) {
-        Rectangle retanguloPlayer = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
-
-        for (int i = 0; i < Game.inimigo.size(); i++) {
-            Inimigo inimigo = Game.inimigo.get(i);
-            if (inimigo != null) {
-                Rectangle retanguloInimigo = new Rectangle(inimigo.getX() + maskx, inimigo.getY() + masky, maskw, maskh);
-                if (retanguloPlayer.intersects(retanguloInimigo)) {
-                    enemy = inimigo;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public boolean ataqueCano(int nextx, int nexty) {
 
         int incremento = 0;
-        if (direcaoAtual == esquerda){
+        if (direcaoAtual == esquerda) {
             incremento -= Player.SIZEPLAYERX;
         } else {
             incremento += Player.SIZEPLAYERX;
         }
-
 
         Rectangle retanguloPlayer = new Rectangle(nextx + maskx + incremento, nexty + masky, maskw, maskh);
 
@@ -538,11 +519,12 @@ public class Player extends Entity {
 
             Rectangle retanguloEscada = new Rectangle(escada.getX() + maskx, escada.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
             if (retanguloPlayer.intersects(retanguloEscada)) {
-
-                // primeiro - os tipos 1 e 3 são limitadores
-                // se eu chego no 1 não posso mais descer
-                // se eu chego no 3, só posso subir a minha própria altura
-                // se eu estou no bloco 3 posso descer
+                if (escada.tipoEscada == 3) {
+                    posTopoEscada = true;
+                    yTopoEscada = escada.getY();
+                } else {
+                    posTopoEscada = false;
+                }
 
                 return true;
             }
@@ -623,7 +605,7 @@ public class Player extends Entity {
         // ataque (em testes)
         if (attack) {
             if (direcaoAtual == esquerda) {
-                g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x -Player.SIZEPLAYERX, this.getY() - Camera.y , null);
+                g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
                 if (indexAtack == 3) {
                     attack = false;
                     indexAtack = 0;
