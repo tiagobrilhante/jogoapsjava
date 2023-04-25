@@ -84,10 +84,8 @@ public class Menu {
             ok = false;
             if (currentOption == 0) {
                 //inicia o jogo
-                Game.gameState = "NORMAL";
                 audio.stop();
-                Audio audio = new Audio("src/res/sounds/soundtracks/fase"+Game.level+".wav");
-                audio.start();
+                Game.gameState = "HISTORIA";
 
             }
             if (currentOption == 1) {

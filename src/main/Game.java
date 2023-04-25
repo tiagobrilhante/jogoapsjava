@@ -9,19 +9,16 @@ import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // importante lembrar
 // Entity — todos os comportamentos-base das entidades
@@ -90,7 +87,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     // chama o menu
     public static String gameState = "MENU";
-    private Menu menu;
+    private final Menu menu;
+    private final Historia historia;
     // instancia a interface do usuário
     // tem que ser melhorada
     public UserInterface ui;
@@ -117,6 +115,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public Game() {
 
         menu = new Menu();
+        historia = new Historia();
         // escutador de teclado
         addKeyListener(this);
         // ajusta a preferência do tamanho do container do jogo
@@ -232,14 +231,21 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {
 
-        if (gameState == "MENU") {
+        if (Objects.equals(gameState, "MENU")) {
 
             menu.choose();
             // atribuo a responsabilidade para o ceu realizar os ticks do menu
             menu.tick();
         }
 
-        if (gameState == "NORMAL") {
+        if (Objects.equals(gameState, "HISTORIA")) {
+
+            historia.choose();
+            // atribuo a responsabilidade para o ceu realizar os ticks do menu
+            historia.tick();
+        }
+
+        if (Objects.equals(gameState, "NORMAL")) {
             timer++;
 
             // se não houver lixo, vai pra proxima fase
@@ -398,9 +404,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g = buffer.getDrawGraphics();
         g.drawImage(fundo, 0, 0, WIDTH * SCALE, HEIGTH * SCALE, null);
 
-        if (gameState == "MENU") {
+        if (Objects.equals(gameState, "MENU")) {
             menu.render(g);
-        } if (gameState == "NORMAL"){
+        }
+        if (Objects.equals(gameState, "HISTORIA")) {
+            historia.render(g);
+        }
+        if (Objects.equals(gameState, "NORMAL")){
             Mundo.render(g);
         }
 
@@ -416,7 +426,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         double amountOfTicks = 60.0f;
         double ms = 1000000000 / amountOfTicks;
         double delta = 0;
-        int frames = 0;
         double timer = System.currentTimeMillis();
 
         while (isRuning) {
@@ -426,14 +435,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (delta > 1) {
                 tick();
                 render();
-                frames++;
                 delta--;
             }
             if (System.currentTimeMillis() - timer >= 1000) {
-                // mostra no console os fps... eu comentei por dificulta quando queremos
-                // ter retorno no console de alguma informação
-                //System.out.println("FPS : " + frames);
-                frames = 0;
                 timer += 1000;
             }
         }
@@ -454,7 +458,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         // temos que ter cuidado aqui, pois as teclas podem significar eventos diferentes de acordo com a fase
         // menu, tela inicial e game over tb
-        if (gameState == "NORMAL") {
+        if (Objects.equals(gameState, "NORMAL")) {
             if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 // tecla D movimenta o player para a direita
                 player.right = true;
@@ -478,7 +482,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
-        if (gameState == "MENU") {
+        if (Objects.equals(gameState, "HISTORIA")) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                historia.end = true;
+            }
+        }
+
+        if (Objects.equals(gameState, "MENU")) {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 menu.up = true;
@@ -499,7 +510,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // momento em que a tlecla apertada é solta
     @Override
     public void keyReleased(KeyEvent e) {
-        if (gameState == "NORMAL") {
+        if (Objects.equals(gameState, "NORMAL")) {
             if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 // tecla D movimenta o player para a direita
                 player.right = false;
@@ -519,7 +530,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
-        if (gameState == "MENU") {
+        if (Objects.equals(gameState, "MENU")) {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 menu.up = false;
