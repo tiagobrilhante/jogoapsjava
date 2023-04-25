@@ -606,16 +606,12 @@ public class Player extends Entity {
         if (attack) {
             if (direcaoAtual == esquerda) {
                 g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
-                if (indexAtack == 3) {
-                    attack = false;
-                    indexAtack = 0;
-                }
             } else {
                 g.drawImage(playerAttackDireita[indexAtack], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                if (indexAtack == 3) {
-                    attack = false;
-                    indexAtack = 0;
-                }
+            }
+            if (indexAtack == 3) {
+                attack = false;
+                indexAtack = 0;
             }
 
         }
