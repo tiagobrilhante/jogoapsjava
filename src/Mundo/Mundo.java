@@ -95,19 +95,26 @@ public class Mundo {
                         Game.darkBricksFundo.add(fundoDarkBrick);
                     }
 
-                    if (pixelAtual == corFundoDarkBrickBrokenBase1) {
+                   else if (pixelAtual == corFundoDarkBrickBrokenBase1) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickBrokenBase1);
                         Game.darkBricksFundo.add(fundoDarkBrick);
                     }
 
-                    if (pixelAtual == corFundoDarkBrickEsquerdo) {
+                    else if (pixelAtual == corFundoDarkBrickEsquerdo) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickEsquerdo);
                         Game.darkBricksFundo.add(fundoDarkBrick);
                     }
 
-                    if (pixelAtual == corFundoDarkBrickDireito) {
+                    else if (pixelAtual == corFundoDarkBrickDireito) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickDireito);
                         Game.darkBricksFundo.add(fundoDarkBrick);
+                    }
+
+                    else if (pixelAtual == corPlacaSave) {
+                        CheckPoint checkPoint = new CheckPoint(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.save);
+                        Game.checkPoints.add(checkPoint);
+                        // adicionar, para posicionar a placa no chão (ao invés dela cair)
+                        // checkPoint.setY(checkPoint.getY()+Entity.SIZEENTITYY);
                     }
 
 
@@ -250,11 +257,6 @@ public class Mundo {
                     } else if (pixelAtual == corGalhoSeco) {
                         GalhosSecos galho = new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.galhoSeco);
                         Game.entidades.add(galho);
-                    } else if (pixelAtual == corPlacaSave) {
-                        CheckPoint checkPoint = new CheckPoint(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.save);
-                        Game.entidades.add(checkPoint);
-                        // adicionar, para posicionar a placa no chão (ao invés dela cair)
-                        // checkPoint.setY(checkPoint.getY()+Entity.SIZEENTITYY);
                     } else if (pixelAtual == corInimigo1 || pixelAtual == corInimigo2) {
                         int tipo = 0;
                         if (pixelAtual == corInimigo1) {

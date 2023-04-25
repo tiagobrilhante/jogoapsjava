@@ -87,6 +87,9 @@ public class Player extends Entity {
     public int timerPlayer = 0, tempoParado;
     public int timerEnemy = 0;
 
+    public boolean noDamageStateEnemy = false;
+
+    public int timerNoDamageEnemy = 60;
     public List<Particula> particulas = new ArrayList<>();
 
 
@@ -164,6 +167,11 @@ public class Player extends Entity {
         double rawTime = (double) timerPlayer / 60;
         tempoParado = (int) rawTime;
         timerEnemy++;
+        // lógica de tick para invulnerabilidade do inimigo
+        timerNoDamageEnemy++;
+        if (timerNoDamageEnemy >= 15) {
+            noDamageStateEnemy = false;
+        }
 
         // gerenciamento de update das particulas (quando o inimigo é derrotado)
         for (int i = 0; i < particulas.size(); i++) {
@@ -200,8 +208,7 @@ public class Player extends Entity {
                 }
                 movimentacao = 1;
                 timerPlayer = 0;
-            }
-            else {
+            } else {
                 // nesse caso, eu tento me colocar no nivel y da entidade solida ao qual eu colido
                 // evita que o player fique travado no chão
                 Rectangle playerRect = new Rectangle((int) x + maskx, (int) y + masky, maskw, maskh);
@@ -270,26 +277,39 @@ public class Player extends Entity {
                 if (ataqueCano(this.getX(), this.getY())) {
 
                     // movimenta o inimigo na direção oposta a que eu me encontro
-                    if (direcaoAtual == 1){
+                    if (direcaoAtual == 1) {
+                        timerNoDamageEnemy = 0;
                         for (int j = 0; j < 19; j++) {
-                            e.setX(e.getX() +1);
-                            if (j == 0){
+                            if (!e.colisao(e.getX(), e.getY())) {
+                                e.setX(e.getX() + 1);
+                            } else {
+                                e.setX(e.getX() - 3);
+                            }
+
+                            if (j == 0 && !noDamageStateEnemy && timerNoDamageEnemy == 0) {
                                 // removo a vida do inimigo
                                 e.life--;
+                                noDamageStateEnemy = true;
                             }
+
                         }
                     } else {
+                        timerNoDamageEnemy = 0;
                         for (int j = 0; j < 19; j++) {
-                            e.setX(e.getX() - 1);
-                            if (j == 0){
+                            if (!e.colisao(e.getX(), e.getY())) {
+                                e.setX(e.getX() - 1);
+                            } else {
+                                e.setX(e.getX() + 3);
+                            }
+
+                            if (j == 0 && !noDamageStateEnemy && timerNoDamageEnemy == 0) {
                                 // removo a vida
                                 e.life--;
+                                noDamageStateEnemy = true;
                             }
+
                         }
                     }
-
-                    // tenho que ajustar a colisão do inimigo com elementos do cenário
-                    // para que ele não entre na parede
 
                     // se a vida do inimigo chegar a zero, destruo ele
                     if (e.life == 0) {
@@ -348,7 +368,7 @@ public class Player extends Entity {
                 }
             } else {
 
-                // teste para idle
+                // comportamento em idle
                 if (tempoParado > 4) {
                     frames++;
                     if (frames == maxFrames) {
@@ -427,10 +447,10 @@ public class Player extends Entity {
     public boolean checkPoint(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
 
-        for (int i = 0; i < Game.entidades.size(); i++) {
-            Entity entidade = Game.entidades.get(i);
-            if (entidade instanceof CheckPoint) {
-                Rectangle placa = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+        for (int i = 0; i < Game.checkPoints.size(); i++) {
+            Entity checkPoint = Game.checkPoints.get(i);
+            if (checkPoint != null) {
+                Rectangle placa = new Rectangle(checkPoint.getX() + maskx, checkPoint.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(placa)) {
                     return true;
                 }

@@ -4,10 +4,7 @@ package main;
 import Mundo.Mundo;
 import entidades.Entity;
 import entidades.Grama;
-import entidades.interativos.Escada;
-import entidades.interativos.Inimigo;
-import entidades.interativos.KitHealth;
-import entidades.interativos.TrashBag;
+import entidades.interativos.*;
 import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
@@ -72,6 +69,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // prepara a lista de CEU (cenário)
     public static List<Ceu> ceuVetor;
     public static List<WallFundo1> wallFundo1Vetor;
+    public static List<CheckPoint> checkPoints;
 
     public static List<Nuvens> nuvemVetor;
 
@@ -119,13 +117,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public Game() {
 
         menu = new Menu();
-
         // escutador de teclado
         addKeyListener(this);
-
         // ajusta a preferência do tamanho do container do jogo
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGTH * SCALE));
-
         // inicia os parametros de frames (FPS)
         initFrame();
         // chama a user interface
@@ -133,43 +128,54 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // chama o fundo
         fundo = new BufferedImage(WIDTH, HEIGTH, BufferedImage.TYPE_INT_RGB);
 
-
         // chama as entidades (classe abstrata)
-        entidades = new ArrayList<>();
         // define o sprite a ser usado pelas entidades
+        //sprites para as entidades base
         sprite = new Spritsheet(spriteGamePath);
+        //sprite para jogador
         spritePlayer = new Spritsheet(spritePlayerPath);
+        // sprite para inimigos
         spriteEnemy = new Spritsheet(spriteEnemyPath);
-        // chama o céu
-        ceuVetor = new ArrayList<>();
-        wallFundo1Vetor = new ArrayList<>();
-        nuvemVetor = new ArrayList<>();
-        // define o sprite a ser usado pelo ceu
+        // sprite para ceu
         ceu = new Spritsheet(spriteCeuPath);
+        // Sprite de fundo
         wallFundo1 = new Spritsheet(spriteFundo1Path);
+        //sprite de nuvem
         nuvens = new Spritsheet(spriteNuvemPath);
-        // chama os kits de vida
+
+        // lista de entidades
+        entidades = new ArrayList<>();
+        // lista de ceu
+        ceuVetor = new ArrayList<>();
+        // lista de vetor de fundo
+        wallFundo1Vetor = new ArrayList<>();
+        // lista de nuvens
+        nuvemVetor = new ArrayList<>();
+        // lista de health kit
         kitHealth = new ArrayList<>();
+        // lista de trash bags
         trashBags = new ArrayList<>();
-        // chama os inimigos
+        // lista de savepoints
+        checkPoints = new ArrayList<>();
+        // lista de inimigos
         inimigo = new ArrayList<>();
-        // chama a grama que não tem colisão
+        // lista de grama
         grama = new ArrayList<>();
-        // escadas
+        // lista de escadas
         escada = new ArrayList<>();
+        // lista de darkBrick
         darkBricksFundo = new ArrayList<>();
+
+
         // chama o player (de acordo com a posição inicial no sprite)
         player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
         // adiciona o player em entidades (só pode haver 1)
         entidades.add(player);
 
+        // spawner de poeira
         starSpawner = new StarSpawner();
 
-
         // por fim carrega o mundo....
-        //isso provavelmente vai ser modificado para carregar a tela inicial primeiro,
-        // depois o menu...
-        // e por fim, o jogo.
         mundo = new Mundo(levelPath);
     }
 
@@ -236,7 +242,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (gameState == "NORMAL") {
             timer++;
 
-            // se não houver lixo, vai pra proxiuma fase
+            // se não houver lixo, vai pra proxima fase
             if (trashBags.size() == 0) {
                 // level inicia em 1 (lá em cima) teste
                 level++;
@@ -256,12 +262,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
-
             // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (Ceu entidade : ceuVetor) {
                 entidade.tick();
             }
-
 
             // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (WallFundo1 entidade : wallFundo1Vetor) {
@@ -327,6 +331,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // renderiza o mundo
         Mundo.render(g);
 
+        // renderiza as entidades
+
+
         // popula o mundo com o vetor do céu (de acordo com a fase)
         for (Ceu ceu : ceuVetor) {
             ceu.render(g);
@@ -352,6 +359,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
             entidade.render(g);
         }
 
+        // renderiza os savepoints
+        for (CheckPoint entidade : checkPoints) {
+            entidade.render(g);
+        }
+
         // renderiza os inimigos
         for (Inimigo entidade : inimigo) {
             entidade.render(g);
@@ -372,7 +384,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
             entidade.render(g);
         }
 
-        // renderiza as entidades
         for (Entity entidade : entidades) {
             entidade.render(g);
         }

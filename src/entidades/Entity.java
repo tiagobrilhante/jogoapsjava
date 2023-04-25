@@ -38,6 +38,8 @@ public class Entity {
 
     public static BufferedImage chaoIsoladoTopo = Game.sprite.getSprite(posChaoIsoladoTopo[0], posChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
 
+    public static BufferedImage save = Game.sprite.getSprite(posSavePoint[0], posSavePoint[1], SIZEENTITYX, SIZEENTITYY);
+
     public static BufferedImage chaoIsoladoEsquerda = Game.sprite.getSprite(posChaoIsoladoEsquerda[0], posChaoIsoladoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoDireita = Game.sprite.getSprite(posChaoIsoladoDireita[0], posChaoIsoladoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoFundo = Game.sprite.getSprite(posChaoIsoladoFundo[0], posChaoIsoladoFundo[1], SIZEENTITYX, SIZEENTITYY);
@@ -85,7 +87,7 @@ public class Entity {
     public static BufferedImage inimigo = Game.spriteEnemy.getSprite(0, 0, SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage kitHealth = Game.sprite.getSprite(posKitHealth[0], posKitHealth[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage trashBag = Game.sprite.getSprite(posTrashBag[0], posTrashBag[1], SIZEENTITYX, SIZEENTITYY);
-    public static BufferedImage save = Game.sprite.getSprite(posSavePoint[0], posSavePoint[1], SIZEENTITYX, SIZEENTITYY);
+
 
     // posicionamento das entidades (public)
     public double x, y;
@@ -106,14 +108,6 @@ public class Entity {
     // ticks de entidades (repassam o comportamento para as entidades específicas)
     public void tick() {
     }
-
-    /* Colisor (old - remover depois)
-    public static boolean isColidding(Entity e1, Entity e2){
-        Rectangle e1mask = new Rectangle(e1.getX() + e1.maskx, e1.getY() + e1.masky, e1.mwidth, e1.mheight);
-        Rectangle e2mask = new Rectangle(e2.getX() + e2.maskx, e2.getY() + e2.masky, e2.mwidth, e2.mheight);
-        return e1mask.intersects(e2mask);
-    }
-    */
 
     // render das entidades (em relação ao player)
     public void render(Graphics g) {
