@@ -87,6 +87,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     // chama o menu
     public static String gameState = "MENU";
+
+    // objetos base (seletores)
     private final Menu menu;
     private final Historia historia;
     private final Controles controles;
@@ -112,12 +114,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int level = 1;
     public int levelMaximo = 2;
 
+    private boolean isPaused = false;
+
     // método construtor
     public Game() {
 
         menu = new Menu();
         historia = new Historia();
         controles = new Controles();
+
         // escutador de teclado
         addKeyListener(this);
         // ajusta a preferência do tamanho do container do jogo
@@ -254,6 +259,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             controles.tick();
         }
 
+
         if (Objects.equals(gameState, "NORMAL")) {
             timer++;
 
@@ -324,6 +330,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             starSpawner.update();
         }
+
+
     }
 
     // renderiza os elementos de acordo com a estratégia de buffer
@@ -343,12 +351,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, WIDTH, HEIGTH);
 
-        // renderiza o mundo
-        Mundo.render(g);
-
         // renderiza as entidades
-
-
         // popula o mundo com o vetor do céu (de acordo com a fase)
         for (Ceu ceu : ceuVetor) {
             ceu.render(g);
@@ -422,8 +425,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (Objects.equals(gameState, "CONTROLES")) {
             controles.render(g);
         }
-        if (Objects.equals(gameState, "NORMAL")){
+
+        if (Objects.equals(gameState, "NORMAL")) {
             Mundo.render(g);
+        }
+
+        if (Objects.equals(gameState, "GAMEOVER")) {
+
+            String[] options = {"Retornar ao Menu", "Recomeçar o jogo", "Sair"};
+
+            // nessa situação, o jogo acabou
+            g.setColor(Color.BLACK);
+            g.fillRect(WIDTH / 2, HEIGTH / 2, WIDTH, HEIGTH);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 30));
+            g.drawString("GAME OVER", WIDTH / 2 + 160, HEIGTH / 2 + 50);
+            g.setFont(new Font("Arial", Font.BOLD, 20));
+            g.drawString(options[0], WIDTH / 2 + 80, HEIGTH / 2 + 130);
+            g.drawString(options[1], WIDTH / 2 + 80, HEIGTH / 2 + 180);
+            g.drawString(options[2], WIDTH / 2 + 80, HEIGTH / 2 + 230);
+            // Tenho que implementar o Enter para reiniciar o jogo
         }
 
         buffer.show();
@@ -431,30 +452,44 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     //herdado de runnable (gera os ciclos de FPS)
+    // foram implementadas melhorias (possibilidade de pausar o jogo)
+    // Otimizações de processamento
     @Override
     public void run() {
-
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0f;
-        double ms = 1000000000 / amountOfTicks;
+        double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         double timer = System.currentTimeMillis();
 
         while (isRuning) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / ms;
+            delta += (now - lastTime) / ns;
             lastTime = now;
-            if (delta > 1) {
-                tick();
-                render();
+            while (delta >= 1) {
+                if (!isPaused) { // verificação de pausa
+                    tick();
+                    render();
+                }
                 delta--;
             }
-            if (System.currentTimeMillis() - timer >= 1000) {
-                timer += 1000;
+            if (!isPaused) { // verificação de pausa
+                if (System.currentTimeMillis() - timer >= 1000) {
+                    timer += 1000;
+                }
+            }
+
+            // loop de espera para limitar o uso da CPU
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         stop();
     }
+
+
 
     // herda de keylistener
     // ouve as teclas do jogo
@@ -462,6 +497,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         // não vamos trabalhar nela
+    }
+
+    public synchronized void togglePause() {
+        isPaused = !isPaused;
+        if (!isPaused) {
+            synchronized(this) {
+                notifyAll(); // notifica todos os threads que estão esperando
+            }
+        }
     }
 
     // herda de keylistener
@@ -492,17 +536,24 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 // tecla C faz o plauer atacar
                 player.attack = true;
             }
+
+            if (e.getKeyCode() == KeyEvent.VK_P) {
+                // tecla P faz o jogo pausar
+                if (e.getKeyCode() == KeyEvent.VK_P) {
+                    togglePause();
+                }
+            }
         }
 
         if (Objects.equals(gameState, "HISTORIA")) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER ) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 historia.end = true;
             }
         }
 
         if (Objects.equals(gameState, "CONTROLES")) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER ) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 controles.end = true;
             }
@@ -562,6 +613,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 menu.ok = false;
             }
         }
+
     }
 
 

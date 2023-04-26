@@ -79,7 +79,7 @@ public class Player extends Entity {
     public int posx, posy;
 
     // indice de dano (será alterado face a cada ameaça)
-    public double damageFactor = 0.20;
+    public double damageFactor = 0.40;
 
     // o quanto de vida um kit de recuperação recupera (no futuro poderão existir tipos de kits diferentes)
     public int indiceRecuperacaoKitVida = 10;
@@ -413,11 +413,13 @@ public class Player extends Entity {
         // que vai perguntar ao player se ele quer voltar ao menu inicial ou se ele quer
         // voltar para o último check point
         if (life <= 0) {
-            setX(posx);
-            setY(posy);
+            Game.gameState = "GAMEOVER";
+
+            //setX(posx);
+            //setY(posy);
             // quando volta para o checkPoint, volta com a vida cheia
             // pode ser alterado para voltar com a vida quando ele encostou no check point
-            life = 100;
+            //life = 100;
         }
 
         // posicionamento da camera, sempre em relaçao ao player
