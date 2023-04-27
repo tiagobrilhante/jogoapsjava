@@ -109,7 +109,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public int maxOptionAPG = optionsActivePauseGO.length - 1;
     public boolean upAPG, downAPG, okAPG;
     private BufferedImage imagemAPGIcon;
-    private Font fontAPG;
 
     public int temp = 0;
 
@@ -475,7 +474,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 imagemAPGIcon = ImageIO.read(inputStream);
                 // agora você pode usar a variável 'imagem' para manipular a imagem PNG
 
-                fontAPG = new Font("Arial", Font.BOLD, 24);
             } catch (IOException e) {
                 System.out.println("Erro ao carregar a imagem: " + e.getMessage());
             }
