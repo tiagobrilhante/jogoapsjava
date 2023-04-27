@@ -7,8 +7,6 @@ import entidades.interativos.*;
 import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -17,8 +15,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +50,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static Player player;
     // MENU
     private final Menu menu;
+    private final GameOver gameOver;
     //Historia
     private final Historia historia;
     //controles
@@ -102,23 +99,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public int levelMaximo = 2;
     public static String gameName = "JOGO APS", gameState = "MENU";
 
-    // itens para menu de pausa e game over
-    public String[] optionsActivePauseGO = {"Voltar para o menu", "Sair"};
-
-    public int currentOptionAPG = 0;
-    public int maxOptionAPG = optionsActivePauseGO.length - 1;
-    public boolean upAPG, downAPG, okAPG;
-    private BufferedImage imagemAPGIcon;
-
     public int temp = 0;
-
-    public int framesAPG = 0, maxFramesAPG = 25, indexAPG = 0, maxIndexAPG = 24;
-
 
     // método construtor
     public Game() {
 
         menu = new Menu();
+        gameOver = new GameOver();
         historia = new Historia();
         controles = new Controles();
 
@@ -249,11 +236,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
-    public void restart() {
+    public static void restart() {
         // Reiniciar atributos para recomeçar o jogo
-
+        Menu.iniciaAudioMenu();
         gameState = "MENU";
-
 
     }
 
@@ -263,12 +249,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
         temp++;
         System.out.println("TIC: " + temp + " - StatusRunning: " + isRuning + " - gamestate: " + gameState);
 
-
         if (Objects.equals(gameState, "MENU")) {
 
             menu.choose();
             // atribuo a responsabilidade para o ceu realizar os ticks do menu
             menu.tick();
+        }
+
+        if (Objects.equals(gameState, "GAMEOVER")) {
+
+            gameOver.choose();
+            gameOver.tick();
         }
 
         if (Objects.equals(gameState, "HISTORIA")) {
@@ -443,93 +434,21 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (Objects.equals(gameState, "MENU")) {
             menu.render(g);
         }
+
+        if (Objects.equals(gameState, "GAMEOVER")) {
+            gameOver.render(g);
+        }
+
         if (Objects.equals(gameState, "HISTORIA")) {
             historia.render(g);
         }
+
         if (Objects.equals(gameState, "CONTROLES")) {
             controles.render(g);
         }
 
         if (Objects.equals(gameState, "NORMAL")) {
             Mundo.render(g);
-        }
-
-        if (Objects.equals(gameState, "GAMEOVER")) {
-
-            // nessa situação, o jogo acabou
-            g.setColor(Color.BLACK);
-            g.fillRect(WIDTH / 2, HEIGTH / 2, WIDTH, HEIGTH);
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Arial", Font.BOLD, 30));
-            g.drawString("GAME OVER", WIDTH / 2 + 160, HEIGTH / 2 + 50);
-            g.setFont(new Font("Arial", Font.BOLD, 20));
-            g.drawString(optionsActivePauseGO[0], WIDTH / 2 + 80, HEIGTH / 2 + 130);
-            g.drawString(optionsActivePauseGO[1], WIDTH / 2 + 80, HEIGTH / 2 + 180);
-
-
-            try {
-                ClassLoader classLoader = getClass().getClassLoader();
-                InputStream inputStream = classLoader.getResourceAsStream("res/spaceship1small.png");
-                assert inputStream != null;
-                imagemAPGIcon = ImageIO.read(inputStream);
-                // agora você pode usar a variável 'imagem' para manipular a imagem PNG
-
-            } catch (IOException e) {
-                System.out.println("Erro ao carregar a imagem: " + e.getMessage());
-            }
-
-
-            if (downAPG) {
-                currentOptionAPG++;
-                downAPG = false;
-                if (currentOptionAPG > maxOptionAPG) {
-                    currentOptionAPG = 0;
-                }
-            }
-            if (upAPG) {
-                currentOptionAPG--;
-                upAPG = false;
-                if (currentOptionAPG < 0) {
-                    currentOptionAPG = maxOptionAPG;
-                }
-            }
-            if (okAPG) {
-                okAPG = false;
-                if (currentOptionAPG == 0) {
-                    Historia.stopGameAudio();
-                    //inicia o jogo
-                    isPaused = false;
-                    Player.life = Player.maxLife;
-
-                    // Game.gameState = "MENU";
-                    restart();
-
-                    // preciso ajustar o retorno ao menu para iniciar um novo game
-                    // resetar todos os status
-
-
-                }
-
-                if (currentOptionAPG == 1) {
-                    //fecha o jogo
-                    System.exit(0);
-                }
-            }
-
-
-            framesAPG++;
-            if (framesAPG >= maxFramesAPG / 3) {
-                indexAPG++;
-                framesAPG = 0;
-                if (indexAPG > maxIndexAPG) {
-                    indexAPG = 0;
-                }
-            }
-
-            if (currentOptionAPG == 0) g.drawImage(imagemAPGIcon, WIDTH / 2 + 40, HEIGTH / 2 + 110, null);
-            if (currentOptionAPG == 1) g.drawImage(imagemAPGIcon, WIDTH / 2 + 40, HEIGTH / 2 + 160, null);
-
-
         }
 
         buffer.show();
@@ -660,18 +579,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if (Objects.equals(gameState, "GAMEOVER")) {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
-                upAPG = true;
+                gameOver.up = true;
             } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
                 // tecla S movimenta pra baixo (usado só em determindaos momentos do jogo)
-                downAPG = true;
+                gameOver.down = true;
 
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla SPACE faz o plauer pular
-                okAPG = true;
+                gameOver.ok = true;
             }
         }
-
 
     }
 
