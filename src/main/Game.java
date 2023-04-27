@@ -41,6 +41,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static JFrame jFrame;
     // tamanho da tela, tem que ser ajustado
     public static int WIDTH = 520, HEIGTH = 292, SCALE = 2;
+
+    public static Game game;
     // thread para buferização
     private Thread thread;
     // usada para definir o fundo a ser aplicado...
@@ -80,8 +82,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // instancia sprites
     public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, nuvens;
 
-    // chama o menu
-
 
     // objetos base (PATHS)
     public String spriteGamePath = "/res/spritesheets/spritesheet32.png", spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png",
@@ -115,7 +115,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public int framesAPG = 0, maxFramesAPG = 25, indexAPG = 0, maxIndexAPG = 24;
 
-    public static Game game;
 
     // método construtor
     public Game() {
