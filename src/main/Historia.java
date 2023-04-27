@@ -16,9 +16,12 @@ public class Historia {
     public BufferedImage[] playerMenuAnima;
     public BufferedImage[] fundoMenuSimples;
 
+    public static Audio audio = new Audio("src/res/sounds/soundtracks/fase2.wav");
+
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
     public Historia() {
+        audio.stop();
 
         animaMenu = new Spritsheet(menuAnimaPath);
         fundoMenu = new Spritsheet(fundoMenuPath);
@@ -40,12 +43,18 @@ public class Historia {
             end = false;
             if (currentOption == 0) {
                 //inicia o jogo
+                audio.stop();
+                audio = new Audio("src/res/sounds/soundtracks/fase"+Game.level+".wav");
                 Game.gameState = "NORMAL";
-                Audio audio = new Audio("src/res/sounds/soundtracks/fase"+Game.level+".wav");
                 audio.start();
 
             }
         }
+    }
+
+    public static void stopGameAudio(){
+        System.out.println("entyrei aqui");
+        audio.stop();
     }
 
     public void tick() {

@@ -1,5 +1,4 @@
 package main;
-// teste
 
 import Mundo.Mundo;
 import entidades.Entity;
@@ -9,12 +8,17 @@ import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +58,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // lista de entidades empregada no game
     public static List<Entity> entidades;
 
-    // instancia sprites
-    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, nuvens;
 
     // instancia o mundo
     public static Mundo mundo;
@@ -67,23 +69,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<Ceu> ceuVetor;
     public static List<WallFundo1> wallFundo1Vetor;
     public static List<CheckPoint> checkPoints;
-
     public static List<Nuvens> nuvemVetor;
-
-    // popula a tela com kits de vida para o player (lista)
     public static List<KitHealth> kitHealth;
-
-    // popula a tela com TrashBags (lista)
     public static List<TrashBag> trashBags;
-
-    // lista de inimigos (instancia)
     public static List<Inimigo> inimigo;
-
-    // elemento de cenário (entidade com algumas condições especiais)
     public static List<Grama> grama;
-
     public static List<Escada> escada;
     public static List<FundoDarkBrick> darkBricksFundo;
+
+    // instancia sprites
+    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, nuvens;
 
     // chama o menu
     public static String gameState = "MENU";
@@ -95,6 +90,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // instancia a interface do usuário
     // tem que ser melhorada
     public UserInterface ui;
+
 
     public String spriteGamePath = "/res/spritesheets/spritesheet32.png";
     public String spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png";
@@ -114,7 +110,22 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static int level = 1;
     public int levelMaximo = 2;
 
-    private boolean isPaused = false;
+    private static boolean isPaused = false;
+
+    // itens para menu de pausa e game over
+    public String[] optionsActivePauseGO = {"Voltar para o menu", "Sair"};
+
+    public int currentOptionAPG = 0;
+    public int maxOptionAPG = optionsActivePauseGO.length - 1;
+    public boolean upAPG, downAPG, okAPG;
+    private BufferedImage imagemAPGIcon;
+    private Font fontAPG;
+
+    public int temp = 0;
+
+    public int framesAPG = 0, maxFramesAPG = 25, indexAPG = 0, maxIndexAPG = 24;
+
+    public static Game game;
 
     // método construtor
     public Game() {
@@ -200,11 +211,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // comportamento esperado quando eu aperto o botão de fechar a janela
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setFocusableWindowState(true);
-        // torno visível a janela
-        jFrame.setVisible(true);
+
+        jFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                jFrame.requestFocusInWindow();
+            }
+        });
+
         jFrame.setFocusable(true);
+
+        // pede o foco para a janela assim que ela aparecer
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
+        jFrame.requestFocusInWindow();
+
         jFrame.toFront();
         jFrame.requestFocus();
+        // torno visível a janela
+        jFrame.setVisible(true);
+
     }
 
     // main do jogo
@@ -212,15 +238,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // chamo o método start
     public static void main(String[] args) {
 
-        Game game = new Game();
+        game = new Game();
         game.start();
 
     }
 
     // método que realmente inicializa o jogo
     public synchronized void start() {
-        thread = new Thread(this);
         isRuning = true;
+        thread = new Thread(this);
         thread.start();
     }
 
@@ -235,8 +261,12 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
+
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {
+
+        temp++;
+        System.out.println((int)temp/60);
 
         if (Objects.equals(gameState, "MENU")) {
 
@@ -258,7 +288,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
             // atribuo a responsabilidade para o ceu realizar os ticks do menu
             controles.tick();
         }
-
 
         if (Objects.equals(gameState, "NORMAL")) {
             timer++;
@@ -330,7 +359,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             starSpawner.update();
         }
-
 
     }
 
@@ -432,8 +460,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         if (Objects.equals(gameState, "GAMEOVER")) {
 
-            String[] options = {"Retornar ao Menu", "Recomeçar o jogo", "Sair"};
-
             // nessa situação, o jogo acabou
             g.setColor(Color.BLACK);
             g.fillRect(WIDTH / 2, HEIGTH / 2, WIDTH, HEIGTH);
@@ -441,10 +467,73 @@ public class Game extends Canvas implements Runnable, KeyListener {
             g.setFont(new Font("Arial", Font.BOLD, 30));
             g.drawString("GAME OVER", WIDTH / 2 + 160, HEIGTH / 2 + 50);
             g.setFont(new Font("Arial", Font.BOLD, 20));
-            g.drawString(options[0], WIDTH / 2 + 80, HEIGTH / 2 + 130);
-            g.drawString(options[1], WIDTH / 2 + 80, HEIGTH / 2 + 180);
-            g.drawString(options[2], WIDTH / 2 + 80, HEIGTH / 2 + 230);
-            // Tenho que implementar o Enter para reiniciar o jogo
+            g.drawString(optionsActivePauseGO[0], WIDTH / 2 + 80, HEIGTH / 2 + 130);
+            g.drawString(optionsActivePauseGO[1], WIDTH / 2 + 80, HEIGTH / 2 + 180);
+
+
+            try {
+                ClassLoader classLoader = getClass().getClassLoader();
+                InputStream inputStream = classLoader.getResourceAsStream("res/spaceship1small.png");
+                assert inputStream != null;
+                imagemAPGIcon = ImageIO.read(inputStream);
+                // agora você pode usar a variável 'imagem' para manipular a imagem PNG
+
+                fontAPG = new Font("Arial", Font.BOLD, 24);
+            } catch (IOException e) {
+                System.out.println("Erro ao carregar a imagem: " + e.getMessage());
+            }
+
+
+            if (downAPG) {
+                currentOptionAPG++;
+                downAPG = false;
+                if (currentOptionAPG > maxOptionAPG) {
+                    currentOptionAPG = 0;
+                }
+            }
+            if (upAPG) {
+                currentOptionAPG--;
+                upAPG = false;
+                if (currentOptionAPG < 0) {
+                    currentOptionAPG = maxOptionAPG;
+                }
+            }
+            if (okAPG) {
+                okAPG = false;
+                if (currentOptionAPG == 0) {
+                    Historia.stopGameAudio();
+                    //inicia o jogo
+                    isPaused = false;
+                    Player.life = Player.maxLife;
+
+                    Game.gameState = "MENU";
+
+                    // preciso ajustar o retorno ao menu para iniciar um novo game
+                    // resetar todos os status
+
+
+                }
+
+                if (currentOptionAPG == 1) {
+                    //fecha o jogo
+                    System.exit(0);
+                }
+            }
+
+
+            framesAPG++;
+            if (framesAPG >= maxFramesAPG / 3) {
+                indexAPG++;
+                framesAPG = 0;
+                if (indexAPG > maxIndexAPG) {
+                    indexAPG = 0;
+                }
+            }
+
+            if (currentOptionAPG == 0) g.drawImage(imagemAPGIcon, WIDTH / 2 + 40, HEIGTH / 2 + 110, null);
+            if (currentOptionAPG == 1) g.drawImage(imagemAPGIcon, WIDTH / 2 + 40, HEIGTH / 2 + 160, null);
+
+
         }
 
         buffer.show();
@@ -490,7 +579,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
 
-
     // herda de keylistener
     // ouve as teclas do jogo
     // método para tecla após apertada e solta
@@ -502,7 +590,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public synchronized void togglePause() {
         isPaused = !isPaused;
         if (!isPaused) {
-            synchronized(this) {
+            synchronized (this) {
                 notifyAll(); // notifica todos os threads que estão esperando
             }
         }
@@ -570,6 +658,25 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla SPACE faz o plauer pular
                 menu.ok = true;
+            }
+        }
+
+        if (Objects.equals(gameState, "GAMEOVER")) {
+            System.out.println("pausado");
+            if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                System.out.println("up");
+                upAPG = true;
+            } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+                // tecla S movimenta pra baixo (usado só em determindaos momentos do jogo)
+                System.out.println("down");
+                downAPG = true;
+
+            }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // tecla SPACE faz o plauer pular
+                System.out.println("ok");
+                okAPG = true;
             }
         }
 

@@ -159,6 +159,7 @@ public class Player extends Entity {
     }
 
     public void tick() {
+
         // aqui eu inicio a movimentação em parado ==== 0
         movimentacao = 0;
         atualX = (int) x;
@@ -426,6 +427,11 @@ public class Player extends Entity {
         Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH / 2), 0, Mundo.WIDTH * Entity.SIZEENTITYX - SIZEPLAYERX);
         Camera.y = Camera.Clamp(this.getY() - (Game.HEIGTH / 2), 0, Mundo.HEIGHT * Entity.SIZEENTITYY - SIZEPLAYERY);
 
+    }
+
+    public void resetPosition(){
+        x = 0;
+        y = 0;
     }
 
     // colisor base do player

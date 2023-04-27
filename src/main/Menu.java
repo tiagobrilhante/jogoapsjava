@@ -60,6 +60,11 @@ public class Menu {
         }
     }
 
+    public static void iniciaAudioMenu(){
+        Audio audio = new Audio(soundPath); // Chamando a classe aonde está o audio
+
+    }
+
     public void choose() {
         if (down) {
             currentOption++;
