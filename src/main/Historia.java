@@ -53,7 +53,6 @@ public class Historia {
     }
 
     public static void stopGameAudio(){
-        System.out.println("entyrei aqui");
         audio.stop();
     }
 

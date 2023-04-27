@@ -36,35 +36,35 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @Serial
     private static final long serialVersionUID = 1L;
 
+
     // Usa o JFRAME para criar a área do jogo
     public static JFrame jFrame;
-
-    // thread para buferização
-    private Thread thread;
-
-    public int timer = 0;
-    public StarSpawner starSpawner;
-
-    // se o jogo está rodando... começa em verdadeiro
-    private boolean isRuning = true;
-
     // tamanho da tela, tem que ser ajustado
     public static int WIDTH = 520, HEIGTH = 292, SCALE = 2;
-
+    // thread para buferização
+    private Thread thread;
     // usada para definir o fundo a ser aplicado...
     // pode ser usado ou não...
     private BufferedImage fundo;
-
-    // lista de entidades empregada no game
-    public static List<Entity> entidades;
-
-
     // instancia o mundo
     public static Mundo mundo;
-
     // instancia o player
     public static Player player;
+    // MENU
+    private final Menu menu;
+    //Historia
+    private final Historia historia;
+    //controles
+    private final Controles controles;
+    // instancia a interface do usuário
+    public UserInterface ui;
+    // poeira na tela
+    public StarSpawner starSpawner;
 
+
+    //  ----------- LISTAS  -----------  //
+    // lista de entidades empregada no game
+    public static List<Entity> entidades;
     // prepara a lista de CEU (cenário)
     public static List<Ceu> ceuVetor;
     public static List<WallFundo1> wallFundo1Vetor;
@@ -81,36 +81,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, nuvens;
 
     // chama o menu
-    public static String gameState = "MENU";
-
-    // objetos base (seletores)
-    private final Menu menu;
-    private final Historia historia;
-    private final Controles controles;
-    // instancia a interface do usuário
-    // tem que ser melhorada
-    public UserInterface ui;
 
 
-    public String spriteGamePath = "/res/spritesheets/spritesheet32.png";
-    public String spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png";
-    public String spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png";
-    public String spriteCeuPath = "/res/spritesheets/ceusprite.png";
-    public String spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png";
-    public String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
-    public String levelPath = "/res/fases/level1.png";
+    // objetos base (PATHS)
+    public String spriteGamePath = "/res/spritesheets/spritesheet32.png", spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png",
+            spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png", spriteCeuPath = "/res/spritesheets/ceusprite.png",
+            spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png", spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png",
+            levelPath = "/res/fases/level1.png";
 
 
-    public static String gameName = "JOGO APS";
-
+    // se o jogo está rodando... começa em verdadeiro
+    private boolean isRuning = true;
+    private static boolean isPaused = false;
+    public int timer = 0;
     // definições de level
     // ainda deve implementar a tela inicial do jogo e o menu de opções
     // bem como o game over
     // por enquanto inicia no lvl 1, mas o ocrreto é iniciar no menu
     public static int level = 1;
     public int levelMaximo = 2;
-
-    private static boolean isPaused = false;
+    public static String gameName = "JOGO APS", gameState = "MENU";
 
     // itens para menu de pausa e game over
     public String[] optionsActivePauseGO = {"Voltar para o menu", "Sair"};
@@ -261,12 +251,22 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
+    public void restart() {
+        // Reiniciar atributos para recomeçar o jogo
+
+        gameState = "MENU";
+
+
+    }
+
 
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {
 
+        System.out.println("running: " + isRuning + " - gamestate: " + gameState);
+
         temp++;
-        System.out.println((int)temp/60);
+        System.out.println((int) temp / 60);
 
         if (Objects.equals(gameState, "MENU")) {
 
@@ -506,7 +506,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     isPaused = false;
                     Player.life = Player.maxLife;
 
-                    Game.gameState = "MENU";
+                    // Game.gameState = "MENU";
+                    restart();
 
                     // preciso ajustar o retorno ao menu para iniciar um novo game
                     // resetar todos os status
@@ -662,20 +663,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
 
         if (Objects.equals(gameState, "GAMEOVER")) {
-            System.out.println("pausado");
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
-                System.out.println("up");
                 upAPG = true;
             } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
                 // tecla S movimenta pra baixo (usado só em determindaos momentos do jogo)
-                System.out.println("down");
                 downAPG = true;
 
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla SPACE faz o plauer pular
-                System.out.println("ok");
                 okAPG = true;
             }
         }
