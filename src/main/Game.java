@@ -262,11 +262,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {
-
-        System.out.println("running: " + isRuning + " - gamestate: " + gameState);
-
         temp++;
-        System.out.println((int) temp / 60);
+        System.out.println("TIC: " + temp + " - StatusRunning: " + isRuning + " - gamestate: " + gameState);
+
 
         if (Objects.equals(gameState, "MENU")) {
 
