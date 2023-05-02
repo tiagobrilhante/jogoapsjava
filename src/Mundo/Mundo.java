@@ -40,6 +40,7 @@ public class Mundo {
             corChaoBaseTopo = 0xFF6a91a4, corChaoBaseFundo = 0xFF4a2420, corJuncaoSimplesLateralTopoDireita = 0xFF496372,
             corNucleoConverteDireitaChaoIsoladoTopo = 0xFF55d595, corNucleoConverteDireitaChaoIsoladoFundo = 0xFFd5d580,
             corNucleoConverteEsquerdaChaoIsoladoTopo = 0xFFd55555, corNucleoConverteEsquerdaChaoIsoladoFundo = 0xFF392420,
+            corJuncaoBuEsquerdaBaixo = 0xFF585392, corJuncaoBuDireitaBaixo = 0xFF666663, corBuSimples = 0xFF666248,
             corTijoloDeserto = 0xFFee8529, corKitHealth = 0xFFf6efef, corGrama = 0xFF38385d, corEspinhos = 0xFF4d8080,
             corGalhoSeco = 0xFF4d4d80, corPlacaSave = 0xFF808033, corInimigo1 = 0xFF494900, corInimigo2 = 0xFF606000,
             corCeu = 0xFF639bff, corPlayer = 0xFFffff00, corChaoIsoladoTopo = 0xFF7845ac, corChaoIsoladoFundo = 0xFFaad5c0,
@@ -154,7 +155,20 @@ public class Mundo {
                         Game.entidades.add(solido);
                     }
 
+                    else if (pixelAtual == corJuncaoBuEsquerdaBaixo) {
+                        Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoBuEsquerdaBaixo);
+                        Game.entidades.add(solido);
+                    }
 
+                    else if (pixelAtual == corJuncaoBuDireitaBaixo) {
+                        Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoBuDireitaBaixo);
+                        Game.entidades.add(solido);
+                    }
+
+                    else if (pixelAtual == corBuSimples ) {
+                        Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.buSimples );
+                        Game.entidades.add(solido);
+                    }
 
 
 

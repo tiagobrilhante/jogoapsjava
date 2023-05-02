@@ -416,10 +416,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             entidade.render(g);
         }
 
-        // renderiza os inimigos
-        for (Inimigo entidade : inimigo) {
-            entidade.render(g);
-        }
+
 
         // renderiza a grama
         for (Grama entidade : grama) {
@@ -437,6 +434,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
         }
 
         for (Entity entidade : entidades) {
+            entidade.render(g);
+        }
+
+        // renderiza os inimigos
+        for (Inimigo entidade : inimigo) {
             entidade.render(g);
         }
 

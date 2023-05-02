@@ -19,6 +19,7 @@ public class Entity {
             posNucleoConverteDireitaChaoIsoladoFundo = {128, 64}, posNucleoConverteEsquerdaChaoIsoladoFundo = {160, 64},
             posChaoEsquerdoTopo = {0, 32}, posChaoEsquerdo = {0, 64}, posChaoDireitoTopo = {64, 32},
             posChaoDireito = {64, 64}, posChaoNormalTopo = {32, 32}, posChaoNormalFundo = {32, 96},
+            posJuncaoBuEsquerdaBaixo = {224, 96},posJuncaoBuDireitaBaixo = {288, 96},posBuSimples = {256, 96},
             posChaoEsquerdoFundo = {0, 96}, posChaoDireitoFundo = {64, 96}, posTijoloDeserto = {32, 0},
             posEmpty = {0, 0}, posGrama = {0, 160}, posEscadaTopo = {0, 192}, posEscada = {32, 192},
             posEscadaBase = {64, 192}, posEspinho = {0, 128}, posGalhoSeco = {32, 160}, posKitHealth = {64, 160},
@@ -64,6 +65,19 @@ public class Entity {
     public static BufferedImage juncaoFundoEsquerda = Game.sprite.getSprite(posJuncaoFundoEsquerda[0], posJuncaoFundoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoTopoDireita = Game.sprite.getSprite(posJuncaoTopoDireita[0], posJuncaoTopoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoFundoDireita = Game.sprite.getSprite(posJuncaoFundoDireita[0], posJuncaoFundoDireita[1], SIZEENTITYX, SIZEENTITYY);
+
+
+
+
+    public static BufferedImage juncaoBuEsquerdaBaixo = Game.sprite.getSprite(posJuncaoBuEsquerdaBaixo[0], posJuncaoBuEsquerdaBaixo[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage juncaoBuDireitaBaixo = Game.sprite.getSprite(posJuncaoBuDireitaBaixo[0], posJuncaoBuDireitaBaixo[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage buSimples = Game.sprite.getSprite(posBuSimples[0], posBuSimples[1], SIZEENTITYX, SIZEENTITYY);
+
+
+
+
+
+
 
     public static BufferedImage juncaoDupla1 = Game.sprite.getSprite(posJuncaoDupla1[0], posJuncaoDupla1[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoDupla2 = Game.sprite.getSprite(posJuncaoDupla2[0], posJuncaoDupla2[1], SIZEENTITYX, SIZEENTITYY);
