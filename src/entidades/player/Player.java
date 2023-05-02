@@ -3,7 +3,10 @@ package entidades.player;
 import Mundo.Camera;
 import Mundo.Mundo;
 import entidades.Entity;
-import entidades.interativos.*;
+import entidades.interativos.Escada;
+import entidades.interativos.Inimigo;
+import entidades.interativos.KitHealth;
+import entidades.interativos.TrashBag;
 import entidades.naoSolidos.Particula;
 import entidades.solidos.Solido;
 import main.Game;
@@ -87,9 +90,10 @@ public class Player extends Entity {
     public int timerPlayer = 0, tempoParado;
     public int timerEnemy = 0;
 
+    public int timerNoDamageEnemy = 0;
+
     public boolean noDamageStateEnemy = false;
 
-    public int timerNoDamageEnemy = 60;
     public List<Particula> particulas = new ArrayList<>();
 
 
@@ -168,18 +172,23 @@ public class Player extends Entity {
         double rawTime = (double) timerPlayer / 60;
         tempoParado = (int) rawTime;
         timerEnemy++;
-        // lógica de tick para invulnerabilidade do inimigo
-        timerNoDamageEnemy++;
-        if (timerNoDamageEnemy >= 15) {
-            noDamageStateEnemy = false;
+
+
+        if (noDamageStateEnemy) {
+            timerNoDamageEnemy++;
+            if (timerNoDamageEnemy == 20) {
+                noDamageStateEnemy = false;
+                timerNoDamageEnemy = 0;
+            }
         }
+
 
         // gerenciamento de update das particulas (quando o inimigo é derrotado)
         for (int i = 0; i < particulas.size(); i++) {
             particulas.get(i).update();
             Particula part = particulas.get(i);
             // duração da particula na tela (otimização)
-            if (part.timer >= 60) {
+            if (part.timer >= 100) {
                 particulas.remove(part);
             }
         }
@@ -272,62 +281,44 @@ public class Player extends Entity {
 
         // ação de ataque em relação ao inimigo (com o cano)
         if (attack) {
-            for (int i = 0; i < Game.inimigo.size(); i++) {
-                Inimigo e = Game.inimigo.get(i);
 
-                if (ataqueCano(this.getX(), this.getY())) {
+            // aqui existe a colisão de ataque pelo cano (passo a minha posição)
+            if (ataqueCano(this.getX(), this.getY())) {
 
-                    // movimenta o inimigo na direção oposta a que eu me encontro
-                    if (direcaoAtual == 1) {
-                        timerNoDamageEnemy = 0;
-                        for (int j = 0; j < 19; j++) {
-                            if (!e.colisao(e.getX(), e.getY())) {
-                                e.setX(e.getX() + 1);
-                            } else {
-                                e.setX(e.getX() - 3);
-                            }
+                // movimenta o inimigo na direção oposta a que eu me encontro
+                // direita
+                if (direcaoAtual == 1) {
 
-                            if (j == 0 && !noDamageStateEnemy && timerNoDamageEnemy == 0) {
-                                // removo a vida do inimigo
-                                e.life--;
-                                noDamageStateEnemy = true;
-                            }
+                    // executo o loop por 19 ticks (índice de afastamento)
+                    for (int j = 0; j < 19; j++) {
+                        if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                            // se não houver objeto para colidir, movimento o inimigo para a direita
+                            enemy.setX(enemy.getX() + 1);
 
+                        } else {
+                            // nesse caso existe objeto para colidir
+                            enemy.setX(enemy.getX() - 3);
                         }
-                    } else {
-                        timerNoDamageEnemy = 0;
-                        for (int j = 0; j < 19; j++) {
-                            if (!e.colisao(e.getX(), e.getY())) {
-                                e.setX(e.getX() - 1);
-                            } else {
-                                e.setX(e.getX() + 3);
-                            }
 
-                            if (j == 0 && !noDamageStateEnemy && timerNoDamageEnemy == 0) {
-                                // removo a vida
-                                e.life--;
-                                noDamageStateEnemy = true;
-                            }
-
+                    }
+                } else {
+                    for (int j = 0; j < 19; j++) {
+                        if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                            // se não houver objeto para colidir, movimento o inimigo para a direita
+                            enemy.setX(enemy.getX() - 1);
+                        } else {
+                            // nesse caso existe objeto para colidir
+                            enemy.setX(enemy.getX() + 3);
                         }
+
                     }
 
-                    // se a vida do inimigo chegar a zero, destruo ele
-                    if (e.life == 0) {
-
-                        // adiciona particulas da explosao
-                        for (int j = 0; j < 320; j++) {
-                            particulas.add(new Particula(e.getX(), e.getY(), 3, 3, Color.BLUE));
-                        }
-
-                        Game.inimigo.remove(e);
-
-                        break;
-                    }
-                    break;
                 }
 
+                causaDanoInimigo(timerNoDamageEnemy);
+
             }
+
 
             timerPlayer = 0;
             movimentacao = 1;
@@ -429,11 +420,6 @@ public class Player extends Entity {
 
     }
 
-    public void resetPosition(){
-        x = 0;
-        y = 0;
-    }
-
     // colisor base do player
     public boolean colisao(int nextx, int nexty) {
 
@@ -483,16 +469,36 @@ public class Player extends Entity {
         return false;
     }
 
+    public void causaDanoInimigo(int timerNoDamageEnemy) {
+        if (timerNoDamageEnemy == 0) {
+            // removo a vida do inimigo
+            enemy.life--;
+
+            noDamageStateEnemy = true;
+            if (enemy.life == 0) {
+                // adiciona particulas da explosao
+
+                for (int i = 0; i < 100; i++) {
+                    particulas.add(new Particula(enemy.getX()- Camera.x, enemy.getY()-Camera.y, 3, 3, Color.BLUE));
+                }
+
+                Game.inimigo.remove(enemy);
+
+            }
+
+        }
+
+    }
+
+
     public boolean ataqueCano(int nextx, int nexty) {
 
         int incremento = 0;
         if (direcaoAtual == esquerda) {
             incremento -= Player.SIZEPLAYERX;
-        } else {
-            incremento += Player.SIZEPLAYERX;
         }
 
-        Rectangle retanguloPlayer = new Rectangle(nextx + maskx + incremento, nexty + masky, maskw, maskh);
+        Rectangle retanguloPlayer = new Rectangle(nextx + maskx + incremento, nexty + masky, maskw + Player.SIZEPLAYERX, maskh);
 
         for (int i = 0; i < Game.inimigo.size(); i++) {
             Inimigo inimigo = Game.inimigo.get(i);
@@ -630,6 +636,7 @@ public class Player extends Entity {
 
         // ataque (em testes)
         if (attack) {
+
             if (direcaoAtual == esquerda) {
                 g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
             } else {

@@ -19,6 +19,8 @@ import java.util.Objects;
 // praticamente toda a lógica de como as coisas acontecem na fase estão aqui
 
 public class Mundo {
+
+    int identificadorUnicoInimigo = 1;
     // tamanho
     public static int WIDTH, HEIGHT;
     //lista de tiles
@@ -73,8 +75,10 @@ public class Mundo {
             // passa pelo exito x e y do arquivo de fase
             for (int x = 0; x < level.getWidth(); x++) {
                 posX = x;
+
                 for (int y = 0; y < level.getHeight(); y++) {
                     posY = y;
+
                     int pixelAtual = pixels[x + (y * level.getWidth())];
                     // popula os tiles vazios
                     tiles[x + (y * WIDTH)] = new Empty(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.empty);
@@ -246,14 +250,28 @@ public class Mundo {
                         GalhosSecos galho = new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.galhoSeco);
                         Game.entidades.add(galho);
                     } else if (pixelAtual == corInimigo1 || pixelAtual == corInimigo2) {
-                        int tipo = 0;
+
+                        int tipoInimigo = 0;
                         if (pixelAtual == corInimigo1) {
-                            tipo = 1;
+                            tipoInimigo = 1;
                         } else if (pixelAtual == corInimigo2) {
-                            tipo = 2;
+                            tipoInimigo = 2;
                         }
-                        Inimigo inimigo = new Inimigo(x * Inimigo.SIZEENEMYX, y * Inimigo.SIZEENEMYY, Inimigo.SIZEENEMYX, Inimigo.SIZEENEMYY, tipo, Entity.inimigo);
+
+
+                        // aqui é im incremento para por o inimigo no lugar correto
+                        // tem que reajustar quando os inimigos passarem a ocupar 32 pixeis ao invés de 16
+                        int incremento = 1;
+                        if (Inimigo.SIZEENEMYX == 16){
+                            incremento = 2;}
+
+                        Inimigo inimigo = new Inimigo(identificadorUnicoInimigo,x * Inimigo.SIZEENEMYX*incremento, y * Inimigo.SIZEENEMYY*incremento, Inimigo.SIZEENEMYX, Inimigo.SIZEENEMYY, tipoInimigo, Entity.inimigo);
+
+                        identificadorUnicoInimigo++;
+
                         Game.inimigo.add(inimigo);
+
+
                     } else if (pixelAtual == corCeu) {
                         Ceu ceu = new Ceu(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.ceu);
                         Game.ceuVetor.add(ceu);
