@@ -236,13 +236,37 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
+    public void resetVariables() {
+        // redefine todas as variáveis para seus valores padrão
+        level = 1;
+        isPaused = false;
+        gameState = "MENU";
+        temp = 0;
+        // recria as listas de entidades
+        entidades = new ArrayList<>();
+        ceuVetor = new ArrayList<>();
+        wallFundo1Vetor = new ArrayList<>();
+        checkPoints = new ArrayList<>();
+        nuvemVetor = new ArrayList<>();
+        kitHealth = new ArrayList<>();
+        trashBags = new ArrayList<>();
+        inimigo = new ArrayList<>();
+        grama = new ArrayList<>();
+        escada = new ArrayList<>();
+        darkBricksFundo = new ArrayList<>();
+        // reinicia o mundo e o jogador
+        mundo = new Mundo(levelPath);
+        player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
+        Player.pontos = 0;
+        entidades.add(player);
+    }
+
     public static void restart() {
         // Reiniciar atributos para recomeçar o jogo
         Menu.iniciaAudioMenu();
-        gameState = "MENU";
+        game.resetVariables();
 
     }
-
 
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {

@@ -28,7 +28,7 @@ public class Menu {
     public BufferedImage[] playerMenuAnima;
     public BufferedImage[] fundoMenuSimples;
 
-    Audio audio = new Audio(soundPath); // Chamando a classe aonde está o audio.
+    public static Audio audio = new Audio(soundPath); // Chamando a classe aonde está o audio.
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
@@ -61,7 +61,8 @@ public class Menu {
     }
 
     public static void iniciaAudioMenu(){
-        Audio audio = new Audio(soundPath); // Chamando a classe aonde está o audio
+       // Audio audio = new Audio(soundPath); // Chamando a classe aonde está o audio
+        audio.start();
 
     }
 
