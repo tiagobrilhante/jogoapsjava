@@ -83,6 +83,7 @@ public class Player extends Entity {
 
     // indice de dano (será alterado face a cada ameaça)
     public double damageFactor = 0.40;
+    public static int tentativas = 3;
     public double damageFactorEspinho = 0.20;
 
     // o quanto de vida um kit de recuperação recupera (no futuro poderão existir tipos de kits diferentes)
@@ -410,7 +411,16 @@ public class Player extends Entity {
         // que vai perguntar ao player se ele quer voltar ao menu inicial ou se ele quer
         // voltar para o último check point
         if (life <= 0) {
-            Game.gameState = "GAMEOVER";
+
+            tentativas--;
+
+            setX(posx);
+            setY(posy);
+
+            life = 100;
+
+            if (tentativas == 0){
+            Game.gameState = "GAMEOVER";}
         }
 
         // posicionamento da camera, sempre em relaçao ao player

@@ -27,12 +27,13 @@ public class UserInterface {
 
         g.setFont(new Font("Arial", Font.BOLD, 7));
         g.setColor(Color.BLACK);
-        g.drawString("Vida", 65, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
+        g.drawString("Energia", 65, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
 
         g.setFont(new Font("Arial", Font.BOLD, 10));
         g.setColor(Color.BLACK);
         g.drawString("Pontos:  " + Player.pontos, 60, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
 
+        g.drawString("Vidas:  " + Player.tentativas, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
 
         g.setColor(Color.BLACK);
         g.fillRect(10, (Game.HEIGTH) - (Game.HEIGTH - 261),30, 28 );
