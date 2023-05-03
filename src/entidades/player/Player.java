@@ -83,6 +83,7 @@ public class Player extends Entity {
 
     // indice de dano (será alterado face a cada ameaça)
     public double damageFactor = 0.40;
+    public double damageFactorEspinho = 0.20;
 
     // o quanto de vida um kit de recuperação recupera (no futuro poderão existir tipos de kits diferentes)
     public int indiceRecuperacaoKitVida = 10;
@@ -400,18 +401,17 @@ public class Player extends Entity {
             posy = this.getY();
         }
 
+        // dano de espinhos
+        if (danoEspinho(this.getX(), this.getY())) {
+            life -= damageFactorEspinho;
+        }
+
         // manda de volta para a placa de checkpoint quando a vida chega a zero
         // pode e deve ser melhorado com a tela de game over...
         // que vai perguntar ao player se ele quer voltar ao menu inicial ou se ele quer
         // voltar para o último check point
         if (life <= 0) {
             Game.gameState = "GAMEOVER";
-
-            //setX(posx);
-            //setY(posy);
-            // quando volta para o checkPoint, volta com a vida cheia
-            // pode ser alterado para voltar com a vida quando ele encostou no check point
-            //life = 100;
         }
 
         // posicionamento da camera, sempre em relaçao ao player
@@ -453,6 +453,25 @@ public class Player extends Entity {
         return false;
     }
 
+
+    public boolean danoEspinho(int nextx, int nexty) {
+        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+
+        for (int i = 0; i < Game.espinhos.size(); i++) {
+            Entity espinho = Game.espinhos.get(i);
+            if (espinho != null) {
+                Rectangle espinhoRetangulo = new Rectangle(espinho.getX() + maskx, espinho.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                if (player.intersects(espinhoRetangulo)) {
+                    return true;
+
+                }
+            }
+        }
+        return false;
+    }
+
+
+
     // player toma dano dos inimigos
     public boolean damage(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
@@ -489,7 +508,6 @@ public class Player extends Entity {
         }
 
     }
-
 
     public boolean ataqueCano(int nextx, int nexty) {
 

@@ -73,6 +73,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<TrashBag> trashBags;
     public static List<Inimigo> inimigo;
     public static List<Grama> grama;
+    public static List<Espinho> espinhos;
     public static List<Escada> escada;
     public static List<FundoDarkBrick> darkBricksFundo;
 
@@ -153,6 +154,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         inimigo = new ArrayList<>();
         // lista de grama
         grama = new ArrayList<>();
+        espinhos = new ArrayList<>();
         // lista de escadas
         escada = new ArrayList<>();
         // lista de darkBrick
@@ -252,6 +254,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         trashBags = new ArrayList<>();
         inimigo = new ArrayList<>();
         grama = new ArrayList<>();
+        espinhos = new ArrayList<>();
         escada = new ArrayList<>();
         darkBricksFundo = new ArrayList<>();
         // reinicia o mundo e o jogador
@@ -339,7 +342,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para o kitHealth (vida) realizar os ticks dos seus filhos
+            // atribuo a responsabilidade para o trashBag realizar os ticks dos seus filhos
             for (TrashBag entidade : trashBags) {
                 entidade.tick();
             }
@@ -351,6 +354,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             // atribuo a responsabilidade para grama, que é uma entidade não colisora, realize os seus ticks
             for (Grama entidade : grama) {
+                entidade.tick();
+            }
+
+            // atribuo a responsabilidade para grama, que é uma entidade não colisora, realize os seus ticks
+            for (Espinho entidade : espinhos) {
                 entidade.tick();
             }
 
@@ -420,6 +428,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // renderiza a grama
         for (Grama entidade : grama) {
+            entidade.render(g);
+        }
+
+        // renderiza espinhos
+        for (Espinho entidade : espinhos) {
             entidade.render(g);
         }
 

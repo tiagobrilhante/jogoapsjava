@@ -259,7 +259,7 @@ public class Mundo {
                         Game.entidades.add(grama);
                     } else if (pixelAtual == corEspinhos) {
                         Espinho espinho = new Espinho(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.espinho);
-                        Game.entidades.add(espinho);
+                        Game.espinhos.add(espinho);
                     } else if (pixelAtual == corGalhoSeco) {
                         GalhosSecos galho = new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.galhoSeco);
                         Game.entidades.add(galho);

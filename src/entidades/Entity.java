@@ -36,49 +36,32 @@ public class Entity {
 
     // buffer de todas as entidades e seus posicionamentos no sprite)
     public static BufferedImage chaoNucleo = Game.sprite.getSprite(posChaoNucleo[0], posChaoNucleo[1], SIZEENTITYX, SIZEENTITYY);
-
     public static BufferedImage chaoIsoladoTopo = Game.sprite.getSprite(posChaoIsoladoTopo[0], posChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
-
     public static BufferedImage save = Game.sprite.getSprite(posSavePoint[0], posSavePoint[1], SIZEENTITYX, SIZEENTITYY);
-
     public static BufferedImage chaoIsoladoEsquerda = Game.sprite.getSprite(posChaoIsoladoEsquerda[0], posChaoIsoladoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoDireita = Game.sprite.getSprite(posChaoIsoladoDireita[0], posChaoIsoladoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoFundo = Game.sprite.getSprite(posChaoIsoladoFundo[0], posChaoIsoladoFundo[1], SIZEENTITYX, SIZEENTITYY);
-
     public static BufferedImage nucleoBifurcaChaoIsoladoTopo = Game.sprite.getSprite(posNucleoBifurcaChaoIsoladoTopo[0], posNucleoBifurcaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoBifurcaChaoIsoladoFundo = Game.sprite.getSprite(posNucleoBifurcaChaoIsoladoFundo[0], posNucleoBifurcaChaoIsoladoFundo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoConverteDireitaChaoIsoladoTopo = Game.sprite.getSprite(posNucleoConverteDireitaChaoIsoladoTopo[0], posNucleoConverteDireitaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoConverteEsquerdaChaoIsoladoTopo = Game.sprite.getSprite(posNucleoConverteEsquerdaChaoIsoladoTopo[0], posNucleoConverteEsquerdaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoConverteDireitaChaoIsoladoFundo = Game.sprite.getSprite(posNucleoConverteDireitaChaoIsoladoFundo[0], posNucleoConverteDireitaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoConverteEsquerdaChaoIsoladoFundo = Game.sprite.getSprite(posNucleoConverteEsquerdaChaoIsoladoFundo[0], posNucleoConverteEsquerdaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
-
     public static BufferedImage chaoEsquerdoTopo = Game.sprite.getSprite(posChaoEsquerdoTopo[0], posChaoEsquerdoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoEsquerdo = Game.sprite.getSprite(posChaoEsquerdo[0], posChaoEsquerdo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoDireitoTopo = Game.sprite.getSprite(posChaoDireitoTopo[0], posChaoDireitoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoDireito = Game.sprite.getSprite(posChaoDireito[0], posChaoDireito[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoNormalTopo = Game.sprite.getSprite(posChaoNormalTopo[0], posChaoNormalTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoNormalFundo = Game.sprite.getSprite(posChaoNormalFundo[0], posChaoNormalFundo[1], SIZEENTITYX, SIZEENTITYY);
-
     public static BufferedImage chaoDireitoFundo = Game.sprite.getSprite(posChaoDireitoFundo[0], posChaoDireitoFundo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoEsquerdoFundo = Game.sprite.getSprite(posChaoEsquerdoFundo[0], posChaoEsquerdoFundo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoTopoEsquerda = Game.sprite.getSprite(posJuncaoTopoEsquerda[0], posJuncaoTopoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoFundoEsquerda = Game.sprite.getSprite(posJuncaoFundoEsquerda[0], posJuncaoFundoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoTopoDireita = Game.sprite.getSprite(posJuncaoTopoDireita[0], posJuncaoTopoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoFundoDireita = Game.sprite.getSprite(posJuncaoFundoDireita[0], posJuncaoFundoDireita[1], SIZEENTITYX, SIZEENTITYY);
-
-
-
-
     public static BufferedImage juncaoBuEsquerdaBaixo = Game.sprite.getSprite(posJuncaoBuEsquerdaBaixo[0], posJuncaoBuEsquerdaBaixo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoBuDireitaBaixo = Game.sprite.getSprite(posJuncaoBuDireitaBaixo[0], posJuncaoBuDireitaBaixo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage buSimples = Game.sprite.getSprite(posBuSimples[0], posBuSimples[1], SIZEENTITYX, SIZEENTITYY);
-
-
-
-
-
-
-
     public static BufferedImage juncaoDupla1 = Game.sprite.getSprite(posJuncaoDupla1[0], posJuncaoDupla1[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoDupla2 = Game.sprite.getSprite(posJuncaoDupla2[0], posJuncaoDupla2[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoSimplesLateralTopoDireita = Game.sprite.getSprite(posJuncaoSimplesLateralTopoDireita[0], posJuncaoSimplesLateralTopoDireita[1], SIZEENTITYX, SIZEENTITYY);
