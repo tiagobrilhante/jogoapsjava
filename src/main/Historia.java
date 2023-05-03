@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 public class Historia {
     public int currentOption = 0;
     public boolean end;
-    private final Font font;
     public static Spritsheet animaMenu;
     public static Spritsheet fundoMenu;
     public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
@@ -34,8 +33,6 @@ public class Historia {
         }
 
         fundoMenuSimples[0] = fundoMenu.getSprite(0,0, 520,292);
-        font = new Font("Arial", Font.BOLD, 24);
-
     }
 
     public void choose() {
@@ -74,22 +71,6 @@ public class Historia {
         g.setColor(new Color(255, 255, 255));
 
         g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);
-
-        // define a nova fonte
-        Font biggerFont = font.deriveFont(20f);
-        g.setFont(biggerFont);
-        g.drawString("O mundo está devastado.", 380, 90);
-        g.drawString("A falta de cuidado com o meio ambiente gerou danos", 380, 115);
-        g.drawString("graves ao planeta.", 380, 140);
-        g.drawString("Houveram muitas guerras por causa dos recursos que.", 380, 165);
-        g.drawString("sobraram.", 380, 190);
-        g.drawString("Boa parte da população pereceu.", 380, 215);
-        g.drawString("Você é um dos sobreviventes, e sua missão é coletar", 380, 240);
-        g.drawString("o lixo existente no planeta.", 380, 265);
-
-        // define a fonte original para os demais textos
-        g.setFont(font);
-        g.drawString("Aperte ENTER para iniciar", 600, 510);
 
         g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
 
