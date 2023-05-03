@@ -165,6 +165,10 @@ public class Player extends Entity {
 
     public void tick() {
 
+        System.out.println("posx: " + x + "posy: " + y);
+        System.out.println("MW: " + Mundo.WIDTH*Entity.SIZEENTITYX + " + MH: " + Mundo.HEIGHT*Entity.SIZEENTITYY);
+
+
         // aqui eu inicio a movimentação em parado ==== 0
         movimentacao = 0;
         atualX = (int) x;
@@ -238,7 +242,7 @@ public class Player extends Entity {
         }
 
         // caso eu me movimente para a direita
-        if (right && !colisao((int) (x + speed), this.getY())) {
+        if (right && !colisao((int) (x + speed), this.getY()) && x <=  (Mundo.WIDTH*Entity.SIZEENTITYX) - SIZEPLAYERX) {
             x += speed;
             movimentacao = 1;
             timerPlayer = 0;
@@ -246,7 +250,7 @@ public class Player extends Entity {
         }
 
         // caso eu me movimente para a esquerda
-        if (left && !colisao((int) (x - speed), this.getY())) {
+        if (left && !colisao((int) (x - speed), this.getY()) && x >= 0) {
             x -= speed;
             movimentacao = 1;
             timerPlayer = 0;
@@ -415,8 +419,8 @@ public class Player extends Entity {
         }
 
         // posicionamento da camera, sempre em relaçao ao player
-        Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH / 2), 0, Mundo.WIDTH * Entity.SIZEENTITYX - SIZEPLAYERX);
-        Camera.y = Camera.Clamp(this.getY() - (Game.HEIGTH / 2), 0, Mundo.HEIGHT * Entity.SIZEENTITYY - SIZEPLAYERY);
+        Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH / 2), 0, (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX);
+        Camera.y = Camera.Clamp(this.getY() - (Game.HEIGTH / 2), 0, (Mundo.HEIGHT * Entity.SIZEENTITYY) - SIZEPLAYERY);
 
     }
 
