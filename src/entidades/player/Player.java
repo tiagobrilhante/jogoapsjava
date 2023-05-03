@@ -410,6 +410,11 @@ public class Player extends Entity {
         // pode e deve ser melhorado com a tela de game over...
         // que vai perguntar ao player se ele quer voltar ao menu inicial ou se ele quer
         // voltar para o último check point
+
+        if (y >= (Mundo.HEIGHT*Entity.SIZEENTITYY)){
+            life -= damageFactor*4;
+        }
+
         if (life <= 0) {
 
             tentativas--;

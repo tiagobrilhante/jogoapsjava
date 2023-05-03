@@ -399,7 +399,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // seta o fundo do jogo quando não há elementos gráficos carregados
         Graphics g = fundo.getGraphics();
 
-        g.setColor(new Color(0, 0, 0));
+        g.setColor(new Color(26, 122, 62));
         g.fillRect(0, 0, WIDTH*SCALE, HEIGTH*SCALE);
 
         // renderiza as entidades

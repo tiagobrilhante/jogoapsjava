@@ -28,7 +28,7 @@ public class Entity {
             posJuncaoDupla1 = {256,32},posJuncaoDupla2 = {256,64}, posJuncaoSimplesLateralTopoDireita = {192,96},
             posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0},
             posFundoDarkBrickEsquerdo = {96,128}, posFundoDarkBrickDireito = {160,128}, posFundoDarkBrickBase = {128,128},
-            posFundoDarkBrickBrokenBase1 = {96,160};
+            posFundoDarkBrickBrokenBase1 = {96,160}, posCahoIsoladoMeioVertical = {160,96}, posPedra1 = {128,96};
     // ajustar ceu e nuvens
     // ajustar inimigo
 
@@ -47,6 +47,8 @@ public class Entity {
     public static BufferedImage nucleoConverteEsquerdaChaoIsoladoTopo = Game.sprite.getSprite(posNucleoConverteEsquerdaChaoIsoladoTopo[0], posNucleoConverteEsquerdaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoConverteDireitaChaoIsoladoFundo = Game.sprite.getSprite(posNucleoConverteDireitaChaoIsoladoFundo[0], posNucleoConverteDireitaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoConverteEsquerdaChaoIsoladoFundo = Game.sprite.getSprite(posNucleoConverteEsquerdaChaoIsoladoFundo[0], posNucleoConverteEsquerdaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage chaoIsoladoMeioVertical = Game.sprite.getSprite(posCahoIsoladoMeioVertical[0], posCahoIsoladoMeioVertical[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage pedra1 = Game.sprite.getSprite(posPedra1[0], posPedra1[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoEsquerdoTopo = Game.sprite.getSprite(posChaoEsquerdoTopo[0], posChaoEsquerdoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoEsquerdo = Game.sprite.getSprite(posChaoEsquerdo[0], posChaoEsquerdo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoDireitoTopo = Game.sprite.getSprite(posChaoDireitoTopo[0], posChaoDireitoTopo[1], SIZEENTITYX, SIZEENTITYY);

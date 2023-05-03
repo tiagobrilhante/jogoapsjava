@@ -49,7 +49,8 @@ public class Mundo {
             corTrashBag = 0xFFf600F6, corChaoIsoladoEsquerda = 0xFF355240, corChaoIsoladoDireita = 0xFF793b34,
             corJuncaoSimplesFundoDireita = 0xFFf22778, corFundoDarkBrickBase = 0xFF0e5050,
             corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949,
-            corFundoDarkBrickBrokenBase1 = 0xFF0e1052, corWallFundo1 = 0xFF2d3425, corPredioFundo1 = 0xFF157920;
+            corFundoDarkBrickBrokenBase1 = 0xFF0e1052, corWallFundo1 = 0xFF2d3425, corPredioFundo1 = 0xFF157920,
+            corChaoIsoladoMeioVertical = 0xFF2d2c7a, corPedra1 = 0xFF1a3917;
 
     public static String gameSpritePath = "/res/spritesheets/spritesheet32.png";
     public static String ceuSpritePath = "/res/spritesheets/ceusprite.png";
@@ -138,6 +139,14 @@ public class Mundo {
                         Game.entidades.add(solido);
                     }
 
+                    else if (pixelAtual == corChaoIsoladoMeioVertical) {
+                        Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoIsoladoMeioVertical);
+                        Game.entidades.add(solido);
+                    }
+                    else if (pixelAtual == corPedra1) {
+                        Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.pedra1);
+                        Game.entidades.add(solido);
+                    }
 
                     else if (pixelAtual == corChaoIsoladoFundo) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoIsoladoFundo);
