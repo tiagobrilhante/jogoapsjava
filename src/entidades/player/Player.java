@@ -164,11 +164,6 @@ public class Player extends Entity {
     }
 
     public void tick() {
-
-        System.out.println("posx: " + x + "posy: " + y);
-        System.out.println("MW: " + Mundo.WIDTH*Entity.SIZEENTITYX + " + MH: " + Mundo.HEIGHT*Entity.SIZEENTITYY);
-
-
         // aqui eu inicio a movimentação em parado ==== 0
         movimentacao = 0;
         atualX = (int) x;

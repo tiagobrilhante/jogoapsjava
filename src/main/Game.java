@@ -67,6 +67,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // prepara a lista de CEU (cenário)
     public static List<Ceu> ceuVetor;
     public static List<WallFundo1> wallFundo1Vetor;
+    public static List<PredioFundo1> predioFundo1Vetor;
     public static List<CheckPoint> checkPoints;
     public static List<Nuvens> nuvemVetor;
     public static List<KitHealth> kitHealth;
@@ -78,14 +79,14 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<FundoDarkBrick> darkBricksFundo;
 
     // instancia sprites
-    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, nuvens;
+    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, predioFundo1, nuvens;
 
 
     // objetos base (PATHS)
     public String spriteGamePath = "/res/spritesheets/spritesheet32.png", spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png",
             spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png", spriteCeuPath = "/res/spritesheets/ceusprite.png",
-            spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png", spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png",
-            levelPath = "/res/fases/level1.png";
+            spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png", spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png",
+            spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png", levelPath = "/res/fases/level1.png";
 
 
     // se o jogo está rodando... começa em verdadeiro
@@ -133,6 +134,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         ceu = new Spritsheet(spriteCeuPath);
         // Sprite de fundo
         wallFundo1 = new Spritsheet(spriteFundo1Path);
+        predioFundo1 = new Spritsheet(spriteFundoPredio1Path);
         //sprite de nuvem
         nuvens = new Spritsheet(spriteNuvemPath);
 
@@ -142,6 +144,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         ceuVetor = new ArrayList<>();
         // lista de vetor de fundo
         wallFundo1Vetor = new ArrayList<>();
+        predioFundo1Vetor = new ArrayList<>();
         // lista de nuvens
         nuvemVetor = new ArrayList<>();
         // lista de health kit
@@ -248,6 +251,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         entidades = new ArrayList<>();
         ceuVetor = new ArrayList<>();
         wallFundo1Vetor = new ArrayList<>();
+        predioFundo1Vetor = new ArrayList<>();
         checkPoints = new ArrayList<>();
         nuvemVetor = new ArrayList<>();
         kitHealth = new ArrayList<>();
@@ -332,6 +336,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
+            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
+            for (PredioFundo1 entidade : predioFundo1Vetor) {
+                entidade.tick();
+            }
+
             // atribuo a responsabilidade para o nuvens realizar os ticks dos seus filhos
             for (Nuvens entidade : nuvemVetor) {
                 entidade.tick();
@@ -402,6 +411,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // popula o mundo com o vetor do céu (de acordo com a fase)
         for (WallFundo1 wallFundo1 : wallFundo1Vetor) {
             wallFundo1.render(g);
+        }
+
+        // popula o mundo com o vetor do céu (de acordo com a fase)
+        for (PredioFundo1 predioFundo1 : predioFundo1Vetor) {
+            predioFundo1.render(g);
         }
 
         // popula o mundo com o vetor do céu (de acordo com a fase)
