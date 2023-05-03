@@ -92,7 +92,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // se o jogo está rodando... começa em verdadeiro
     private boolean isRuning = true;
     private static boolean isPaused = false;
-    public int timer = 0;
+    public static int timer = 0;
     // definições de level
     // ainda deve implementar a tela inicial do jogo e o menu de opções
     // bem como o game over

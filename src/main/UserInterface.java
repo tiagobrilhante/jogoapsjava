@@ -35,6 +35,8 @@ public class UserInterface {
 
         g.drawString("Vidas:  " + Player.tentativas, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
 
+        g.drawString("Tempo:  " + Game.timer/60, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
+
         g.setColor(Color.BLACK);
         g.fillRect(10, (Game.HEIGTH) - (Game.HEIGTH - 261),30, 28 );
     }
