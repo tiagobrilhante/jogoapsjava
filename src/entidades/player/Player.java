@@ -3,10 +3,7 @@ package entidades.player;
 import Mundo.Camera;
 import Mundo.Mundo;
 import entidades.Entity;
-import entidades.interativos.Escada;
-import entidades.interativos.Inimigo;
-import entidades.interativos.KitHealth;
-import entidades.interativos.TrashBag;
+import entidades.interativos.*;
 import entidades.naoSolidos.Particula;
 import entidades.solidos.Solido;
 import main.Game;
@@ -74,6 +71,7 @@ public class Player extends Entity {
     // kits de vida
     public KitHealth vida;
     public TrashBag trashBag;
+    public VidaExtra vidaExtra;
 
     public boolean posTopoEscada;
     public int yTopoEscada;
@@ -395,6 +393,12 @@ public class Player extends Entity {
             Game.trashBags.remove(trashBag);
         }
 
+        // vidas extras para o player
+        if (pegaVidaExtra(this.getX(), this.getY())) {
+            tentativas++;
+            Game.vidasExtras.remove(vidaExtra);
+        }
+
         // guarda a posição da placa de checkpoint
         if (checkPoint(this.getX(), this.getY())) {
             posx = this.getX();
@@ -575,6 +579,22 @@ public class Player extends Entity {
         }
         return false;
     }
+
+    public boolean pegaVidaExtra(int nextx, int nexty) {
+        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+        for (int i = 0; i < Game.vidasExtras.size(); i++) {
+            VidaExtra vidaExtraAtivo = Game.vidasExtras.get(i);
+            if (vidaExtraAtivo != null) {
+                Rectangle trashRetangle = new Rectangle(vidaExtraAtivo.getX() + maskx, vidaExtraAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                if (player.intersects(trashRetangle)) {
+                    vidaExtra = vidaExtraAtivo;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     public boolean colisaoEscada(int nextx, int nexty) {
         Rectangle retanguloPlayer = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);

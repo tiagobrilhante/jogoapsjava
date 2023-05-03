@@ -72,6 +72,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<Nuvens> nuvemVetor;
     public static List<KitHealth> kitHealth;
     public static List<TrashBag> trashBags;
+    public static List<VidaExtra> vidasExtras;
     public static List<Inimigo> inimigo;
     public static List<Grama> grama;
     public static List<Espinho> espinhos;
@@ -151,6 +152,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         kitHealth = new ArrayList<>();
         // lista de trash bags
         trashBags = new ArrayList<>();
+        vidasExtras = new ArrayList<>();
         // lista de savepoints
         checkPoints = new ArrayList<>();
         // lista de inimigos
@@ -256,11 +258,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
         nuvemVetor = new ArrayList<>();
         kitHealth = new ArrayList<>();
         trashBags = new ArrayList<>();
+        vidasExtras = new ArrayList<>();
         inimigo = new ArrayList<>();
         grama = new ArrayList<>();
         espinhos = new ArrayList<>();
         escada = new ArrayList<>();
         darkBricksFundo = new ArrayList<>();
+
         // reinicia o mundo e o jogador
         mundo = new Mundo(levelPath);
         player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
@@ -356,6 +360,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
+            // atribuo a responsabilidade para o vidaExtra realizar os ticks dos seus filhos
+            for (VidaExtra entidade : vidasExtras) {
+                entidade.tick();
+            }
+
             // atribuo a responsabilidade para o inimigo realizar os ticks dos seus filhos
             for (Inimigo entidade : inimigo) {
                 entidade.tick();
@@ -430,6 +439,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // renderiza os trashBags
         for (TrashBag entidade : trashBags) {
+            entidade.render(g);
+        }
+
+        // renderiza os trashBags
+        for (VidaExtra entidade : vidasExtras) {
             entidade.render(g);
         }
 
