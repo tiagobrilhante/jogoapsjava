@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 // extremamente importante....
@@ -342,28 +343,25 @@ public class Mundo {
 
     // inicia o level 1
     public static void newlevel(String level) {
-        Game.entidades = new ArrayList<>();
-        // spriteSheet e player
-        Game.sprite = new Spritsheet(gameSpritePath);
 
-        // vetor do ceu
+        // recarga de listas
+        Game.entidades = new ArrayList<>();
         Game.ceuVetor = new ArrayList<>();
         Game.nuvemVetor = new ArrayList<>();
-
-        // kit de vida
+        Game.predioFundo1Vetor = new ArrayList<>();
+        Game.wallFundo1Vetor = new ArrayList<>();
+        Game.checkPoints = new ArrayList<>();
+        Game.espinhos = new ArrayList<>();
+        Game.darkBricksFundo = new ArrayList<>();
+        Game.trashBags = new ArrayList<>();
+        Game.grama = new ArrayList<>();
         Game.kitHealth = new ArrayList<>();
-
-        // inimigo
         Game.inimigo = new ArrayList<>();
-
-        // ceu
         Game.ceu = new Spritsheet(ceuSpritePath);
-
         Game.nuvens = new Spritsheet(nuvemSpritePath);
-
-        // escada
         Game.escada = new ArrayList<>();
-        // carrega a fase
+
+        Game.sprite = new Spritsheet(gameSpritePath);
         Game.mundo = new Mundo(levelPath + level);
 
         Game.player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, Game.sprite.getSprite(32, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
