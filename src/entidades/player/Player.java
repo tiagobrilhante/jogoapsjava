@@ -2,6 +2,7 @@ package entidades.player;
 
 import Mundo.Camera;
 import Mundo.Mundo;
+import Mundo.Audio;
 import entidades.Entity;
 import entidades.interativos.*;
 import entidades.naoSolidos.Particula;
@@ -19,6 +20,14 @@ public class Player extends Entity {
 
     // movimentação basica do player
     public boolean right, left, down, up;
+
+    public static String soundPathAttack = "src/res/sounds/soundfx/attack.wav";
+    public static String soundPathJump = "src/res/sounds/soundfx/jump.wav";
+
+    Audio audioAttack = new Audio(null, false);
+    Audio audioJump = new Audio(null, false);
+
+
 
     public static double atualX, atualY;
 
@@ -56,6 +65,8 @@ public class Player extends Entity {
     public boolean jump = false, isJump = false;
 
     public boolean attack = false;
+    public int attackTimeSound = 0;
+    public int jumpTimeSound = 0;
 
     // altura de incremento do pulo
     public int jumpHeigth = 64;
@@ -172,7 +183,7 @@ public class Player extends Entity {
         tempoParado = (int) rawTime;
         timerEnemy++;
 
-
+        // reset de invulnerabilidade do inimigo
         if (noDamageStateEnemy) {
             timerNoDamageEnemy++;
             if (timerNoDamageEnemy == 20) {
@@ -180,7 +191,6 @@ public class Player extends Entity {
                 timerNoDamageEnemy = 0;
             }
         }
-
 
         // gerenciamento de update das particulas (quando o inimigo é derrotado)
         for (int i = 0; i < particulas.size(); i++) {
@@ -259,9 +269,18 @@ public class Player extends Entity {
             }
         }
 
+        System.out.println(jumpTimeSound);
         // durante a execução do pulo (comportamento)
         if (isJump) {
             timerPlayer = 0;
+
+            if (jumpTimeSound == 0){
+                audioJump = new Audio(soundPathJump, false); // Chamando a classe aonde está o audio.
+                audioJump.start();
+            }
+            jumpTimeSound++;
+
+
             if (!colisao(this.getX(), this.getY() - 2)) {
                 y -= jumpSpeed;
                 jumpFrames += jumpSpeed;
@@ -272,10 +291,13 @@ public class Player extends Entity {
                 }
             } else {
                 isJump = false;
+                jumpTimeSound = 0;
                 jump = false;
                 jumpFrames = 0;
             }
 
+        } else {
+            jumpTimeSound = 0;
         }
 
         // ação de ataque em relação ao inimigo (com o cano)
@@ -322,6 +344,8 @@ public class Player extends Entity {
             timerPlayer = 0;
             movimentacao = 1;
             frames++;
+
+
             if (frames == maxFrames) {
                 indexAtack++;
                 frames = 0;
@@ -638,6 +662,7 @@ public class Player extends Entity {
         if (direcaoAtual == direita && movimentacao == 0) {
 
             if (isJump) {
+
                 g.drawImage(playerJumpRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else if (emEscada) {
                 g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -689,6 +714,12 @@ public class Player extends Entity {
         // ataque (em testes)
         if (attack) {
 
+            if (attackTimeSound == 0){
+                audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
+                audioAttack.start();
+            }
+            attackTimeSound++;
+
             if (direcaoAtual == esquerda) {
                 g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
             } else {
@@ -697,6 +728,7 @@ public class Player extends Entity {
             if (indexAtack == 3) {
                 attack = false;
                 indexAtack = 0;
+                attackTimeSound = 0;
             }
 
         }
