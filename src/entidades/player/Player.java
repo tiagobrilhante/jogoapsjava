@@ -1,8 +1,8 @@
 package entidades.player;
 
+import Mundo.Audio;
 import Mundo.Camera;
 import Mundo.Mundo;
-import Mundo.Audio;
 import entidades.Entity;
 import entidades.interativos.*;
 import entidades.naoSolidos.Particula;
@@ -20,6 +20,8 @@ public class Player extends Entity {
 
     // movimentação basica do player
     public boolean right, left, down, up;
+
+    public String selectedWeapon;
 
     public static String soundPathAttack = "src/res/sounds/soundfx/attack.wav";
     public static String soundPathJump = "src/res/sounds/soundfx/jump.wav";
@@ -57,7 +59,7 @@ public class Player extends Entity {
 
 
     // buffer de geração de imagem do player em movimento
-    public BufferedImage[] playerRight, playerLeft, playerIdleLeft, playerIdleRigth, playerJumpLeft, playerJumpRight, playerEscada, playerAttackEsquerda, playerAttackDireita;
+    public BufferedImage[] playerRight, playerLeft, playerIdleLeft, playerIdleRigth, playerJumpLeft, playerJumpRight, playerEscada, playerAttackEsquerda, playerAttackEsquerdaArma, playerAttackDireita, playerAttackDireitaArma;
 
     // se o player está pulando (jump é o momento que aperto o pulo, isJump é enquanto o pulo está acontecendo)
     public boolean jump = false, isJump = false;
@@ -109,6 +111,7 @@ public class Player extends Entity {
     // construtor
     public Player(int x, int y, int width, int height, BufferedImage sprite) {
         super(x, y, width, height, sprite);
+        selectedWeapon = "Cano";
 
         // quantidade de posições da animação do player (quando andando para a direita)
         playerRight = new BufferedImage[4];
@@ -122,7 +125,9 @@ public class Player extends Entity {
         playerJumpRight = new BufferedImage[4];
         playerEscada = new BufferedImage[4];
         playerAttackEsquerda = new BufferedImage[4];
+        playerAttackEsquerdaArma = new BufferedImage[4];
         playerAttackDireita = new BufferedImage[4];
+        playerAttackDireitaArma = new BufferedImage[4];
 
         // loop para montar o array para a direita
         for (int i = 0; i < 4; i++) {
@@ -164,14 +169,24 @@ public class Player extends Entity {
             playerAttackEsquerda[i] = Game.spritePlayer.getSprite(0, 64, SIZEPLAYERX * 2, SIZEPLAYERY);
         }
 
+        for (int i = 0; i < 4; i++) {
+            playerAttackEsquerdaArma[i] = Game.spritePlayer.getSprite(32, 64, SIZEPLAYERX * 2, SIZEPLAYERY);
+        }
+
         // loop para montar o array para ataque
         for (int i = 0; i < 4; i++) {
             playerAttackDireita[i] = Game.spritePlayer.getSprite(0, 80, SIZEPLAYERX * 2, SIZEPLAYERY);
         }
 
+        // loop para montar o array para ataque
+        for (int i = 0; i < 4; i++) {
+            playerAttackDireitaArma[i] = Game.spritePlayer.getSprite(32, 80, SIZEPLAYERX * 2, SIZEPLAYERY);
+        }
+
     }
 
     public void tick() {
+
         // aqui eu inicio a movimentação em parado ==== 0
         movimentacao = 0;
         atualX = (int) x;
@@ -244,7 +259,7 @@ public class Player extends Entity {
         }
 
         // caso eu me movimente para a direita
-        if (right && !colisao((int) (x + speed), this.getY()) && x <=  (Mundo.WIDTH*Entity.SIZEENTITYX) - SIZEPLAYERX) {
+        if (right && !colisao((int) (x + speed), this.getY()) && x <= (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX) {
             x += speed;
             movimentacao = 1;
             timerPlayer = 0;
@@ -271,7 +286,7 @@ public class Player extends Entity {
         if (isJump) {
             timerPlayer = 0;
 
-            if (jumpTimeSound == 0){
+            if (jumpTimeSound == 0) {
                 audioJump = new Audio(soundPathJump, false); // Chamando a classe aonde está o audio.
                 audioJump.start();
             }
@@ -431,15 +446,12 @@ public class Player extends Entity {
             life -= damageFactorEspinho;
         }
 
-        // manda de volta para a placa de checkpoint quando a vida chega a zero
-        // pode e deve ser melhorado com a tela de game over...
-        // que vai perguntar ao player se ele quer voltar ao menu inicial ou se ele quer
-        // voltar para o último check point
-
-        if (y >= (Mundo.HEIGHT*Entity.SIZEENTITYY)){
-            life -= damageFactor*4;
+        // caindo fora da tela
+        if (y >= (Mundo.HEIGHT * Entity.SIZEENTITYY)) {
+            life -= damageFactor * 4;
         }
 
+        // quaando a energia acaba
         if (life <= 0) {
 
             tentativas--;
@@ -449,8 +461,9 @@ public class Player extends Entity {
 
             life = 100;
 
-            if (tentativas == 0){
-            Game.gameState = "GAMEOVER";}
+            if (tentativas == 0) {
+                Game.gameState = "GAMEOVER";
+            }
         }
 
         // posicionamento da camera, sempre em relaçao ao player
@@ -491,7 +504,6 @@ public class Player extends Entity {
         }
         return false;
     }
-
 
     public boolean danoEspinho(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
@@ -535,7 +547,7 @@ public class Player extends Entity {
                 // adiciona particulas da explosao
 
                 for (int i = 0; i < 100; i++) {
-                    particulas.add(new Particula(enemy.getX()- Camera.x, enemy.getY()-Camera.y, 3, 3, Color.BLUE));
+                    particulas.add(new Particula(enemy.getX() - Camera.x, enemy.getY() - Camera.y, 3, 3, Color.BLUE));
                 }
 
                 Game.inimigo.remove(enemy);
@@ -614,6 +626,14 @@ public class Player extends Entity {
         return false;
     }
 
+    public synchronized void toggleWeapon() {
+
+        if (selectedWeapon == "Cano") {
+            selectedWeapon = "Arma";
+        } else {
+            selectedWeapon = "Cano";
+        }
+    }
 
     public boolean colisaoEscada(int nextx, int nexty) {
         Rectangle retanguloPlayer = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
@@ -709,16 +729,25 @@ public class Player extends Entity {
         // ataque (em testes)
         if (attack) {
 
-            if (attackTimeSound == 0){
+            if (attackTimeSound == 0) {
                 audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
                 audioAttack.start();
             }
             attackTimeSound++;
 
             if (direcaoAtual == esquerda) {
-                g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
+                if (selectedWeapon == "Cano") {
+                    g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
+                } else {
+                    g.drawImage(playerAttackEsquerdaArma[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
+                }
+
             } else {
-                g.drawImage(playerAttackDireita[indexAtack], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                if (selectedWeapon == "Cano") {
+                    g.drawImage(playerAttackDireita[indexAtack], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                } else {
+                    g.drawImage(playerAttackDireitaArma[indexAtack], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                }
             }
             if (indexAtack == 3) {
                 attack = false;

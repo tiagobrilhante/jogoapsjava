@@ -7,6 +7,7 @@ import entidades.interativos.*;
 import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -409,7 +410,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         Graphics g = fundo.getGraphics();
 
         g.setColor(new Color(26, 122, 62));
-        g.fillRect(0, 0, WIDTH*SCALE, HEIGTH*SCALE);
+        g.fillRect(0, 0, WIDTH * SCALE, HEIGTH * SCALE);
 
         // renderiza as entidades
         // popula o mundo com o vetor do céu (de acordo com a fase)
@@ -451,7 +452,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         for (CheckPoint entidade : checkPoints) {
             entidade.render(g);
         }
-
 
 
         // renderiza a grama
@@ -608,6 +608,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
                     togglePause();
                 }
             }
+
+            if (e.getKeyCode() == KeyEvent.VK_B) {
+                // tecla B muda a arma
+                player.toggleWeapon();
+
+            }
+
         }
 
         if (Objects.equals(gameState, "HISTORIA")) {
@@ -677,6 +684,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 // tecla SPACE faz o plauer pular
                 player.jump = false;
             }
+
         }
 
         if (Objects.equals(gameState, "MENU")) {
