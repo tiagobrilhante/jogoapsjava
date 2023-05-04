@@ -2,6 +2,7 @@ package entidades.player;
 
 import Mundo.Camera;
 import Mundo.Mundo;
+import Mundo.Audio;
 import entidades.Entity;
 import entidades.interativos.*;
 import entidades.naoSolidos.Particula;
@@ -19,6 +20,14 @@ public class Player extends Entity {
 
     // movimentação basica do player
     public boolean right, left, down, up;
+
+    public static String soundPathAttack = "src/res/sounds/soundfx/attack.wav";
+    public static String soundPathJump = "src/res/sounds/soundfx/jump.wav";
+
+    Audio audioAttack = new Audio(null, false);
+    Audio audioJump = new Audio(null, false);
+
+
 
     public static double atualX, atualY;
 
@@ -56,9 +65,14 @@ public class Player extends Entity {
     public boolean jump = false, isJump = false;
 
     public boolean attack = false;
+    public int attackTimeSound = 0;
+    public int jumpTimeSound = 0;
 
     // altura de incremento do pulo
     public int jumpHeigth = 64;
+
+    // velocidade do pulo
+    public int jumpSpeed = 4;
     // frame inicial do pulo
     public int jumpFrames = 0;
 
@@ -68,18 +82,28 @@ public class Player extends Entity {
     // kits de vida
     public KitHealth vida;
     public TrashBag trashBag;
+    public VidaExtra vidaExtra;
+
+    public boolean posTopoEscada;
+    public int yTopoEscada;
 
     // posicionamento do player
     public int posx, posy;
 
     // indice de dano (será alterado face a cada ameaça)
-    public double damageFactor = 0.20;
+    public double damageFactor = 0.40;
+    public static int tentativas = 3;
+    public double damageFactorEspinho = 0.20;
 
     // o quanto de vida um kit de recuperação recupera (no futuro poderão existir tipos de kits diferentes)
     public int indiceRecuperacaoKitVida = 10;
 
     public int timerPlayer = 0, tempoParado;
     public int timerEnemy = 0;
+
+    public int timerNoDamageEnemy = 0;
+
+    public boolean noDamageStateEnemy = false;
 
     public List<Particula> particulas = new ArrayList<>();
 
@@ -152,68 +176,77 @@ public class Player extends Entity {
     public void tick() {
         // aqui eu inicio a movimentação em parado ==== 0
         movimentacao = 0;
-
         atualX = (int) x;
         atualY = (int) y;
-
         timerPlayer++;
-        double rawTime = timerPlayer / 60;
+        double rawTime = (double) timerPlayer / 60;
         tempoParado = (int) rawTime;
-
-
         timerEnemy++;
 
-        // gerenciamento de update das particulas
+        // reset de invulnerabilidade do inimigo
+        if (noDamageStateEnemy) {
+            timerNoDamageEnemy++;
+            if (timerNoDamageEnemy == 20) {
+                noDamageStateEnemy = false;
+                timerNoDamageEnemy = 0;
+            }
+        }
+
+        // gerenciamento de update das particulas (quando o inimigo é derrotado)
         for (int i = 0; i < particulas.size(); i++) {
             particulas.get(i).update();
             Particula part = particulas.get(i);
             // duração da particula na tela (otimização)
-            if (part.timer >= 60) {
+            if (part.timer >= 100) {
                 particulas.remove(part);
             }
         }
 
+        // testa se estou em uma escada
+        emEscada = colisaoEscada(this.getX(), this.getY());
 
+        // Gravidade
+        // Situação de ação da GRAVIDADE e MOVIMENTO de PLAYER em ESCADAS (pois desafia a gravidade)
         if (!colisao((int) x, (int) (y + 1)) && !isJump && !emEscada) {
-            // não existe a colisão e não estou pulando no inimigo
+            // não existe a colisão não estou em pulo e nem em escada
             // situação normal do player
-            // estou parado de boas
-            // sou empurrado para o chão
-            y += 2;
-
-            // esssa situação foi posta apenas pra teste
-            // caso eu pule em cima do inimigo, eu reduzo a vida dele (e mato se zerar)
-            for (int i = 0; i < Game.inimigo.size(); i++) {
-                Inimigo e = Game.inimigo.get(i);
-                // se o player estiver no eixo x e y do personagem
-
-                // tenho que ajustar a lógica disso...
-                // na verdade, implementar logo o tiro e arpa de impacto
-                if (ataquePulo(this.getX(), this.getY() - 1) && e.getX() == this.getX()) {
-                    isJump = true;
-                    e.life--;
-                    if (e.life == 0) {
-
-                        // adiciona particulas da explosao
-
-                        // adiciona particulas da explosao
-                        for (int j = 0; j < 320; j++) {
-                            particulas.add(new Particula((int) e.x, (int) e.y, 3, 3, Color.BLUE));
-                        }
-
-                        Game.inimigo.remove(e);
-
-                        break;
-                    }
-                    break;
+            // se não existe colisão, eu sou afetado pela gravidade
+            // quando estou em uma escada, a gravidade não me afeta (posso subir e descer)
+            // quando estou em pulo, eu desafio a gravidade pelo tempo do pulo
+            y += 4; // índice de velocidade de queda
+        } else {
+            // regras para movimento em escadas
+            if (emEscada && !colisao((int) x, (int) (y))) {
+                if (down) {
+                    y += speed;
+                    y = (int) y;
                 }
+                if (up) {
+                    y -= speed;
+                    y = (int) y;
+                }
+                movimentacao = 1;
+                timerPlayer = 0;
+            } else {
+                // nesse caso, eu tento me colocar no nivel y da entidade solida ao qual eu colido
+                // evita que o player fique travado no chão
+                Rectangle playerRect = new Rectangle((int) x + maskx, (int) y + masky, maskw, maskh);
 
-
+                for (int i = 0; i < Game.entidades.size(); i++) {
+                    Entity entidade = Game.entidades.get(i);
+                    if (entidade instanceof Solido) {
+                        Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                        if (playerRect.intersects(solido)) {
+                            this.y = entidade.getY() - (SIZEPLAYERY);
+                        }
+                    }
+                }
             }
+
         }
 
         // caso eu me movimente para a direita
-        if (right && !colisao((int) (x + speed), this.getY())) {
+        if (right && !colisao((int) (x + speed), this.getY()) && x <=  (Mundo.WIDTH*Entity.SIZEENTITYX) - SIZEPLAYERX) {
             x += speed;
             movimentacao = 1;
             timerPlayer = 0;
@@ -221,14 +254,14 @@ public class Player extends Entity {
         }
 
         // caso eu me movimente para a esquerda
-        if (left && !colisao((int) (x - speed), this.getY())) {
+        if (left && !colisao((int) (x - speed), this.getY()) && x >= 0) {
             x -= speed;
             movimentacao = 1;
             timerPlayer = 0;
             direcaoAtual = esquerda;
         }
 
-        // momento do pulo
+        // momento do pulo (habilita a condição de estar pulando)
         if (jump) {
             if (colisao(this.getX(), this.getY() + 1)) {
                 isJump = true;
@@ -236,12 +269,21 @@ public class Player extends Entity {
             }
         }
 
-        // durante a execução do pulo
+        System.out.println(jumpTimeSound);
+        // durante a execução do pulo (comportamento)
         if (isJump) {
             timerPlayer = 0;
+
+            if (jumpTimeSound == 0){
+                audioJump = new Audio(soundPathJump, false); // Chamando a classe aonde está o audio.
+                audioJump.start();
+            }
+            jumpTimeSound++;
+
+
             if (!colisao(this.getX(), this.getY() - 2)) {
-                y -= 2;
-                jumpFrames += 2;
+                y -= jumpSpeed;
+                jumpFrames += jumpSpeed;
                 if (jumpFrames == jumpHeigth) {
                     isJump = false;
                     jump = false;
@@ -249,65 +291,61 @@ public class Player extends Entity {
                 }
             } else {
                 isJump = false;
+                jumpTimeSound = 0;
                 jump = false;
                 jumpFrames = 0;
             }
 
+        } else {
+            jumpTimeSound = 0;
         }
 
-
-        //Só deve ser implementado nas fases de nave e para subir e descer escadas
-        if (emEscada) {
-            if (down) {
-                y += speed;
-            }
-            if (up) {
-                y -= speed;
-            }
-            movimentacao = 1;
-            timerPlayer = 0;
-        }
-
+        // ação de ataque em relação ao inimigo (com o cano)
         if (attack) {
 
+            // aqui existe a colisão de ataque pelo cano (passo a minha posição)
+            if (ataqueCano(this.getX(), this.getY())) {
 
-            for (int i = 0; i < Game.inimigo.size(); i++) {
-                Inimigo e = Game.inimigo.get(i);
-                // se o player estiver no eixo x e y do personagem
+                // movimenta o inimigo na direção oposta a que eu me encontro
+                // direita
+                if (direcaoAtual == 1) {
 
-                // tenho que ajustar a lógica disso...
-                // na verdade, implementar logo o tiro e arpa de impacto
-                System.out.println("this.getx"+this.getX());
-                System.out.println("this.gety"+this.getY());
-                System.out.println("enemyGetx" + e.getX());
-                System.out.println("enemyGetY" + e.getY());
-                if (ataqueCano(this.getX(), this.getY())) {
+                    // executo o loop por 19 ticks (índice de afastamento)
+                    for (int j = 0; j < 19; j++) {
+                        if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                            // se não houver objeto para colidir, movimento o inimigo para a direita
+                            enemy.setX(enemy.getX() + 1);
 
-                    System.out.println("life: " + e.life);
-                    e.life--;
-                    e.setX(e.getX()-20);
-                    if (e.life == 0) {
-
-                        // adiciona particulas da explosao
-                        for (int j = 0; j < 320; j++) {
-                            particulas.add(new Particula(e.getX(), e.getY(), 3, 3, Color.BLUE));
+                        } else {
+                            // nesse caso existe objeto para colidir
+                            enemy.setX(enemy.getX() - 3);
                         }
 
-                        Game.inimigo.remove(e);
-
-                        break;
                     }
-                    break;
+                } else {
+                    for (int j = 0; j < 19; j++) {
+                        if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                            // se não houver objeto para colidir, movimento o inimigo para a direita
+                            enemy.setX(enemy.getX() - 1);
+                        } else {
+                            // nesse caso existe objeto para colidir
+                            enemy.setX(enemy.getX() + 3);
+                        }
+
+                    }
+
                 }
 
+                causaDanoInimigo(timerNoDamageEnemy);
 
             }
-
 
 
             timerPlayer = 0;
             movimentacao = 1;
             frames++;
+
+
             if (frames == maxFrames) {
                 indexAtack++;
                 frames = 0;
@@ -316,10 +354,9 @@ public class Player extends Entity {
                 }
             }
 
-
         }
 
-        // mnovimentação do player
+        // movimentação do player
         if (movimentacao == 1) {
             timerPlayer = 0;
             frames++;
@@ -333,6 +370,7 @@ public class Player extends Entity {
 
         } else {
 
+            // em pulo
             if (isJump) {
                 timerPlayer = 0;
                 frames++;
@@ -344,6 +382,8 @@ public class Player extends Entity {
                     }
                 }
             } else {
+
+                // comportamento em idle
                 if (tempoParado > 4) {
                     frames++;
                     if (frames == maxFrames) {
@@ -359,10 +399,8 @@ public class Player extends Entity {
 
         // dano contra o player (deverá levar em consideração a ameaça)
         if (damage((int) (x + speed), this.getY())) {
-
             life -= damageFactor;
         }
-
 
         // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
         if (vida(this.getX(), this.getY()) && life < 100) {
@@ -379,8 +417,11 @@ public class Player extends Entity {
             Game.trashBags.remove(trashBag);
         }
 
-
-        emEscada = colisaoEscada(this.getX(), this.getY());
+        // vidas extras para o player
+        if (pegaVidaExtra(this.getX(), this.getY())) {
+            tentativas++;
+            Game.vidasExtras.remove(vidaExtra);
+        }
 
         // guarda a posição da placa de checkpoint
         if (checkPoint(this.getX(), this.getY())) {
@@ -388,35 +429,49 @@ public class Player extends Entity {
             posy = this.getY();
         }
 
+        // dano de espinhos
+        if (danoEspinho(this.getX(), this.getY())) {
+            life -= damageFactorEspinho;
+        }
+
         // manda de volta para a placa de checkpoint quando a vida chega a zero
         // pode e deve ser melhorado com a tela de game over...
         // que vai perguntar ao player se ele quer voltar ao menu inicial ou se ele quer
         // voltar para o último check point
+
+        if (y >= (Mundo.HEIGHT*Entity.SIZEENTITYY)){
+            life -= damageFactor*4;
+        }
+
         if (life <= 0) {
+
+            tentativas--;
+
             setX(posx);
             setY(posy);
-            // quando volta para o checkPoint, volta com a vida cheia
-            // pode ser alterado para voltar com a vida quando ele encostou no check point
+
             life = 100;
+
+            if (tentativas == 0){
+            Game.gameState = "GAMEOVER";}
         }
 
         // posicionamento da camera, sempre em relaçao ao player
-        Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH / 2), 0, Mundo.WIDTH * Entity.SIZEENTITYX - SIZEPLAYERX);
-        Camera.y = Camera.Clamp(this.getY() - (Game.HEIGTH / 2), 0, Mundo.HEIGHT * Entity.SIZEENTITYY - SIZEPLAYERY);
+        Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH / 2), 0, (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX);
+        Camera.y = Camera.Clamp(this.getY() - (Game.HEIGTH / 2), 0, (Mundo.HEIGHT * Entity.SIZEENTITYY) - SIZEPLAYERY);
 
     }
 
     // colisor base do player
     public boolean colisao(int nextx, int nexty) {
 
-        // tenho que ajustar a colisão da escada
-        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+        Rectangle playerRectangle = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
 
         for (int i = 0; i < Game.entidades.size(); i++) {
             Entity entidade = Game.entidades.get(i);
             if (entidade instanceof Solido) {
                 Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
-                if (player.intersects(solido)) {
+                if (playerRectangle.intersects(solido)) {
                     return true;
                 }
             }
@@ -428,10 +483,10 @@ public class Player extends Entity {
     public boolean checkPoint(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
 
-        for (int i = 0; i < Game.entidades.size(); i++) {
-            Entity entidade = Game.entidades.get(i);
-            if (entidade instanceof CheckPoint) {
-                Rectangle placa = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+        for (int i = 0; i < Game.checkPoints.size(); i++) {
+            Entity checkPoint = Game.checkPoints.get(i);
+            if (checkPoint != null) {
+                Rectangle placa = new Rectangle(checkPoint.getX() + maskx, checkPoint.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(placa)) {
                     return true;
                 }
@@ -439,6 +494,25 @@ public class Player extends Entity {
         }
         return false;
     }
+
+
+    public boolean danoEspinho(int nextx, int nexty) {
+        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+
+        for (int i = 0; i < Game.espinhos.size(); i++) {
+            Entity espinho = Game.espinhos.get(i);
+            if (espinho != null) {
+                Rectangle espinhoRetangulo = new Rectangle(espinho.getX() + maskx, espinho.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                if (player.intersects(espinhoRetangulo)) {
+                    return true;
+
+                }
+            }
+        }
+        return false;
+    }
+
+
 
     // player toma dano dos inimigos
     public boolean damage(int nextx, int nexty) {
@@ -456,37 +530,35 @@ public class Player extends Entity {
         return false;
     }
 
-    // player ataca com pulo o inimigo
-    public boolean ataquePulo(int nextx, int nexty) {
-        Rectangle retanguloPlayer = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+    public void causaDanoInimigo(int timerNoDamageEnemy) {
+        if (timerNoDamageEnemy == 0) {
+            // removo a vida do inimigo
+            enemy.life--;
 
-        for (int i = 0; i < Game.inimigo.size(); i++) {
-            Inimigo inimigo = Game.inimigo.get(i);
-            if (inimigo != null) {
-                Rectangle retanguloInimigo = new Rectangle(inimigo.getX() + maskx, inimigo.getY() + masky, maskw, maskh);
-                if (retanguloPlayer.intersects(retanguloInimigo)) {
-                    enemy = inimigo;
-                    return true;
+            noDamageStateEnemy = true;
+            if (enemy.life == 0) {
+                // adiciona particulas da explosao
+
+                for (int i = 0; i < 100; i++) {
+                    particulas.add(new Particula(enemy.getX()- Camera.x, enemy.getY()-Camera.y, 3, 3, Color.BLUE));
                 }
+
+                Game.inimigo.remove(enemy);
+
             }
+
         }
-        return false;
+
     }
 
     public boolean ataqueCano(int nextx, int nexty) {
 
         int incremento = 0;
-        if (direcaoAtual == esquerda){
-            System.out.println("esquerda");
+        if (direcaoAtual == esquerda) {
             incremento -= Player.SIZEPLAYERX;
-        } else {
-            System.out.println("direita");
-            incremento += Player.SIZEPLAYERX;
         }
 
-        System.out.println("incremento" + incremento);
-
-        Rectangle retanguloPlayer = new Rectangle(nextx + maskx + incremento, nexty + masky, maskw, maskh);
+        Rectangle retanguloPlayer = new Rectangle(nextx + maskx + incremento, nexty + masky, maskw + Player.SIZEPLAYERX, maskh);
 
         for (int i = 0; i < Game.inimigo.size(); i++) {
             Inimigo inimigo = Game.inimigo.get(i);
@@ -494,12 +566,10 @@ public class Player extends Entity {
                 Rectangle retanguloInimigo = new Rectangle(inimigo.getX() + maskx, inimigo.getY() + masky, maskw, maskh);
                 if (retanguloPlayer.intersects(retanguloInimigo)) {
                     enemy = inimigo;
-                    System.out.println("contato");
                     return true;
                 }
             }
         }
-        System.out.println("erro");
         return false;
     }
 
@@ -534,6 +604,22 @@ public class Player extends Entity {
         return false;
     }
 
+    public boolean pegaVidaExtra(int nextx, int nexty) {
+        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+        for (int i = 0; i < Game.vidasExtras.size(); i++) {
+            VidaExtra vidaExtraAtivo = Game.vidasExtras.get(i);
+            if (vidaExtraAtivo != null) {
+                Rectangle trashRetangle = new Rectangle(vidaExtraAtivo.getX() + maskx, vidaExtraAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                if (player.intersects(trashRetangle)) {
+                    vidaExtra = vidaExtraAtivo;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     public boolean colisaoEscada(int nextx, int nexty) {
         Rectangle retanguloPlayer = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.escada.size(); i++) {
@@ -541,16 +627,18 @@ public class Player extends Entity {
 
             Rectangle retanguloEscada = new Rectangle(escada.getX() + maskx, escada.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
             if (retanguloPlayer.intersects(retanguloEscada)) {
-
-                // primeiro - os tipos 1 e 3 são limitadores
-                // se eu chego no 1 não posso mais descer
-                // se eu chego no 3, só posso subir a minha própria altura
-                // se eu estou no bloco 3 posso descer
+                if (escada.tipoEscada == 3) {
+                    posTopoEscada = true;
+                    yTopoEscada = escada.getY();
+                } else {
+                    posTopoEscada = false;
+                }
 
                 return true;
             }
 
         }
+
         return false;
     }
 
@@ -574,6 +662,7 @@ public class Player extends Entity {
         if (direcaoAtual == direita && movimentacao == 0) {
 
             if (isJump) {
+
                 g.drawImage(playerJumpRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else if (emEscada) {
                 g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -624,18 +713,22 @@ public class Player extends Entity {
 
         // ataque (em testes)
         if (attack) {
+
+            if (attackTimeSound == 0){
+                audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
+                audioAttack.start();
+            }
+            attackTimeSound++;
+
             if (direcaoAtual == esquerda) {
-                g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x -Player.SIZEPLAYERX, this.getY() - Camera.y , null);
-                if (indexAtack == 3) {
-                    attack = false;
-                    indexAtack = 0;
-                }
+                g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
             } else {
                 g.drawImage(playerAttackDireita[indexAtack], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                if (indexAtack == 3) {
-                    attack = false;
-                    indexAtack = 0;
-                }
+            }
+            if (indexAtack == 3) {
+                attack = false;
+                indexAtack = 0;
+                attackTimeSound = 0;
             }
 
         }

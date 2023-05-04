@@ -1,7 +1,6 @@
 package entidades.naoSolidos;
 
 import Mundo.Mundo;
-import entidades.player.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class StarSpawner {
     public int timer = 0;
 
     // lista de estrelas
-    public List<Star> stars = new ArrayList<Star>();
+    public List<Star> stars = new ArrayList<>();
 
     // updte (comportamento)
     public void update() {
@@ -56,8 +55,7 @@ public class StarSpawner {
     public void render(Graphics g) {
 
         // para cada item da lista, renderiza uma estrela
-        for (int i = 0; i < stars.size(); i++) {
-            Star current = stars.get(i);
+        for (Star current : stars) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setColor(current.color);
             g2.fillRect(current.x, current.y, current.width, current.height);

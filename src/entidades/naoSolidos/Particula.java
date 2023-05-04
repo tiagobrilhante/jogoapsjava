@@ -10,7 +10,7 @@ public class Particula extends Rectangle {
     public Color color;
 
     // velocidade das particulas
-    public int speed = 0;
+    public int speed;
 
     // direções das particulas
     public double xa, ya;
@@ -30,8 +30,8 @@ public class Particula extends Rectangle {
         this.color = color;
 
         // gera o gaussian para disparar as particulas em direções distintas partindo de um ponto x e y
-        dx = new Random().nextGaussian();
-        dy = new Random().nextGaussian();
+        dx = new Random().nextGaussian()*0.02;
+        dy = new Random().nextGaussian()*0.02;
 
         // velocidade de deslocamento das particulas
         speed = 5;
@@ -41,8 +41,8 @@ public class Particula extends Rectangle {
     // realiza o update das particulas em deslocamento
     public void update() {
 
-        xa += dx * speed;
-        ya += dy * speed;
+        xa += dx * speed*20;
+        ya += dy * speed*20;
 
         timer++;
 

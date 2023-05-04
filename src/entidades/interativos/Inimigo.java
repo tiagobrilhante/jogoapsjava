@@ -4,14 +4,11 @@ import Mundo.Camera;
 import entidades.Entity;
 import entidades.solidos.Solido;
 import main.Game;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Inimigo extends Entity {
 
-    // Tipo de inimigo a ser carregado (ainda não implementado)
-    public String tipo;
+public class Inimigo extends Entity {
 
     // velocidade de deslocamento do inimigo
     // pode mudar de acordo com o inimigo
@@ -47,13 +44,19 @@ public class Inimigo extends Entity {
     // repassa a imagem carregada do inimigo
     public BufferedImage[] inimigo;
 
+    public int identificadorUnico;
+
     // construtor de inimigo
     // passa a posicao inicial (x,Y)
     // tamanho, altura
     // e sprite a ser usado
     // herda de entidade
-    public Inimigo(int x, int y, int width, int height, int tipoInimigo, BufferedImage sprite) {
+    public Inimigo(int identificadorUnico, int x, int y, int width, int height, int tipoInimigo, BufferedImage sprite) {
+
         super(x, y, width, height, sprite);
+
+        this.identificadorUnico = identificadorUnico;
+        this.tipoInimigo = tipoInimigo;
 
         // aqui eu crio a array responsável pelas imagens de movimento do inimigo
         // nesse caso, existem 3 posições (ver spritesheet)
@@ -138,4 +141,23 @@ public class Inimigo extends Entity {
         return false;
     }
 
+
+    @Override
+    public String toString() {
+        return "Inimigo{" +
+                "identificadorUnico=" + identificadorUnico +
+                ", tipoInimigo=" + tipoInimigo +
+                ", life=" + life +
+                ", speed=" + speed +
+                ", movimentacao=" + movimentacao +
+                ", frames=" + frames +
+                ", maxFrames=" + maxFrames +
+                ", index=" + index +
+                ", maxIndex=" + maxIndex +
+                ", maskx=" + maskx +
+                ", masky=" + masky +
+                ", maskw=" + maskw +
+                ", maskh=" + maskh +
+                '}';
+    }
 }

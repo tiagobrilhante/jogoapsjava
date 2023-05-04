@@ -1,7 +1,5 @@
 package Mundo;
 
-import main.Game;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

@@ -3,7 +3,6 @@ package entidades.interativos;
 import entidades.Entity;
 import entidades.solidos.Solido;
 import main.Game;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

@@ -1,26 +1,24 @@
 package main;
-// teste
+
 import Mundo.Mundo;
-import entidades.*;
-import entidades.interativos.Escada;
-import entidades.interativos.Inimigo;
-import entidades.interativos.KitHealth;
-import entidades.interativos.TrashBag;
-import entidades.naoSolidos.Ceu;
-import entidades.naoSolidos.Nuvens;
-import entidades.naoSolidos.StarSpawner;
+import entidades.Entity;
+import entidades.Grama;
+import entidades.interativos.*;
+import entidades.naoSolidos.*;
 import entidades.player.Player;
 import graficos.Spritsheet;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // importante lembrar
 // Entity — todos os comportamentos-base das entidades
@@ -34,127 +32,149 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @Serial
     private static final long serialVersionUID = 1L;
 
+
     // Usa o JFRAME para criar a área do jogo
     public static JFrame jFrame;
-
-    // thread para buferização
-    private Thread thread;
-
-    public int timer = 0;
-    public StarSpawner starSpawner;
-
-    // se o jogo está rodando... começa em verdadeiro
-    private boolean isRuning = true;
-
     // tamanho da tela, tem que ser ajustado
     public static int WIDTH = 520, HEIGTH = 292, SCALE = 2;
 
+    public static Game game;
+    // thread para buferização
+    private Thread thread;
     // usada para definir o fundo a ser aplicado...
     // pode ser usado ou não...
     private BufferedImage fundo;
-
-    // lista de entidades empregada no game
-    public static List<Entity> entidades;
-
-    // instancia sprites
-    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, nuvens;
-
     // instancia o mundo
     public static Mundo mundo;
-
     // instancia o player
     public static Player player;
+    // MENU
+    private final Menu menu;
+    private final GameOver gameOver;
+    //Historia
+    private final Historia historia;
+    //controles
+    private final Controles controles;
+    // instancia a interface do usuário
+    public UserInterface ui;
+    // poeira na tela
+    public StarSpawner starSpawner;
 
+
+    //  ----------- LISTAS  -----------  //
+    // lista de entidades empregada no game
+    public static List<Entity> entidades;
     // prepara a lista de CEU (cenário)
     public static List<Ceu> ceuVetor;
-
+    public static List<WallFundo1> wallFundo1Vetor;
+    public static List<PredioFundo1> predioFundo1Vetor;
+    public static List<CheckPoint> checkPoints;
     public static List<Nuvens> nuvemVetor;
-
-    // popula a tela com kits de vida para o player (lista)
     public static List<KitHealth> kitHealth;
-
-    // popula a tela com TrashBags (lista)
     public static List<TrashBag> trashBags;
-
-    // lista de inimigos (instancia)
+    public static List<VidaExtra> vidasExtras;
     public static List<Inimigo> inimigo;
-
-    // elemento de cenário (entidade com algumas condições especiais)
     public static List<Grama> grama;
-
+    public static List<Espinho> espinhos;
     public static List<Escada> escada;
+    public static List<FundoDarkBrick> darkBricksFundo;
 
-    // chama o menu
-    public static String gameState = "MENU";
-    private Menu menu;
-    // instancia a interface do usuário
-    // tem que ser melhorada
-    public UserInterface ui;
+    // instancia sprites
+    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, predioFundo1, nuvens;
 
-    public String spriteGamePath = "/res/spritesheets/spritesheet32.png";
-    public String spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png";
-    public String spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png";
-    public String spriteCeuPath = "/res/spritesheets/ceusprite.png";
-    public String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
-    public String levelPath = "/res/fases/level1.png";
 
-    public String gameName = "JOGO APS";
+    // objetos base (PATHS)
+    public String spriteGamePath = "/res/spritesheets/spritesheet32.png", spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png",
+            spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png", spriteCeuPath = "/res/spritesheets/ceusprite.png",
+            spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png", spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png",
+            spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png", levelPath = "/res/fases/level1.png";
 
+
+    // se o jogo está rodando... começa em verdadeiro
+    private boolean isRuning = true;
+    private static boolean isPaused = false;
+    public static int timer = 0;
     // definições de level
     // ainda deve implementar a tela inicial do jogo e o menu de opções
     // bem como o game over
     // por enquanto inicia no lvl 1, mas o ocrreto é iniciar no menu
-    public int level = 1, levelMaximo = 2;
+    public static int level = 1;
+    public int levelMaximo = 2;
+    public static String gameName = "JOGO APS", gameState = "MENU";
+
+    public int temp = 0;
 
     // método construtor
     public Game() {
 
         menu = new Menu();
+        gameOver = new GameOver();
+        historia = new Historia();
+        controles = new Controles();
 
         // escutador de teclado
         addKeyListener(this);
-
         // ajusta a preferência do tamanho do container do jogo
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGTH * SCALE));
-
         // inicia os parametros de frames (FPS)
         initFrame();
         // chama a user interface
         ui = new UserInterface();
         // chama o fundo
         fundo = new BufferedImage(WIDTH, HEIGTH, BufferedImage.TYPE_INT_RGB);
+
         // chama as entidades (classe abstrata)
-        entidades = new ArrayList<>();
         // define o sprite a ser usado pelas entidades
+        //sprites para as entidades base
         sprite = new Spritsheet(spriteGamePath);
+        //sprite para jogador
         spritePlayer = new Spritsheet(spritePlayerPath);
+        // sprite para inimigos
         spriteEnemy = new Spritsheet(spriteEnemyPath);
-        // chama o céu
-        ceuVetor = new ArrayList<>();
-        nuvemVetor = new ArrayList<>();
-        // define o sprite a ser usado pelo ceu
+        // sprite para ceu
         ceu = new Spritsheet(spriteCeuPath);
+        // Sprite de fundo
+        wallFundo1 = new Spritsheet(spriteFundo1Path);
+        predioFundo1 = new Spritsheet(spriteFundoPredio1Path);
+        //sprite de nuvem
         nuvens = new Spritsheet(spriteNuvemPath);
-        // chama os kits de vida
+
+        // lista de entidades
+        entidades = new ArrayList<>();
+        // lista de ceu
+        ceuVetor = new ArrayList<>();
+        // lista de vetor de fundo
+        wallFundo1Vetor = new ArrayList<>();
+        predioFundo1Vetor = new ArrayList<>();
+        // lista de nuvens
+        nuvemVetor = new ArrayList<>();
+        // lista de health kit
         kitHealth = new ArrayList<>();
+        // lista de trash bags
         trashBags = new ArrayList<>();
-        // chama os inimigos
+        vidasExtras = new ArrayList<>();
+        // lista de savepoints
+        checkPoints = new ArrayList<>();
+        // lista de inimigos
         inimigo = new ArrayList<>();
-        // chama a grama que não tem colisão
+        // lista de grama
         grama = new ArrayList<>();
-        // escadas
+        espinhos = new ArrayList<>();
+        // lista de escadas
         escada = new ArrayList<>();
+        // lista de darkBrick
+        darkBricksFundo = new ArrayList<>();
+
+
         // chama o player (de acordo com a posição inicial no sprite)
         player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
         // adiciona o player em entidades (só pode haver 1)
         entidades.add(player);
 
+        // spawner de poeira
         starSpawner = new StarSpawner();
 
         // por fim carrega o mundo....
-        //isso provavelmente vai ser modificado para carregar a tela inicial primeiro,
-        // depois o menu...
-        // e por fim, o jogo.
         mundo = new Mundo(levelPath);
     }
 
@@ -173,11 +193,26 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // comportamento esperado quando eu aperto o botão de fechar a janela
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setFocusableWindowState(true);
-        // torno visível a janela
-        jFrame.setVisible(true);
+
+        jFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                jFrame.requestFocusInWindow();
+            }
+        });
+
         jFrame.setFocusable(true);
+
+        // pede o foco para a janela assim que ela aparecer
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().clearFocusOwner();
+        jFrame.requestFocusInWindow();
+
         jFrame.toFront();
         jFrame.requestFocus();
+        // torno visível a janela
+        jFrame.setVisible(true);
+
     }
 
     // main do jogo
@@ -185,15 +220,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // chamo o método start
     public static void main(String[] args) {
 
-        Game game = new Game();
+        game = new Game();
         game.start();
 
     }
 
     // método que realmente inicializa o jogo
     public synchronized void start() {
-        thread = new Thread(this);
         isRuning = true;
+        thread = new Thread(this);
         thread.start();
     }
 
@@ -208,17 +243,74 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     }
 
+    public void resetVariables() {
+        // redefine todas as variáveis para seus valores padrão
+        level = 1;
+        isPaused = false;
+        gameState = "MENU";
+        temp = 0;
+        // recria as listas de entidades
+        entidades = new ArrayList<>();
+        ceuVetor = new ArrayList<>();
+        wallFundo1Vetor = new ArrayList<>();
+        predioFundo1Vetor = new ArrayList<>();
+        checkPoints = new ArrayList<>();
+        nuvemVetor = new ArrayList<>();
+        kitHealth = new ArrayList<>();
+        trashBags = new ArrayList<>();
+        vidasExtras = new ArrayList<>();
+        inimigo = new ArrayList<>();
+        grama = new ArrayList<>();
+        espinhos = new ArrayList<>();
+        escada = new ArrayList<>();
+        darkBricksFundo = new ArrayList<>();
+
+        // reinicia o mundo e o jogador
+        mundo = new Mundo(levelPath);
+        player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
+        Player.pontos = 0;
+        entidades.add(player);
+    }
+
+    public static void restart() {
+        // Reiniciar atributos para recomeçar o jogo
+        Menu.iniciaAudioMenu();
+        game.resetVariables();
+
+    }
+
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {
 
-        if (gameState == "MENU") {
+        if (Objects.equals(gameState, "MENU")) {
             menu.choose();
+            menu.tick();
         }
 
-        if (gameState == "NORMAL") {
+        if (Objects.equals(gameState, "GAMEOVER")) {
+
+            gameOver.choose();
+            gameOver.tick();
+        }
+
+        if (Objects.equals(gameState, "HISTORIA")) {
+
+            historia.choose();
+            // atribuo a responsabilidade para o ceu realizar os ticks do menu
+            historia.tick();
+        }
+
+        if (Objects.equals(gameState, "CONTROLES")) {
+
+            controles.choose();
+            // atribuo a responsabilidade para o ceu realizar os ticks do menu
+            controles.tick();
+        }
+
+        if (Objects.equals(gameState, "NORMAL")) {
             timer++;
 
-            // se não houver lixo, vai pra proxiuma fase
+            // se não houver lixo, vai pra proxima fase
             if (trashBags.size() == 0) {
                 // level inicia em 1 (lá em cima) teste
                 level++;
@@ -238,9 +330,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
-
             // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (Ceu entidade : ceuVetor) {
+                entidade.tick();
+            }
+
+            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
+            for (WallFundo1 entidade : wallFundo1Vetor) {
+                entidade.tick();
+            }
+
+            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
+            for (PredioFundo1 entidade : predioFundo1Vetor) {
                 entidade.tick();
             }
 
@@ -254,8 +355,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para o kitHealth (vida) realizar os ticks dos seus filhos
+            // atribuo a responsabilidade para o trashBag realizar os ticks dos seus filhos
             for (TrashBag entidade : trashBags) {
+                entidade.tick();
+            }
+
+            // atribuo a responsabilidade para o vidaExtra realizar os ticks dos seus filhos
+            for (VidaExtra entidade : vidasExtras) {
                 entidade.tick();
             }
 
@@ -269,13 +375,24 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
+            // atribuo a responsabilidade para grama, que é uma entidade não colisora, realize os seus ticks
+            for (Espinho entidade : espinhos) {
+                entidade.tick();
+            }
+
             // atribuo a responsabilidade para escadas, que é uma entidade não colisora, realize os seus ticks
             for (Escada entidade : escada) {
                 entidade.tick();
             }
 
+            // atribuo a responsabilidade para darkBricks, que é uma entidade não colisora, realize os seus ticks
+            for (FundoDarkBrick entidade : darkBricksFundo) {
+                entidade.tick();
+            }
+
             starSpawner.update();
         }
+
     }
 
     // renderiza os elementos de acordo com a estratégia de buffer
@@ -290,17 +407,24 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // seta o fundo do jogo quando não há elementos gráficos carregados
         Graphics g = fundo.getGraphics();
-        //g.setColor(new Color(0, 0, 0, 0));
-        g.setColor(new Color(0, 0, 0));
-        g.fillRect(0, 0, WIDTH, HEIGTH);
 
+        g.setColor(new Color(26, 122, 62));
+        g.fillRect(0, 0, WIDTH*SCALE, HEIGTH*SCALE);
 
-        // renderiza o mundo
-        Mundo.render(g);
-
+        // renderiza as entidades
         // popula o mundo com o vetor do céu (de acordo com a fase)
         for (Ceu ceu : ceuVetor) {
             ceu.render(g);
+        }
+
+        // popula o mundo com o vetor do céu (de acordo com a fase)
+        for (WallFundo1 wallFundo1 : wallFundo1Vetor) {
+            wallFundo1.render(g);
+        }
+
+        // popula o mundo com o vetor do céu (de acordo com a fase)
+        for (PredioFundo1 predioFundo1 : predioFundo1Vetor) {
+            predioFundo1.render(g);
         }
 
         // popula o mundo com o vetor do céu (de acordo com a fase)
@@ -318,13 +442,25 @@ public class Game extends Canvas implements Runnable, KeyListener {
             entidade.render(g);
         }
 
-        // renderiza os inimigos
-        for (Inimigo entidade : inimigo) {
+        // renderiza os trashBags
+        for (VidaExtra entidade : vidasExtras) {
             entidade.render(g);
         }
 
+        // renderiza os savepoints
+        for (CheckPoint entidade : checkPoints) {
+            entidade.render(g);
+        }
+
+
+
         // renderiza a grama
         for (Grama entidade : grama) {
+            entidade.render(g);
+        }
+
+        // renderiza espinhos
+        for (Espinho entidade : espinhos) {
             entidade.render(g);
         }
 
@@ -333,8 +469,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
             entidade.render(g);
         }
 
-        // renderiza as entidades
+        // renderiza darkBrickFundo
+        for (FundoDarkBrick entidade : darkBricksFundo) {
+            entidade.render(g);
+        }
+
         for (Entity entidade : entidades) {
+            entidade.render(g);
+        }
+
+        // renderiza os inimigos
+        for (Inimigo entidade : inimigo) {
             entidade.render(g);
         }
 
@@ -348,8 +493,24 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g = buffer.getDrawGraphics();
         g.drawImage(fundo, 0, 0, WIDTH * SCALE, HEIGTH * SCALE, null);
 
-        if(gameState == "MENU") {
+        if (Objects.equals(gameState, "MENU")) {
             menu.render(g);
+        }
+
+        if (Objects.equals(gameState, "GAMEOVER")) {
+            gameOver.render(g);
+        }
+
+        if (Objects.equals(gameState, "HISTORIA")) {
+            historia.render(g);
+        }
+
+        if (Objects.equals(gameState, "CONTROLES")) {
+            controles.render(g);
+        }
+
+        if (Objects.equals(gameState, "NORMAL")) {
+            Mundo.render(g);
         }
 
         buffer.show();
@@ -357,36 +518,43 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     //herdado de runnable (gera os ciclos de FPS)
+    // foram implementadas melhorias (possibilidade de pausar o jogo)
+    // Otimizações de processamento
     @Override
     public void run() {
-
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0f;
-        double ms = 1000000000 / amountOfTicks;
+        double ns = 1000000000 / amountOfTicks;
         double delta = 0;
-        int frames = 0;
         double timer = System.currentTimeMillis();
 
         while (isRuning) {
             long now = System.nanoTime();
-            delta += (now - lastTime) / ms;
+            delta += (now - lastTime) / ns;
             lastTime = now;
-            if (delta > 1) {
-                tick();
-                render();
-                frames++;
+            while (delta >= 1) {
+                if (!isPaused) { // verificação de pausa
+                    tick();
+                    render();
+                }
                 delta--;
             }
-            if (System.currentTimeMillis() - timer >= 1000) {
-                // mostra no console os fps... eu comentei por dificulta quando queremos
-                // ter retorno no console de alguma informação
-                //System.out.println("FPS : " + frames);
-                frames = 0;
-                timer += 1000;
+            if (!isPaused) { // verificação de pausa
+                if (System.currentTimeMillis() - timer >= 1000) {
+                    timer += 1000;
+                }
+            }
+
+            // loop de espera para limitar o uso da CPU
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
         stop();
     }
+
 
     // herda de keylistener
     // ouve as teclas do jogo
@@ -396,13 +564,22 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // não vamos trabalhar nela
     }
 
+    public synchronized void togglePause() {
+        isPaused = !isPaused;
+        if (!isPaused) {
+            synchronized (this) {
+                notifyAll(); // notifica todos os threads que estão esperando
+            }
+        }
+    }
+
     // herda de keylistener
     // método para tecla no momento que é apertada
     @Override
     public void keyPressed(KeyEvent e) {
         // temos que ter cuidado aqui, pois as teclas podem significar eventos diferentes de acordo com a fase
         // menu, tela inicial e game over tb
-        if(gameState == "NORMAL") {
+        if (Objects.equals(gameState, "NORMAL")) {
             if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 // tecla D movimenta o player para a direita
                 player.right = true;
@@ -424,9 +601,30 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 // tecla C faz o plauer atacar
                 player.attack = true;
             }
+
+            if (e.getKeyCode() == KeyEvent.VK_P) {
+                // tecla P faz o jogo pausar
+                if (e.getKeyCode() == KeyEvent.VK_P) {
+                    togglePause();
+                }
+            }
         }
 
-        if(gameState == "MENU") {
+        if (Objects.equals(gameState, "HISTORIA")) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                historia.end = true;
+            }
+        }
+
+        if (Objects.equals(gameState, "CONTROLES")) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                controles.end = true;
+            }
+        }
+
+        if (Objects.equals(gameState, "MENU")) {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 menu.up = true;
@@ -440,6 +638,20 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
+        if (Objects.equals(gameState, "GAMEOVER")) {
+            if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                gameOver.up = true;
+            } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+                // tecla S movimenta pra baixo (usado só em determindaos momentos do jogo)
+                gameOver.down = true;
+
+            }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // tecla SPACE faz o plauer pular
+                gameOver.ok = true;
+            }
+        }
 
     }
 
@@ -447,7 +659,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // momento em que a tlecla apertada é solta
     @Override
     public void keyReleased(KeyEvent e) {
-        if(gameState == "NORMAL") {
+        if (Objects.equals(gameState, "NORMAL")) {
             if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 // tecla D movimenta o player para a direita
                 player.right = false;
@@ -467,7 +679,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
         }
 
-        if(gameState == "MENU") {
+        if (Objects.equals(gameState, "MENU")) {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 menu.up = false;
@@ -480,5 +692,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 menu.ok = false;
             }
         }
+
     }
+
+
 }

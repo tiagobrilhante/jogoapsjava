@@ -23,16 +23,21 @@ public class UserInterface {
 
         g.setColor(Color.GREEN);
 
-        g.fillRect(60, (Game.HEIGTH) - (Game.HEIGTH - 266), (int) ((Game.player.life / Game.player.maxLife) * 50), 7);
+        g.fillRect(60, (Game.HEIGTH) - (Game.HEIGTH - 266), (int) ((Player.life / Player.maxLife) * 50), 7);
 
         g.setFont(new Font("Arial", Font.BOLD, 7));
         g.setColor(Color.BLACK);
-        g.drawString("Vida", 65, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
+        g.drawString("Energia", 65, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
 
         g.setFont(new Font("Arial", Font.BOLD, 10));
         g.setColor(Color.BLACK);
         g.drawString("Pontos:  " + Player.pontos, 60, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
 
+        g.drawString("Vidas:  " + Player.tentativas, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
+
+        g.drawString("Tempo:  " + Game.timer/60, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
+        g.drawString("Lixos Restantes:  " + Game.trashBags.size(), 240, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
+        g.drawString("Level:  " + Game.level, 240, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
 
         g.setColor(Color.BLACK);
         g.fillRect(10, (Game.HEIGTH) - (Game.HEIGTH - 261),30, 28 );
