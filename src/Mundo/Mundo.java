@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 // extremamente importante....
@@ -26,8 +25,6 @@ public class Mundo {
     public static int WIDTH, HEIGHT;
     //lista de tiles
     public static Tile[] tiles;
-
-    public int timer = 0;
 
     public static double posX = 0, posY = 0;
 
@@ -325,6 +322,8 @@ public class Mundo {
             Game.nuvemVetor.add(nuvem);
 
 
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -350,6 +349,8 @@ public class Mundo {
                 tile.render(g);
             }
         }
+
+
 
 
     }

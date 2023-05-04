@@ -489,6 +489,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // renderiza a interface do usuário
         ui.render(g);
 
+
+
         // ajusta o buffer do fundo
         g = buffer.getDrawGraphics();
         g.drawImage(fundo, 0, 0, WIDTH * SCALE, HEIGTH * SCALE, null);

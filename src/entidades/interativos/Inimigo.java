@@ -7,6 +7,7 @@ import main.Game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 
 public class Inimigo extends Entity {
@@ -138,7 +139,7 @@ public class Inimigo extends Entity {
     // responsável por renderizar a imagem
     public void render(Graphics g) {
 
-        if (frenteIni == "Esquerda") {
+        if (Objects.equals(frenteIni, "Esquerda")) {
             g.drawImage(inimigoFrenteEsquerda[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
         } else {
             g.drawImage(inimigoFrenteDireita[index], this.getX() - Camera.x, this.getY() - Camera.y, null);

@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 // aqui tem coisas bem importantes sobre a mecânica do player
@@ -44,6 +45,7 @@ public class Player extends Entity {
     // o player começa parado
     public int movimentacao = 0;
 
+    public int[] pontotiro;
     public boolean emEscada;
 
     public static int pontos = 0;
@@ -79,6 +81,9 @@ public class Player extends Entity {
     // inimigo
     public Inimigo enemy;
 
+
+    public boolean shotOut = false;
+
     // kits de vida
     public KitHealth vida;
     public TrashBag trashBag;
@@ -106,7 +111,6 @@ public class Player extends Entity {
     public boolean noDamageStateEnemy = false;
 
     public List<Particula> particulas = new ArrayList<>();
-
 
     // construtor
     public Player(int x, int y, int width, int height, BufferedImage sprite) {
@@ -195,6 +199,7 @@ public class Player extends Entity {
         double rawTime = (double) timerPlayer / 60;
         tempoParado = (int) rawTime;
         timerEnemy++;
+
 
         // reset de invulnerabilidade do inimigo
         if (noDamageStateEnemy) {
@@ -315,48 +320,59 @@ public class Player extends Entity {
         // ação de ataque em relação ao inimigo (com o cano)
         if (attack) {
 
-            // aqui existe a colisão de ataque pelo cano (passo a minha posição)
-            if (ataqueCano(this.getX(), this.getY())) {
+            if (Objects.equals(selectedWeapon, "Cano")) {
+                // aqui existe a colisão de ataque pelo cano (passo a minha posição)
+                if (ataqueCano(this.getX(), this.getY())) {
 
-                // movimenta o inimigo na direção oposta a que eu me encontro
-                // direita
-                if (direcaoAtual == 1) {
+                    // movimenta o inimigo na direção oposta a que eu me encontro
+                    // direita
+                    if (direcaoAtual == 1) {
 
-                    // executo o loop por 19 ticks (índice de afastamento)
-                    for (int j = 0; j < 19; j++) {
-                        if (!enemy.colisao(enemy.getX(), enemy.getY())) {
-                            // se não houver objeto para colidir, movimento o inimigo para a direita
-                            enemy.setX(enemy.getX() + 1);
+                        // executo o loop por 19 ticks (índice de afastamento)
+                        for (int j = 0; j < 19; j++) {
+                            if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                                // se não houver objeto para colidir, movimento o inimigo para a direita
+                                enemy.setX(enemy.getX() + 1);
 
-                        } else {
-                            // nesse caso existe objeto para colidir
-                            enemy.setX(enemy.getX() - 3);
+                            } else {
+                                // nesse caso existe objeto para colidir
+                                enemy.setX(enemy.getX() - 3);
+                            }
+
+                        }
+                    } else {
+                        for (int j = 0; j < 19; j++) {
+                            if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                                // se não houver objeto para colidir, movimento o inimigo para a direita
+                                enemy.setX(enemy.getX() - 1);
+                            } else {
+                                // nesse caso existe objeto para colidir
+                                enemy.setX(enemy.getX() + 3);
+                            }
+
                         }
 
                     }
-                } else {
-                    for (int j = 0; j < 19; j++) {
-                        if (!enemy.colisao(enemy.getX(), enemy.getY())) {
-                            // se não houver objeto para colidir, movimento o inimigo para a direita
-                            enemy.setX(enemy.getX() - 1);
-                        } else {
-                            // nesse caso existe objeto para colidir
-                            enemy.setX(enemy.getX() + 3);
-                        }
 
-                    }
+                    causaDanoInimigo(timerNoDamageEnemy);
 
                 }
+            } else {
 
-                causaDanoInimigo(timerNoDamageEnemy);
+                if (attackTimeSound == 0){
+                // o tick é muito rápido
+                System.out.println("tiro");
+                    System.out.println(Mundo.WIDTH*Entity.SIZEENTITYX + " -  " + Mundo.HEIGHT*Entity.SIZEENTITYY  + " ---- X: " + getX() + " Y " + getY());
+
+                    //Game.tiros.add(new Tiro(this.getX(), this.getY(), 50, 50, Color.YELLOW, "default"));
+                }
+
 
             }
-
 
             timerPlayer = 0;
             movimentacao = 1;
             frames++;
-
 
             if (frames == maxFrames) {
                 indexAtack++;
@@ -628,7 +644,7 @@ public class Player extends Entity {
 
     public synchronized void toggleWeapon() {
 
-        if (selectedWeapon == "Cano") {
+        if (Objects.equals(selectedWeapon, "Cano")) {
             selectedWeapon = "Arma";
         } else {
             selectedWeapon = "Cano";
@@ -656,6 +672,8 @@ public class Player extends Entity {
 
         return false;
     }
+
+
 
 
     // renderiza tudão
@@ -736,14 +754,14 @@ public class Player extends Entity {
             attackTimeSound++;
 
             if (direcaoAtual == esquerda) {
-                if (selectedWeapon == "Cano") {
+                if (Objects.equals(selectedWeapon, "Cano")) {
                     g.drawImage(playerAttackEsquerda[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
                 } else {
                     g.drawImage(playerAttackEsquerdaArma[indexAtack], this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, null);
                 }
 
             } else {
-                if (selectedWeapon == "Cano") {
+                if (Objects.equals(selectedWeapon, "Cano")) {
                     g.drawImage(playerAttackDireita[indexAtack], this.getX() - Camera.x, this.getY() - Camera.y, null);
                 } else {
                     g.drawImage(playerAttackDireitaArma[indexAtack], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -756,6 +774,13 @@ public class Player extends Entity {
             }
 
         }
+
+
+        if (shotOut){
+            g.setColor(Color.BLACK);
+            g.fillRect(pontotiro[0]/Game.SCALE, pontotiro[1]/Game.SCALE, 50, 50);
+        }
+
 
         // fazer a animação de dash
 
