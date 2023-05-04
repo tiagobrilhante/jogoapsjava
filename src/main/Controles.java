@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 public class Controles {
     public int currentOption = 0;
     public boolean end;
-    private final Font font;
     public static Spritsheet animaMenu;
     public static Spritsheet fundoMenu;
     public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
@@ -31,7 +30,6 @@ public class Controles {
         }
 
         fundoMenuSimples[0] = fundoMenu.getSprite(0,0, 520,292);
-        font = new Font("Arial", Font.BOLD, 24);
 
     }
 
@@ -64,10 +62,6 @@ public class Controles {
         g.setColor(new Color(255, 255, 255));
 
         g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);
-
-        // define a fonte original para os demais textos
-        g.setFont(font);
-        g.drawString("Aperte ENTER para voltar", 600, 510);
 
         g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
 

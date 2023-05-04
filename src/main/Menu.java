@@ -16,8 +16,6 @@ public class Menu {
     public int maxOption = options.length - 1;
     public boolean up, down, ok;
     private BufferedImage imagem;
-    private Font font;
-
     public static Spritsheet animaMenu;
     public static Spritsheet fundoMenu;
     public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
@@ -54,7 +52,6 @@ public class Menu {
             imagem = ImageIO.read(inputStream);
             // agora você pode usar a variável 'imagem' para manipular a imagem PNG
 
-            font = new Font("Arial", Font.BOLD, 24);
         } catch (IOException e) {
             System.out.println("Erro ao carregar a imagem: " + e.getMessage());
         }
@@ -123,22 +120,11 @@ public class Menu {
 
         g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);
 
-        // define a nova fonte
-        Font biggerFont = font.deriveFont(60f);
-        g.setFont(biggerFont);
-        g.drawString(Game.gameName, (Game.WIDTH * Game.SCALE)  - 650, 100);
 
-        // define a fonte original para os demais textos
-        g.setFont(font);
-        g.drawString("JOGAR", 650, 350);
-        g.drawString("LEADERBOARDS", 650, 390);
-        g.drawString("CONTROLES", 650, 430);
-        g.drawString("SAIR", 650, 470);
-
-        if (currentOption == 0) g.drawImage(imagem, 620, 330, null);
-        if (currentOption == 1) g.drawImage(imagem, 620, 370, null);
-        if (currentOption == 2) g.drawImage(imagem, 620, 410, null);
-        if (currentOption == 3) g.drawImage(imagem, 620, 450, null);
+        if (currentOption == 0) g.drawImage(imagem, 615, 330, null);
+        if (currentOption == 1) g.drawImage(imagem, 615, 368, null);
+        if (currentOption == 2) g.drawImage(imagem, 615, 406, null);
+        if (currentOption == 3) g.drawImage(imagem, 615, 444, null);
 
         g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
 
