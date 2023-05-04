@@ -85,7 +85,7 @@ public class Entity {
     public static BufferedImage escadaBase = Game.sprite.getSprite(posEscadaBase[0], posEscadaBase[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage espinho = Game.sprite.getSprite(posEspinho[0], posEspinho[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage galhoSeco = Game.sprite.getSprite(posGalhoSeco[0], posGalhoSeco[1], SIZEENTITYX, SIZEENTITYY);
-    public static BufferedImage inimigo = Game.spriteEnemy.getSprite(0, 0, SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage inimigo = Game.spriteEnemy.getSprite(0, 48, SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage kitHealth = Game.sprite.getSprite(posKitHealth[0], posKitHealth[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage trashBag = Game.sprite.getSprite(posTrashBag[0], posTrashBag[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage vidaExtra = Game.sprite.getSprite(posVidaExtra[0], posVidaExtra[1], SIZEENTITYX, SIZEENTITYY);

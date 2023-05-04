@@ -27,8 +27,6 @@ public class Player extends Entity {
     Audio audioAttack = new Audio(null, false);
     Audio audioJump = new Audio(null, false);
 
-
-
     public static double atualX, atualY;
 
     // velocidade de deslocamento do player
@@ -269,7 +267,6 @@ public class Player extends Entity {
             }
         }
 
-        System.out.println(jumpTimeSound);
         // durante a execução do pulo (comportamento)
         if (isJump) {
             timerPlayer = 0;
@@ -512,15 +509,13 @@ public class Player extends Entity {
         return false;
     }
 
-
-
-    // player toma dano dos inimigos
+    // player toma dano dos inimigos no contato
     public boolean damage(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.inimigo.size(); i++) {
             Inimigo entidade = Game.inimigo.get(i);
             if (entidade != null) {
-                Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh);
+                Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(solido)) {
                     enemy = entidade;
                     return true;
@@ -563,7 +558,7 @@ public class Player extends Entity {
         for (int i = 0; i < Game.inimigo.size(); i++) {
             Inimigo inimigo = Game.inimigo.get(i);
             if (inimigo != null) {
-                Rectangle retanguloInimigo = new Rectangle(inimigo.getX() + maskx, inimigo.getY() + masky, maskw, maskh);
+                Rectangle retanguloInimigo = new Rectangle(inimigo.getX() + maskx, inimigo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (retanguloPlayer.intersects(retanguloInimigo)) {
                     enemy = inimigo;
                     return true;

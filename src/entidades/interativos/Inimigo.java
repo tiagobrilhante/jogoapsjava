@@ -4,6 +4,7 @@ import Mundo.Camera;
 import entidades.Entity;
 import entidades.solidos.Solido;
 import main.Game;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -20,11 +21,13 @@ public class Inimigo extends Entity {
     // (poderia ser usado boolean)
     public int movimentacao = 1;
 
+    public String frenteIni = "Esquerda";
+
     // ajusta o tipo de inimigo
     public int tipoInimigo;
 
     // tamanho base dos inimigos
-    public static int SIZEENEMYX = 16, SIZEENEMYY = 16;
+    public static int SIZEENEMYX = 32, SIZEENEMYY = 32;
 
     // frames = momento inicial dos frames do inimigo (para loop)
     // maxFrames = numero máximo de frames para reinicio do loop
@@ -43,6 +46,8 @@ public class Inimigo extends Entity {
 
     // repassa a imagem carregada do inimigo
     public BufferedImage[] inimigo;
+    public BufferedImage[] inimigoFrenteEsquerda;
+    public BufferedImage[] inimigoFrenteDireita;
 
     public int identificadorUnico;
 
@@ -63,18 +68,29 @@ public class Inimigo extends Entity {
 
         if (tipoInimigo == 1) {
 
-            inimigo = new BufferedImage[4];
+            inimigoFrenteEsquerda = new BufferedImage[4];
+            inimigoFrenteDireita = new BufferedImage[4];
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
-                inimigo[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 0, SIZEENEMYX, SIZEENEMYY);
+                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 48, SIZEENEMYX, SIZEENEMYY);
             }
-        } else if (tipoInimigo == 2){
-            inimigo = new BufferedImage[4];
+
+            for (int i = 0; i < 4; i++) {
+                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 80, SIZEENEMYX, SIZEENEMYY);
+            }
+
+        } else if (tipoInimigo == 2) {
+            inimigoFrenteEsquerda = new BufferedImage[4];
+            inimigoFrenteDireita = new BufferedImage[4];
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
-                inimigo[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 16, SIZEENEMYX, SIZEENEMYY);
+                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 112, SIZEENEMYX, SIZEENEMYY);
+            }
+
+            for (int i = 0; i < 4; i++) {
+                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 144, SIZEENEMYX, SIZEENEMYY);
             }
         }
     }
@@ -93,6 +109,7 @@ public class Inimigo extends Entity {
         // tenta se movimentar para a posição onde está o player... pode ser melhorado
         // nesse caso movimenta para a ESQUERDA
         if (Game.player.getX() < this.getX() && !colisao((int) (x - speed), this.getY())) {
+            frenteIni = "Esquerda";
             x -= speed;
             // movimentacao =1;
         }
@@ -100,6 +117,7 @@ public class Inimigo extends Entity {
         // nesse caso movimenta o inimigo para a DIREITA
         if (Game.player.getX() > this.getX() && !colisao((int) (x + speed), this.getY())) {
             x += speed;
+            frenteIni = "Direita";
             // movimentacao =1;
         }
 
@@ -119,7 +137,12 @@ public class Inimigo extends Entity {
 
     // responsável por renderizar a imagem
     public void render(Graphics g) {
-        g.drawImage(inimigo[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+
+        if (frenteIni == "Esquerda") {
+            g.drawImage(inimigoFrenteEsquerda[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        } else {
+            g.drawImage(inimigoFrenteDireita[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        }
 
     }
 
