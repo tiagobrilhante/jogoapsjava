@@ -26,9 +26,11 @@ public class Player extends Entity {
 
     public static String soundPathAttack = "src/res/sounds/soundfx/attack.wav";
     public static String soundPathJump = "src/res/sounds/soundfx/jump.wav";
+    public static String soundPathTiro = "src/res/sounds/soundfx/go.wav";
 
     Audio audioAttack = new Audio(null, false);
     Audio audioJump = new Audio(null, false);
+    Audio audioTiro = new Audio(null, false);
 
     public static double atualX, atualY;
 
@@ -360,6 +362,8 @@ public class Player extends Entity {
                 if (attackTimeSound == 0) {
                     // o tick é muito rápido
                     if (qtdTiro > 0) {
+                        audioTiro = new Audio(soundPathTiro, false); // Chamando a classe aonde está o audio.
+                        audioTiro.start();
                         Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y, 50, 50, null));
                     }
 
@@ -648,8 +652,9 @@ public class Player extends Entity {
     public synchronized void toggleWeapon() {
 
         if (Objects.equals(selectedWeapon, "Cano")) {
-            if (qtdTiro > 0){
-            selectedWeapon = "Arma";}
+            if (qtdTiro > 0) {
+                selectedWeapon = "Arma";
+            }
         } else {
             selectedWeapon = "Cano";
         }
@@ -750,8 +755,10 @@ public class Player extends Entity {
         if (attack) {
 
             if (attackTimeSound == 0) {
-                audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
-                audioAttack.start();
+                if (selectedWeapon == "Cano") {
+                    audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
+                    audioAttack.start();
+                }
             }
             attackTimeSound++;
 
