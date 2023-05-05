@@ -359,11 +359,8 @@ public class Player extends Entity {
 
                 if (attackTimeSound == 0) {
                     // o tick é muito rápido
-                    System.out.println("tiro");
-                    System.out.println(Mundo.WIDTH * Entity.SIZEENTITYX + " -  " + Mundo.HEIGHT * Entity.SIZEENTITYY + " ---- X: " + getX() + " Y " + getY());
-
                     if (qtdTiro > 0) {
-                        Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x, this.getY() - Camera.y, 50, 50, null));
+                        Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y, 50, 50, null));
                     }
 
                     if (qtdTiro > 0) {

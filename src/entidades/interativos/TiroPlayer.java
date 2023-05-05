@@ -2,10 +2,7 @@ package entidades.interativos;
 
 
 import Mundo.Camera;
-import Mundo.Mundo;
 import entidades.Entity;
-import entidades.player.Player;
-import entidades.solidos.Solido;
 import main.Game;
 
 import java.awt.*;
@@ -44,19 +41,10 @@ public class TiroPlayer extends Entity {
 
     public void tick() {
 
-        System.out.println("tick - " + " mundo: " + Mundo.HEIGHT*32);
-
-        System.out.println(Game.tirosPLayer);
-
         xa += dx + speed;
         x = (int) xa;
         y = ya - Camera.y;
         timer++;
-
-        if (colisao((int)x,(int)y)){
-            System.out.println("colidiu");
-        }
-
 
     }
 
@@ -64,26 +52,29 @@ public class TiroPlayer extends Entity {
     public void render(Graphics g) {
 
         g.setColor(Color.BLACK);
-        g.fillRect((int)( xa), (int)(ya), dimensoesTiro[0], dimensoesTiro[1]);
+        g.fillRect((int) (xa), (int) (ya), dimensoesTiro[0], dimensoesTiro[1]);
 
     }
 
     public boolean colisao(int nextx, int nexty) {
+        System.out.println("testando colisão");
+        System.out.println("quantidade de entidades: " + Game.entidades.size());
 
-        Rectangle tiroRetangle = new Rectangle((int)xa, (int)ya, dimensoesTiro[0], dimensoesTiro[1]);
+        Rectangle tiroRetangle = new Rectangle((int) xa, (int) ya, dimensoesTiro[0], dimensoesTiro[1]);
+        System.out.println("retangulo de tiro: " + tiroRetangle);
 
         for (int i = 0; i < Game.entidades.size(); i++) {
             Entity entidade = Game.entidades.get(i);
-            if (entidade instanceof Solido) {
-                Rectangle solido = new Rectangle(entidade.getX() + Entity.SIZEENTITYX, entidade.getY() + Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
-                if (tiroRetangle.intersects(solido)) {
-                    return true;
-                }
+            Rectangle solido = new Rectangle(entidade.getX(), entidade.getY(), Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+            if (tiroRetangle.intersects(solido)) {
+                System.out.println("true");
+                return true;
             }
+
         }
+        System.out.println("F");
         return false;
     }
-
 
 
 }

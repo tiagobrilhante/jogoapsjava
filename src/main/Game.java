@@ -340,7 +340,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             for (int i = 0; i < tirosPLayer.size(); i++) {
                 TiroPlayer myShot = tirosPLayer.get(i);
-                if (myShot.x >= Mundo.HEIGHT*32 || myShot.x < 0){
+
+                if (myShot.x >= Mundo.HEIGHT*32-300 || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)){
                     Game.tirosPLayer.remove(myShot);
                 }
             }
