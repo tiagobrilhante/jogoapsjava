@@ -366,7 +366,6 @@ public class Player extends Entity {
                         audioTiro = new Audio(soundPathTiro, false); // Chamando a classe aonde está o audio.
                         audioTiro.start();
 
-                        System.out.println(direcaoAtual);
                         if (direcaoAtual == 1) {
                             Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y, 50, 50, null));
                         } else {
