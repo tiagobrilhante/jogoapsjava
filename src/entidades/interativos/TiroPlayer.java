@@ -3,6 +3,7 @@ package entidades.interativos;
 
 import Mundo.Camera;
 import entidades.Entity;
+import entidades.naoSolidos.Particula;
 import entidades.player.Player;
 import main.Game;
 
@@ -42,14 +43,6 @@ public class TiroPlayer extends Entity {
 
     public void tick() {
 
-        /*
-        if (Player.direcaoAtual == 1){
-            xa -= dx + speed;
-        } else {
-            xa += dx + speed;
-        }
-*/
-
         if (Player.direcaoAtual == 1) {
             xa += dx + speed;
         } else {
@@ -81,6 +74,19 @@ public class TiroPlayer extends Entity {
 
         }
         return false;
+    }
+
+
+    public Entity colisaoInimigo(int nextx, int nexty) {
+        Rectangle tiroRetangle = new Rectangle((int) xa, (int) ya, dimensoesTiro[0], dimensoesTiro[1]);
+        for (int i = 0; i < Game.inimigo.size(); i++) {
+            Inimigo entidade = Game.inimigo.get(i);
+            Rectangle solido = new Rectangle(entidade.getX(), entidade.getY(), Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+            if (tiroRetangle.intersects(solido)) {
+                return entidade;
+            }
+        }
+        return null;
     }
 
 
