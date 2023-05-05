@@ -57,6 +57,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     //controles
     private final Controles controles;
     // instancia a interface do usuário
+    private final Sobre sobre;
     public UserInterface ui;
     // poeira na tela
     public StarSpawner starSpawner;
@@ -79,6 +80,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<Espinho> espinhos;
     public static List<Escada> escada;
     public static List<FundoDarkBrick> darkBricksFundo;
+    public static List<TiroPlayer> tirosPLayer;
 
     // instancia sprites
     public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, predioFundo1, nuvens;
@@ -112,6 +114,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         gameOver = new GameOver();
         historia = new Historia();
         controles = new Controles();
+        sobre = new Sobre();
 
         // escutador de teclado
         addKeyListener(this);
@@ -165,6 +168,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         escada = new ArrayList<>();
         // lista de darkBrick
         darkBricksFundo = new ArrayList<>();
+        tirosPLayer = new ArrayList<>();
 
 
         // chama o player (de acordo com a posição inicial no sprite)
@@ -265,6 +269,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         espinhos = new ArrayList<>();
         escada = new ArrayList<>();
         darkBricksFundo = new ArrayList<>();
+        tirosPLayer = new ArrayList<>();
 
         // reinicia o mundo e o jogador
         mundo = new Mundo(levelPath);
@@ -308,6 +313,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
             controles.tick();
         }
 
+        if (Objects.equals(gameState, "SOBRE")) {
+
+            sobre.choose();
+            // atribuo a responsabilidade para o ceu realizar os ticks do menu
+            sobre.tick();
+        }
+
         if (Objects.equals(gameState, "NORMAL")) {
             timer++;
 
@@ -324,6 +336,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 // aqui eu monto a string do arquivo base pra enviar para que o mundo carregue a nova fase
                 String Level = "level" + level + ".png";
                 Mundo.newlevel(Level);
+            }
+
+            for (int i = 0; i < tirosPLayer.size(); i++) {
+                TiroPlayer myShot = tirosPLayer.get(i);
+                if (myShot.x >= Mundo.HEIGHT*32 || myShot.x < 0){
+                    Game.tirosPLayer.remove(myShot);
+                }
             }
 
             // atribuo a responsabilidade para a entidade realizar os ticks dos seus filhos
@@ -388,6 +407,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             // atribuo a responsabilidade para darkBricks, que é uma entidade não colisora, realize os seus ticks
             for (FundoDarkBrick entidade : darkBricksFundo) {
+                entidade.tick();
+            }
+
+            // atribuo a responsabilidade para tiroPLayer, realize os seus ticks
+            for (TiroPlayer entidade : tirosPLayer) {
                 entidade.tick();
             }
 
@@ -474,6 +498,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
             entidade.render(g);
         }
 
+        // renderiza darkBrickFundo
+        for (TiroPlayer entidade : tirosPLayer) {
+            entidade.render(g);
+        }
+
         for (Entity entidade : entidades) {
             entidade.render(g);
         }
@@ -488,8 +517,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // renderiza a interface do usuário
         ui.render(g);
-
-
 
         // ajusta o buffer do fundo
         g = buffer.getDrawGraphics();
@@ -509,6 +536,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         if (Objects.equals(gameState, "CONTROLES")) {
             controles.render(g);
+        }
+
+        if (Objects.equals(gameState, "SOBRE")) {
+            sobre.render(g);
         }
 
         if (Objects.equals(gameState, "NORMAL")) {
@@ -630,6 +661,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 controles.end = true;
+            }
+        }
+
+        if (Objects.equals(gameState, "SOBRE")) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                sobre.end = true;
             }
         }
 

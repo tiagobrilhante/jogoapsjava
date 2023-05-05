@@ -2,9 +2,9 @@ package entidades;
 
 import Mundo.Camera;
 import main.Game;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 
 // classse muito importante
 // gerencia aspectos de comportamentos das entidades
@@ -109,6 +109,7 @@ public class Entity {
 
     // ticks de entidades (repassam o comportamento para as entidades específicas)
     public void tick() {
+
     }
 
     // render das entidades (em relação ao player)

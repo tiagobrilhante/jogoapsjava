@@ -364,7 +364,8 @@ public class Player extends Entity {
                 System.out.println("tiro");
                     System.out.println(Mundo.WIDTH*Entity.SIZEENTITYX + " -  " + Mundo.HEIGHT*Entity.SIZEENTITYY  + " ---- X: " + getX() + " Y " + getY());
 
-                    //Game.tiros.add(new Tiro(this.getX(), this.getY(), 50, 50, Color.YELLOW, "default"));
+
+                    Game.tirosPLayer.add(new TiroPlayer(this.getX()- Camera.x, this.getY()- Camera.y, 50, 50, null));
                 }
 
 

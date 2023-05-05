@@ -10,7 +10,7 @@ import java.io.InputStream;
 import Mundo.Audio;
 
 public class Menu {
-    public String[] options = {"Jogar", "Leaderboards", "Controles", "Sair"};
+    public String[] options = {"Jogar", "Leaderboards", "Controles","Sobre", "Sair"};
 
     public int currentOption = 0;
     public int maxOption = options.length - 1;
@@ -95,6 +95,10 @@ public class Menu {
                 Game.gameState = "CONTROLES";
             }
             if (currentOption == 3) {
+                //mostra a aba sobre
+                Game.gameState = "SOBRE";
+            }
+            if (currentOption == 4) {
                 //fecha o jogo
                 System.exit(0);
             }
@@ -121,10 +125,11 @@ public class Menu {
         g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);
 
 
-        if (currentOption == 0) g.drawImage(imagem, 615, 330, null);
-        if (currentOption == 1) g.drawImage(imagem, 615, 368, null);
-        if (currentOption == 2) g.drawImage(imagem, 615, 406, null);
-        if (currentOption == 3) g.drawImage(imagem, 615, 444, null);
+        if (currentOption == 0) g.drawImage(imagem, 615, 322, null);
+        if (currentOption == 1) g.drawImage(imagem, 615, 357, null);
+        if (currentOption == 2) g.drawImage(imagem, 615, 391, null);
+        if (currentOption == 3) g.drawImage(imagem, 615, 425, null);
+        if (currentOption == 4) g.drawImage(imagem, 615, 459, null);
 
         g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
 
