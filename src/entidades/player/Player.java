@@ -22,7 +22,7 @@ public class Player extends Entity {
     // movimentação basica do player
     public boolean right, left, down, up;
 
-    public String selectedWeapon;
+    public static String selectedWeapon;
 
     public static String soundPathAttack = "src/res/sounds/soundfx/attack.wav";
     public static String soundPathJump = "src/res/sounds/soundfx/jump.wav";
@@ -45,7 +45,6 @@ public class Player extends Entity {
     // o player começa parado
     public int movimentacao = 0;
 
-    public int[] pontotiro;
     public boolean emEscada;
 
     public static int pontos = 0;
@@ -81,13 +80,12 @@ public class Player extends Entity {
     // inimigo
     public Inimigo enemy;
 
-
-    public boolean shotOut = false;
-
     // kits de vida
     public KitHealth vida;
     public TrashBag trashBag;
     public VidaExtra vidaExtra;
+
+    public static int qtdTiro = 5;
 
     public boolean posTopoEscada;
     public int yTopoEscada;
@@ -359,13 +357,20 @@ public class Player extends Entity {
                 }
             } else {
 
-                if (attackTimeSound == 0){
-                // o tick é muito rápido
-                System.out.println("tiro");
-                    System.out.println(Mundo.WIDTH*Entity.SIZEENTITYX + " -  " + Mundo.HEIGHT*Entity.SIZEENTITYY  + " ---- X: " + getX() + " Y " + getY());
+                if (attackTimeSound == 0) {
+                    // o tick é muito rápido
+                    System.out.println("tiro");
+                    System.out.println(Mundo.WIDTH * Entity.SIZEENTITYX + " -  " + Mundo.HEIGHT * Entity.SIZEENTITYY + " ---- X: " + getX() + " Y " + getY());
 
+                    if (qtdTiro > 0) {
+                        Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x, this.getY() - Camera.y, 50, 50, null));
+                    }
 
-                    Game.tirosPLayer.add(new TiroPlayer(this.getX()- Camera.x, this.getY()- Camera.y, 50, 50, null));
+                    if (qtdTiro > 0) {
+                        qtdTiro--;
+                    } else {
+                        selectedWeapon = "Cano";
+                    }
                 }
 
 
@@ -646,7 +651,8 @@ public class Player extends Entity {
     public synchronized void toggleWeapon() {
 
         if (Objects.equals(selectedWeapon, "Cano")) {
-            selectedWeapon = "Arma";
+            if (qtdTiro > 0){
+            selectedWeapon = "Arma";}
         } else {
             selectedWeapon = "Cano";
         }
@@ -673,8 +679,6 @@ public class Player extends Entity {
 
         return false;
     }
-
-
 
 
     // renderiza tudão
@@ -775,13 +779,6 @@ public class Player extends Entity {
             }
 
         }
-
-
-        if (shotOut){
-            g.setColor(Color.BLACK);
-            g.fillRect(pontotiro[0]/Game.SCALE, pontotiro[1]/Game.SCALE, 50, 50);
-        }
-
 
         // fazer a animação de dash
 

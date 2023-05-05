@@ -11,11 +11,11 @@ public class UserInterface {
     public void render(Graphics g) {
 
         g.setColor(Color.GRAY);
-        g.fillRect(0, (Game.HEIGTH) - (Game.HEIGTH - 258), Game.WIDTH, Game.HEIGTH - (Game.HEIGTH - 150) );
+        g.fillRect(0, (Game.HEIGTH) - (Game.HEIGTH - 258), Game.WIDTH, Game.HEIGTH - (Game.HEIGTH - 150));
+
 
         g.setColor(Color.BLACK);
         g.fillRect(59, (Game.HEIGTH) - (Game.HEIGTH - 265), 52, 9);
-
 
         g.setColor(Color.RED);
         g.fillRect(60, (Game.HEIGTH) - (Game.HEIGTH - 266), 50, 7);
@@ -31,16 +31,25 @@ public class UserInterface {
 
         g.setFont(new Font("Arial", Font.BOLD, 10));
         g.setColor(Color.BLACK);
-        g.drawString("Pontos:  " + Player.pontos, 60, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
+        g.drawString("Municao:  " + Player.qtdTiro, 60, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
 
         g.drawString("Vidas:  " + Player.tentativas, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
 
-        g.drawString("Tempo:  " + Game.timer/60, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
+        g.drawString("Tempo:  " + Game.timer / 60, 150, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
         g.drawString("Lixos Restantes:  " + Game.trashBags.size(), 240, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
         g.drawString("Level:  " + Game.level, 240, (Game.HEIGTH) - (Game.HEIGTH - 266) + 20);
 
         g.setColor(Color.BLACK);
-        g.fillRect(10, (Game.HEIGTH) - (Game.HEIGTH - 261),30, 28 );
+        g.drawString("Pontos:  " + Player.pontos, 400, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
+
+        // cano é retangulo preto, arma de fogo amarelo
+        if (Player.selectedWeapon == "Cano") {
+            g.setColor(Color.BLACK);
+        } else {
+            g.setColor(Color.YELLOW);
+        }
+
+        g.fillRect(10, (Game.HEIGTH) - (Game.HEIGTH - 261), 30, 28);
     }
 
 }
