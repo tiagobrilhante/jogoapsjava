@@ -41,8 +41,9 @@ public class Player extends Entity {
     public static double life = 100, maxLife = 100;
 
     // o player começa a fase virado para a direita
-    public int direita = 1, esquerda = 0;
-    public int direcaoAtual = direita;
+    public static int direita = 1;
+    public static int esquerda = 0;
+    public  static int direcaoAtual = direita;
 
     // o player começa parado
     public int movimentacao = 0;
@@ -364,7 +365,13 @@ public class Player extends Entity {
                     if (qtdTiro > 0) {
                         audioTiro = new Audio(soundPathTiro, false); // Chamando a classe aonde está o audio.
                         audioTiro.start();
-                        Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y, 50, 50, null));
+
+                        System.out.println(direcaoAtual);
+                        if (direcaoAtual == 1) {
+                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y, 50, 50, null));
+                        } else {
+                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x -10, this.getY() - Camera.y, 50, 50, null));
+                        }
                     }
 
                     if (qtdTiro > 0) {

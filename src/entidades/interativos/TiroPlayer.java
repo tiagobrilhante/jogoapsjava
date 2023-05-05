@@ -3,6 +3,7 @@ package entidades.interativos;
 
 import Mundo.Camera;
 import entidades.Entity;
+import entidades.player.Player;
 import main.Game;
 
 import java.awt.*;
@@ -41,7 +42,20 @@ public class TiroPlayer extends Entity {
 
     public void tick() {
 
-        xa += dx + speed;
+        /*
+        if (Player.direcaoAtual == 1){
+            xa -= dx + speed;
+        } else {
+            xa += dx + speed;
+        }
+*/
+
+        if (Player.direcaoAtual == 1) {
+            xa += dx + speed;
+        } else {
+            xa -= dx + speed;
+        }
+
         x = (int) xa;
         y = ya - Camera.y;
         timer++;
