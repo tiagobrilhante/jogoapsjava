@@ -88,7 +88,7 @@ public class Player extends Entity {
     public TrashBag trashBag;
     public VidaExtra vidaExtra;
 
-    public static int qtdTiro = 5;
+    public static int qtdTiro = 15;
 
     public boolean posTopoEscada;
     public int yTopoEscada;
@@ -325,36 +325,6 @@ public class Player extends Entity {
                 // aqui existe a colisão de ataque pelo cano (passo a minha posição)
                 if (ataqueCano(this.getX(), this.getY())) {
 
-                    // movimenta o inimigo na direção oposta a que eu me encontro
-                    // direita
-                    if (direcaoAtual == 1) {
-
-                        // executo o loop por 19 ticks (índice de afastamento)
-                        for (int j = 0; j < 19; j++) {
-                            if (!enemy.colisao(enemy.getX(), enemy.getY())) {
-                                // se não houver objeto para colidir, movimento o inimigo para a direita
-                                enemy.setX(enemy.getX() + 1);
-
-                            } else {
-                                // nesse caso existe objeto para colidir
-                                enemy.setX(enemy.getX() - 3);
-                            }
-
-                        }
-                    } else {
-                        for (int j = 0; j < 19; j++) {
-                            if (!enemy.colisao(enemy.getX(), enemy.getY())) {
-                                // se não houver objeto para colidir, movimento o inimigo para a direita
-                                enemy.setX(enemy.getX() - 1);
-                            } else {
-                                // nesse caso existe objeto para colidir
-                                enemy.setX(enemy.getX() + 3);
-                            }
-
-                        }
-
-                    }
-
                     causaDanoInimigo(timerNoDamageEnemy);
 
                 }
@@ -572,7 +542,7 @@ public class Player extends Entity {
             enemy.life--;
 
             noDamageStateEnemy = true;
-            if (enemy.life == 0) {
+            if (enemy.life <= 0) {
                 // adiciona particulas da explosao
 
                 for (int i = 0; i < 100; i++) {
@@ -583,6 +553,61 @@ public class Player extends Entity {
 
             }
 
+        }
+
+        // movimenta o inimigo na direção oposta a que eu me encontro
+        // direita
+        if (direcaoAtual == 1 && selectedWeapon == "Cano") {
+
+            // executo o loop por 19 ticks (índice de afastamento)
+            for (int j = 0; j < 19; j++) {
+                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                    // se não houver objeto para colidir, movimento o inimigo para a direita
+                    enemy.setX(enemy.getX() + 1);
+
+                } else {
+                    // nesse caso existe objeto para colidir
+                    enemy.setX(enemy.getX() - 3);
+                }
+
+            }
+        } else if (direcaoAtual == 0 && selectedWeapon == "Cano"){
+            for (int j = 0; j < 19; j++) {
+                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                    // se não houver objeto para colidir, movimento o inimigo para a direita
+                    enemy.setX(enemy.getX() - 1);
+                } else {
+                    // nesse caso existe objeto para colidir
+                    enemy.setX(enemy.getX() + 3);
+                }
+
+            }
+
+        } else if (direcaoAtual == 1 && selectedWeapon != "Cano") {
+
+            for (int j = 0; j < 19; j++) {
+                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                    // se não houver objeto para colidir, movimento o inimigo para a direita
+                    enemy.setX(enemy.getX() + 1);
+
+                } else {
+                    // nesse caso existe objeto para colidir
+                    enemy.setX(enemy.getX() - 3);
+                }
+
+            }
+        } else if (direcaoAtual == 0 && selectedWeapon != "Cano") {
+
+            for (int j = 0; j < 19; j++) {
+                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                    // se não houver objeto para colidir, movimento o inimigo para a direita
+                    enemy.setX(enemy.getX() - 1);
+                } else {
+                    // nesse caso existe objeto para colidir
+                    enemy.setX(enemy.getX() + 3);
+                }
+
+            }
         }
 
     }
