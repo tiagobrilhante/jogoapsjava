@@ -68,6 +68,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<Entity> entidades;
     // prepara a lista de CEU (cenário)
     public static List<Ceu> ceuVetor;
+    public static List<MountainsParalax> mountainVetor;
     public static List<WallFundo1> wallFundo1Vetor;
     public static List<PredioFundo1> predioFundo1Vetor;
     public static List<CheckPoint> checkPoints;
@@ -84,12 +85,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<TiroPlayer> tirosPLayer;
 
     // instancia sprites
-    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, wallFundo1, predioFundo1, nuvens;
+    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, mountain, wallFundo1, predioFundo1, nuvens;
 
 
     // objetos base (PATHS)
     public String spriteGamePath = "/res/spritesheets/spritesheet32.png", spritePlayerPath = "/res/spritesheets/spritesheetPlayer.png",
             spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png", spriteCeuPath = "/res/spritesheets/ceusprite.png",
+            spriteMountainPath = "/res/spritesheets/mountain1lvlsprite.png",
             spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png", spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png",
             spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png", levelPath = "/res/fases/level1.png";
 
@@ -138,6 +140,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         spriteEnemy = new Spritsheet(spriteEnemyPath);
         // sprite para ceu
         ceu = new Spritsheet(spriteCeuPath);
+        mountain = new Spritsheet(spriteMountainPath);
         // Sprite de fundo
         wallFundo1 = new Spritsheet(spriteFundo1Path);
         predioFundo1 = new Spritsheet(spriteFundoPredio1Path);
@@ -148,6 +151,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         entidades = new ArrayList<>();
         // lista de ceu
         ceuVetor = new ArrayList<>();
+        mountainVetor = new ArrayList<>();
         // lista de vetor de fundo
         wallFundo1Vetor = new ArrayList<>();
         predioFundo1Vetor = new ArrayList<>();
@@ -259,6 +263,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // recria as listas de entidades
         entidades = new ArrayList<>();
         ceuVetor = new ArrayList<>();
+        mountainVetor = new ArrayList<>();
         wallFundo1Vetor = new ArrayList<>();
         predioFundo1Vetor = new ArrayList<>();
         checkPoints = new ArrayList<>();
@@ -372,6 +377,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
             }
 
             // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
+            for (MountainsParalax entidade : mountainVetor) {
+                entidade.tick();
+            }
+
+            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (WallFundo1 entidade : wallFundo1Vetor) {
                 entidade.tick();
             }
@@ -461,6 +471,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // popula o mundo com o vetor do céu (de acordo com a fase)
         for (Ceu ceu : ceuVetor) {
             ceu.render(g);
+        }
+
+        for (MountainsParalax mountain : mountainVetor) {
+            mountain.render(g);
         }
 
         // popula o mundo com o vetor do céu (de acordo com a fase)

@@ -72,6 +72,7 @@ public class Entity {
     public static BufferedImage tijoloDeserto = Game.sprite.getSprite(posTijoloDeserto[0], posTijoloDeserto[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage empty = Game.sprite.getSprite(posEmpty[0], posEmpty[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 3200, 800);
+    public static BufferedImage mountainParalax = Game.mountain.getSprite(0, 0, 3200, 800);
     public static BufferedImage wallFundo1 = Game.wallFundo1.getSprite(0, 0, 224, 128);
     public static BufferedImage predioFundo1 = Game.predioFundo1.getSprite(0, 0, 224, 300);
     public static BufferedImage nuvens = Game.nuvens.getSprite(0, 0, 1471, 700);

@@ -10,3 +10,5 @@ public class Ceu extends Entity {
         super(x, y, width, height, sprite);
     }
 }
+
+

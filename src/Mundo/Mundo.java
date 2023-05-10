@@ -47,7 +47,8 @@ public class Mundo {
             corJuncaoSimplesFundoDireita = 0xFFf22778, corFundoDarkBrickBase = 0xFF0e5050,
             corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949,
             corFundoDarkBrickBrokenBase1 = 0xFF0e1052, corWallFundo1 = 0xFF2d3425, corPredioFundo1 = 0xFF157920,
-            corChaoIsoladoMeioVertical = 0xFF2d2c7a, corPedra1 = 0xFF1a3917, corVidaExtra = 0xFF97df67, corAmmuBox = 0xFF827719;
+            corChaoIsoladoMeioVertical = 0xFF2d2c7a, corPedra1 = 0xFF1a3917, corVidaExtra = 0xFF97df67, corAmmuBox = 0xFF827719,
+            corMountainParalax= 0xFF3e7682;
 
     public static String gameSpritePath = "/res/spritesheets/spritesheet32.png";
     public static String ceuSpritePath = "/res/spritesheets/ceusprite.png";
@@ -305,6 +306,11 @@ public class Mundo {
                         Ceu ceu = new Ceu(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.ceu);
                         Game.ceuVetor.add(ceu);
                     }
+
+                    else if (pixelAtual == corMountainParalax) {
+                        MountainsParalax mountainsParalax = new MountainsParalax(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.mountainParalax);
+                        Game.mountainVetor.add(mountainsParalax);
+                    }
                     else if (pixelAtual == corWallFundo1) {
                         WallFundo1 wallFundo1 = new WallFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.wallFundo1);
                         Game.wallFundo1Vetor.add(wallFundo1);
@@ -365,6 +371,7 @@ public class Mundo {
         // recarga de listas
         Game.entidades = new ArrayList<>();
         Game.ceuVetor = new ArrayList<>();
+        Game.mountainVetor = new ArrayList<>();
         Game.nuvemVetor = new ArrayList<>();
         Game.predioFundo1Vetor = new ArrayList<>();
         Game.wallFundo1Vetor = new ArrayList<>();
