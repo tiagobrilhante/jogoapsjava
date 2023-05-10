@@ -87,7 +87,7 @@ public class Menu {
 
             }
             if (currentOption == 1) {
-                //leaderboards (falta implementar)
+                Game.gameState = "LEADERBOARDS";
             }
 
             if (currentOption == 2) {

@@ -56,8 +56,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
     private final Historia historia;
     //controles
     private final Controles controles;
-    // instancia a interface do usuário
+    private final LeaderBoard leaderBoard;
     private final Sobre sobre;
+    // instancia a interface do usuário
     public UserInterface ui;
     // poeira na tela
     public StarSpawner starSpawner;
@@ -118,6 +119,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         historia = new Historia();
         controles = new Controles();
         sobre = new Sobre();
+        leaderBoard = new LeaderBoard();
 
         // escutador de teclado
         addKeyListener(this);
@@ -322,6 +324,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
             controles.choose();
             // atribuo a responsabilidade para o ceu realizar os ticks do menu
             controles.tick();
+        }
+
+        if (Objects.equals(gameState, "LEADERBOARDS")) {
+
+            leaderBoard.choose();
+            // atribuo a responsabilidade para o realizar os ticks do leadboards
+            leaderBoard.tick();
         }
 
         if (Objects.equals(gameState, "SOBRE")) {
@@ -577,6 +586,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
             controles.render(g);
         }
 
+        if (Objects.equals(gameState, "LEADERBOARDS")) {
+            leaderBoard.render(g);
+        }
+
         if (Objects.equals(gameState, "SOBRE")) {
             sobre.render(g);
         }
@@ -700,6 +713,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
                 controles.end = true;
+            }
+        }
+
+        if (Objects.equals(gameState, "LEADERBOARDS")) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // tecla W movimenta pra cima (usado só em determindaos momentos do jogo)
+                leaderBoard.end = true;
             }
         }
 
