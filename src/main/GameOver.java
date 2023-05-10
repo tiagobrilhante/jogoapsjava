@@ -21,7 +21,7 @@ public class GameOver {
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
-    public static int gameoverTimer;
+    public static int gameoverTimer = 0;
 
     public GameOver() {
         gameoverTimer = 0;
@@ -71,7 +71,6 @@ public class GameOver {
                         PrintWriter escritor = new PrintWriter(arquivo);
                         for (Integer num : numeros) {
                             escritor.println(num);
-                            System.out.println(num);
                         }
                         escritor.close();
                     }
@@ -116,6 +115,7 @@ public class GameOver {
     }
 
     public void tick() {
+
         if (gameoverTimer == 0) {
             lerArquivo();
         }

@@ -8,6 +8,7 @@ import entidades.interativos.*;
 import entidades.naoSolidos.Particula;
 import entidades.solidos.Solido;
 import main.Game;
+import main.GameOver;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -468,6 +469,7 @@ public class Player extends Entity {
             life = 100;
 
             if (tentativas == 0) {
+                GameOver.gameoverTimer = 0;
                 Game.gameState = "GAMEOVER";
             }
         }
