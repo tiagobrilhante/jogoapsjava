@@ -2,11 +2,15 @@ package main;
 
 
 import entidades.player.Player;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class GameOver {
     public String[] options = {"Voltar para o menu", "Sair"};
@@ -17,8 +21,10 @@ public class GameOver {
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
-    public GameOver() {
+    public static int gameoverTimer;
 
+    public GameOver() {
+        gameoverTimer = 0;
         try {
             ClassLoader classLoader = getClass().getClassLoader();
             InputStream inputStream = classLoader.getResourceAsStream("res/spaceship1small.png");
@@ -29,6 +35,53 @@ public class GameOver {
             System.out.println("Erro ao carregar a imagem: " + e.getMessage());
         }
     }
+
+
+    public void lerArquivo() {
+        try {
+            if (Objects.equals(Game.gameState, "GAMEOVER")) {
+                File arquivo = new File("src/score/leaderboard.txt");
+                Scanner scanner = new Scanner(arquivo);
+
+                if (arquivo.length() == 0) {
+                    if (Player.pontos > 0) {
+                        PrintWriter escritor = new PrintWriter(arquivo);
+                        escritor.println(Player.pontos);
+                        escritor.close();
+                    }
+                } else {
+                    ArrayList<Integer> numeros = new ArrayList<>(); // lista para armazenar os números
+
+                    while (scanner.hasNextLine()) {
+                        String linha = scanner.nextLine(); // lê a linha do arquivo
+                        int valor = Integer.parseInt(linha); // converte o número para inteiro
+                        numeros.add(valor); // armazena na lista
+                    }
+
+                    scanner.close();
+
+                    if (Player.pontos > 0) {
+                        numeros.add(Player.pontos);
+                        numeros.sort(Collections.reverseOrder());
+                        if (numeros.size() > 3) {
+                            numeros.remove(3);
+                        }
+
+                        // imprime a lista
+                        PrintWriter escritor = new PrintWriter(arquivo);
+                        for (Integer num : numeros) {
+                            escritor.println(num);
+                            System.out.println(num);
+                        }
+                        escritor.close();
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado!");
+        }
+    }
+
 
     public void choose() {
         if (down) {
@@ -63,8 +116,13 @@ public class GameOver {
     }
 
     public void tick() {
+        if (gameoverTimer == 0) {
+            lerArquivo();
+        }
+        gameoverTimer++;
+
         frames++;
-        if (frames >= maxFrames/3) {
+        if (frames >= maxFrames / 3) {
             index++;
             frames = 0;
             if (index > maxIndex) {
@@ -73,6 +131,7 @@ public class GameOver {
         }
 
     }
+
 
     public void render(Graphics g) {
 

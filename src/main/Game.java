@@ -276,8 +276,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // reinicia o mundo e o jogador
         mundo = new Mundo(levelPath);
-        player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
+        player = new Player(64, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
         Player.pontos = 0;
+        Player.tentativas = 3;
+        Player.qtdTiro = 5;
+        GameOver.gameoverTimer = 0;
         entidades.add(player);
     }
 

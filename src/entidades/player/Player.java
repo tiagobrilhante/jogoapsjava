@@ -89,7 +89,7 @@ public class Player extends Entity {
     public VidaExtra vidaExtra;
     public AmmunitionExtra ammoBox;
 
-    public static int qtdTiro = 15;
+    public static int qtdTiro = 5;
 
     public boolean posTopoEscada;
     public int yTopoEscada;
