@@ -104,7 +104,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // por enquanto inicia no lvl 1, mas o ocrreto é iniciar no menu
     public static int level = 1;
     public int levelMaximo = 2;
-    public static String gameName = "ScrAPSWorld", gameState = "MENU";
+    public static String gameName = "ScrAPS World", gameState = "MENU";
 
     public int temp = 0;
 
