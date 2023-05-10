@@ -87,6 +87,7 @@ public class Player extends Entity {
     public KitHealth vida;
     public TrashBag trashBag;
     public VidaExtra vidaExtra;
+    public AmmunitionExtra ammoBox;
 
     public static int qtdTiro = 15;
 
@@ -434,6 +435,12 @@ public class Player extends Entity {
             Game.vidasExtras.remove(vidaExtra);
         }
 
+        // vidas extras para o player
+        if (pegaMunicaoExtra(this.getX(), this.getY())) {
+            qtdTiro+= ammoBox.qtdTiroBox;
+            Game.ammunitionExtras.remove(ammoBox);
+        }
+
         // guarda a posição da placa de checkpoint
         if (checkPoint(this.getX(), this.getY())) {
             posx = this.getX();
@@ -680,6 +687,21 @@ public class Player extends Entity {
         return false;
     }
 
+    public boolean pegaMunicaoExtra(int nextx, int nexty) {
+        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+        for (int i = 0; i < Game.ammunitionExtras.size(); i++) {
+            AmmunitionExtra ammoBoxAtivo = Game.ammunitionExtras.get(i);
+            if (ammoBoxAtivo != null) {
+                Rectangle trashRetangle = new Rectangle(ammoBoxAtivo.getX() + maskx, ammoBoxAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                if (player.intersects(trashRetangle)) {
+                    ammoBox = ammoBoxAtivo;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public synchronized void toggleWeapon() {
 
         if (Objects.equals(selectedWeapon, "Cano")) {
@@ -814,13 +836,6 @@ public class Player extends Entity {
             }
 
         }
-
-        // fazer a animação de dash
-
-        // fazer a animação de tiro
-
-        // fazer a animação de arma de impacto
-
 
     }
 }

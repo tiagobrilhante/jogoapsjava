@@ -75,6 +75,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static List<KitHealth> kitHealth;
     public static List<TrashBag> trashBags;
     public static List<VidaExtra> vidasExtras;
+    public static List<AmmunitionExtra> ammunitionExtras;
     public static List<Inimigo> inimigo;
     public static List<Grama> grama;
     public static List<Espinho> espinhos;
@@ -157,6 +158,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         // lista de trash bags
         trashBags = new ArrayList<>();
         vidasExtras = new ArrayList<>();
+        ammunitionExtras = new ArrayList<>();
         // lista de savepoints
         checkPoints = new ArrayList<>();
         // lista de inimigos
@@ -264,6 +266,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         kitHealth = new ArrayList<>();
         trashBags = new ArrayList<>();
         vidasExtras = new ArrayList<>();
+        ammunitionExtras = new ArrayList<>();
         inimigo = new ArrayList<>();
         grama = new ArrayList<>();
         espinhos = new ArrayList<>();
@@ -395,6 +398,11 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 entidade.tick();
             }
 
+            // atribuo a responsabilidade para o ammunitionExtra realizar os ticks dos seus filhos
+            for (AmmunitionExtra entidade : ammunitionExtras) {
+                entidade.tick();
+            }
+
             // atribuo a responsabilidade para o inimigo realizar os ticks dos seus filhos
             for (Inimigo entidade : inimigo) {
                 entidade.tick();
@@ -477,8 +485,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
             entidade.render(g);
         }
 
-        // renderiza os trashBags
+        // renderiza vidas extras
         for (VidaExtra entidade : vidasExtras) {
+            entidade.render(g);
+        }
+
+        // renderiza os ammuBox
+        for (AmmunitionExtra entidade : ammunitionExtras) {
             entidade.render(g);
         }
 

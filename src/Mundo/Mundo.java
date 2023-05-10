@@ -47,7 +47,7 @@ public class Mundo {
             corJuncaoSimplesFundoDireita = 0xFFf22778, corFundoDarkBrickBase = 0xFF0e5050,
             corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949,
             corFundoDarkBrickBrokenBase1 = 0xFF0e1052, corWallFundo1 = 0xFF2d3425, corPredioFundo1 = 0xFF157920,
-            corChaoIsoladoMeioVertical = 0xFF2d2c7a, corPedra1 = 0xFF1a3917, corVidaExtra = 0xFF97df67;
+            corChaoIsoladoMeioVertical = 0xFF2d2c7a, corPedra1 = 0xFF1a3917, corVidaExtra = 0xFF97df67, corAmmuBox = 0xFF827719;
 
     public static String gameSpritePath = "/res/spritesheets/spritesheet32.png";
     public static String ceuSpritePath = "/res/spritesheets/ceusprite.png";
@@ -265,6 +265,10 @@ public class Mundo {
                         VidaExtra vidaExtra = new VidaExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.vidaExtra);
                         Game.vidasExtras.add(vidaExtra);
                     }
+                    else if (pixelAtual == corAmmuBox) {
+                        AmmunitionExtra ammunitionExtra = new AmmunitionExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.ammunitionExtra);
+                        Game.ammunitionExtras.add(ammunitionExtra);
+                    }
                     else if (pixelAtual == corGrama) {
                         Grama grama = new Grama(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.grama);
                         Game.entidades.add(grama);
@@ -369,6 +373,7 @@ public class Mundo {
         Game.darkBricksFundo = new ArrayList<>();
         Game.trashBags = new ArrayList<>();
         Game.vidasExtras = new ArrayList<>();
+        Game.ammunitionExtras = new ArrayList<>();
         Game.grama = new ArrayList<>();
         Game.kitHealth = new ArrayList<>();
         Game.inimigo = new ArrayList<>();

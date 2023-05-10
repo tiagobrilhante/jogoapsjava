@@ -29,7 +29,7 @@ public class Entity {
             posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0},
             posFundoDarkBrickEsquerdo = {96,128}, posFundoDarkBrickDireito = {160,128}, posFundoDarkBrickBase = {128,128},
             posFundoDarkBrickBrokenBase1 = {96,160}, posCahoIsoladoMeioVertical = {160,96}, posPedra1 = {128,96},
-            posVidaExtra = {128,160};
+            posVidaExtra = {128,160}, posAmmunitionExtra = {160,160};
     // ajustar ceu e nuvens
     // ajustar inimigo
 
@@ -89,6 +89,7 @@ public class Entity {
     public static BufferedImage kitHealth = Game.sprite.getSprite(posKitHealth[0], posKitHealth[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage trashBag = Game.sprite.getSprite(posTrashBag[0], posTrashBag[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage vidaExtra = Game.sprite.getSprite(posVidaExtra[0], posVidaExtra[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage ammunitionExtra = Game.sprite.getSprite(posAmmunitionExtra[0], posAmmunitionExtra[1], SIZEENTITYX, SIZEENTITYY);
 
 
     // posicionamento das entidades (public)
