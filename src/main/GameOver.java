@@ -117,15 +117,13 @@ public class GameOver {
                         if (result == JOptionPane.OK_OPTION) {
                             String nome = textField.getText();
                             // salvar o nome do jogador ou fazer outras operações com o nome aqui
-                           /* PrintWriter escritor = new PrintWriter(arquivo);
+                            PrintWriter escritor = new PrintWriter(arquivo);
                             escritor.println(Player.pontos + " - " + nome);
                             escritor.close();
-                            */
 
                         }
 
-
-
+                        /*
                         numeros.add(Player.pontos);
                         numeros.sort(Collections.reverseOrder());
                         if (numeros.size() > 3) {
@@ -138,6 +136,8 @@ public class GameOver {
                             escritor.println(num);
                         }
                         escritor.close();
+                        */
+
                     }
                 }
             }
