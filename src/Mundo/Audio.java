@@ -10,20 +10,19 @@ public class Audio {
 
     public Audio(String soundPath , boolean repeat) {
         if (soundPath != null) {
-            try {
-                // Local absoluto de onde tá o arquivo
-                // funciona com WAV - ainda não testei mp3
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundPath).getAbsoluteFile());
-                clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                // Repete a música continuamente
-                if (repeat) {
-                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+            File file = new File(soundPath);
+            if (file.exists()) {
+                try {
+                    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
+                    clip = AudioSystem.getClip();
+                    clip.open(audioInputStream);
+                    if (repeat) {
+                        clip.loop(Clip.LOOP_CONTINUOUSLY);
+                    }
+                } catch (Exception ex) {
+                    System.out.println("Erro ao executar SOM!");
+                    ex.printStackTrace();
                 }
-            } catch (Exception ex) {
-                // exception no console
-                System.out.println("Erro ao executar SOM!");
-                ex.printStackTrace();
             }
         }
     }

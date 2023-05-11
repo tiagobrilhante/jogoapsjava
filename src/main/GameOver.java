@@ -140,12 +140,14 @@ public class GameOver {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
         g.drawString("GAME OVER", Game.WIDTH / 2 + 160, Game.HEIGTH / 2 + 50);
+        g.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        g.drawString("Pontuação: " + Player.pontos, Game.WIDTH / 2 + 200, Game.HEIGTH / 2 + 90);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString(options[0], Game.WIDTH / 2 + 80, Game.HEIGTH / 2 + 130);
-        g.drawString(options[1], Game.WIDTH / 2 + 80, Game.HEIGTH / 2 + 180);
+        g.drawString(options[0], Game.WIDTH / 2 + 80, Game.HEIGTH / 2 + 160);
+        g.drawString(options[1], Game.WIDTH / 2 + 80, Game.HEIGTH / 2 + 210);
 
-        if (currentOption == 0) g.drawImage(imagem, Game.WIDTH / 2 + 40, Game.HEIGTH / 2 + 110, null);
-        if (currentOption == 1) g.drawImage(imagem, Game.WIDTH / 2 + 40, Game.HEIGTH / 2 + 160, null);
+        if (currentOption == 0) g.drawImage(imagem, Game.WIDTH / 2 + 40, Game.HEIGTH / 2 + 140, null);
+        if (currentOption == 1) g.drawImage(imagem, Game.WIDTH / 2 + 40, Game.HEIGTH / 2 + 200, null);
 
     }
 

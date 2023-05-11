@@ -29,7 +29,7 @@ public class Entity {
             posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0},
             posFundoDarkBrickEsquerdo = {96,128}, posFundoDarkBrickDireito = {160,128}, posFundoDarkBrickBase = {128,128},
             posFundoDarkBrickBrokenBase1 = {96,160}, posCahoIsoladoMeioVertical = {160,96}, posPedra1 = {128,96},
-            posVidaExtra = {128,160}, posAmmunitionExtra = {160,160};
+            posVidaExtra = {128,160}, posAmmunitionExtra = {160,160}, posJuncaoUmBlocoDireita = {288,32}, posJuncaoUmBlocoEsquerda = {288,64};
     // ajustar ceu e nuvens
     // ajustar inimigo
 
@@ -67,6 +67,8 @@ public class Entity {
     public static BufferedImage buSimples = Game.sprite.getSprite(posBuSimples[0], posBuSimples[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoDupla1 = Game.sprite.getSprite(posJuncaoDupla1[0], posJuncaoDupla1[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoDupla2 = Game.sprite.getSprite(posJuncaoDupla2[0], posJuncaoDupla2[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage juncaoUmBlocoDireita = Game.sprite.getSprite(posJuncaoUmBlocoDireita[0], posJuncaoUmBlocoDireita[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage juncaoUmBlocoEsquerda = Game.sprite.getSprite(posJuncaoUmBlocoEsquerda[0], posJuncaoUmBlocoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoSimplesLateralTopoDireita = Game.sprite.getSprite(posJuncaoSimplesLateralTopoDireita[0], posJuncaoSimplesLateralTopoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoSimplesFundoDireita = Game.sprite.getSprite(posJuncaoSimplesFundoDireita[0], posJuncaoSimplesFundoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage tijoloDeserto = Game.sprite.getSprite(posTijoloDeserto[0], posTijoloDeserto[1], SIZEENTITYX, SIZEENTITYY);
