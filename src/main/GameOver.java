@@ -4,6 +4,7 @@ package main;
 import entidades.player.Player;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -37,6 +38,8 @@ public class GameOver {
     }
 
 
+
+
     public void lerArquivo() {
         try {
             if (Objects.equals(Game.gameState, "GAMEOVER")) {
@@ -45,22 +48,84 @@ public class GameOver {
 
                 if (arquivo.length() == 0) {
                     if (Player.pontos > 0) {
-                        PrintWriter escritor = new PrintWriter(arquivo);
-                        escritor.println(Player.pontos);
-                        escritor.close();
+                        /*
+                        String nome = JOptionPane.showInputDialog(null, "Digite seu nome:");
+
+                        if (nome != null && !nome.isEmpty()) {
+                            System.out.println(nome);
+                        }
+                        */
+
+                        JTextField textField = new JTextField();
+                        JPanel panel = new JPanel(new GridLayout(0, 1));
+                        panel.add(new JLabel("Digite seu nome:"));
+                        panel.add(textField);
+
+                        int result = JOptionPane.showOptionDialog(null, panel, "Você obteve um record",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+                        if (result == JOptionPane.OK_OPTION) {
+                            String nome = textField.getText();
+                            // salvar o nome do jogador ou fazer outras operações com o nome aqui
+                            PrintWriter escritor = new PrintWriter(arquivo);
+                            escritor.println(Player.pontos + " - " + nome);
+                            escritor.close();
+                        }
+
+
+
                     }
                 } else {
                     ArrayList<Integer> numeros = new ArrayList<>(); // lista para armazenar os números
+                    ArrayList<String> pessoas = new ArrayList<>(); // lista para armazenar os números
 
                     while (scanner.hasNextLine()) {
                         String linha = scanner.nextLine(); // lê a linha do arquivo
-                        int valor = Integer.parseInt(linha); // converte o número para inteiro
+                        String[] partes = linha.split(" ", 2);
+
+                        int valor = Integer.parseInt(partes[0]); // converte o número para inteiro
+                        String nome = partes[1]; // recupera o nome
                         numeros.add(valor); // armazena na lista
+                        pessoas.add(nome); // armazena na lista
                     }
 
                     scanner.close();
 
-                    if (Player.pontos > 0) {
+
+
+                    boolean maiorQueTodos = true;
+
+                    for (int i = 0; i < numeros.size(); i++) {
+                        if (Player.pontos <= numeros.get(i)) {
+                            maiorQueTodos = false;
+                            break;
+                        }
+                    }
+
+
+                    if (maiorQueTodos) {
+
+
+                        JTextField textField = new JTextField();
+                        JPanel panel = new JPanel(new GridLayout(0, 1));
+                        panel.add(new JLabel("Digite seu nome:"));
+                        panel.add(textField);
+
+                        int result = JOptionPane.showOptionDialog(null, panel, "Você obteve um record",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+                        if (result == JOptionPane.OK_OPTION) {
+                            String nome = textField.getText();
+                            // salvar o nome do jogador ou fazer outras operações com o nome aqui
+                           /* PrintWriter escritor = new PrintWriter(arquivo);
+                            escritor.println(Player.pontos + " - " + nome);
+                            escritor.close();
+                            */
+
+                        }
+
+
+
                         numeros.add(Player.pontos);
                         numeros.sort(Collections.reverseOrder());
                         if (numeros.size() > 3) {
