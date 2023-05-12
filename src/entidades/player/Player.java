@@ -25,9 +25,9 @@ public class Player extends Entity {
 
     public static String selectedWeapon;
 
-    public static String soundPathAttack = "src/res/sounds/soundfx/attack.wav";
-    public static String soundPathJump = "src/res/sounds/soundfx/jump.wav";
-    public static String soundPathTiro = "src/res/sounds/soundfx/go.wav";
+    public static String soundPathAttack = "/res/sounds/soundfx/attack.wav";
+    public static String soundPathJump = "/res/sounds/soundfx/jump.wav";
+    public static String soundPathTiro = "/res/sounds/soundfx/go.wav";
 
     Audio audioAttack = new Audio(null, false);
     Audio audioJump = new Audio(null, false);

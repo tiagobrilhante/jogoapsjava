@@ -21,7 +21,7 @@ public class Menu {
     public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
     public String fundoMenuPath = "/res/spritesheets/testemenu.png";
 
-    public static String soundPath = "src/res/sounds/soundtracks/fase0.wav";
+    public static String soundPath = "/res/sounds/soundtracks/fase0.wav";
 
     public BufferedImage[] playerMenuAnima;
     public BufferedImage[] fundoMenuSimples;

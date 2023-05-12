@@ -15,7 +15,7 @@ public class Historia {
     public BufferedImage[] playerMenuAnima;
     public BufferedImage[] fundoMenuSimples;
 
-    public static Audio audio = new Audio("src/res/sounds/soundtracks/fase2.wav", true);
+    public static Audio audio = new Audio("/res/sounds/soundtracks/fase2.wav", true);
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
@@ -41,7 +41,7 @@ public class Historia {
             if (currentOption == 0) {
                 //inicia o jogo
                 audio.stop();
-                audio = new Audio("src/res/sounds/soundtracks/fase"+Game.level+".wav", true);
+                audio = new Audio("/res/sounds/soundtracks/fase"+Game.level+".wav", true);
                 Game.gameState = "NORMAL";
                 audio.start();
 
