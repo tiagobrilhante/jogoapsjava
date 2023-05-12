@@ -77,9 +77,11 @@ public class LeaderBoard {
             File arquivo = new File("src/score/leaderboard.txt");
             Scanner scanner = new Scanner(arquivo);
 
+            int saltoLinha = 100;
             while (scanner.hasNextLine()) {
                 String linha = scanner.nextLine(); // lê a linha do arquivo
-                g.drawString( linha, Game.WIDTH / 2 + 160, Game.HEIGTH / 2 + 100);
+                g.drawString( linha, Game.WIDTH / 2 + 160, Game.HEIGTH / 2 + saltoLinha);
+                saltoLinha+=40;
 
             }
         } catch (FileNotFoundException e) {

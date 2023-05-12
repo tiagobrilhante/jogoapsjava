@@ -46,98 +46,84 @@ public class GameOver {
                 File arquivo = new File("src/score/leaderboard.txt");
                 Scanner scanner = new Scanner(arquivo);
 
-                if (arquivo.length() == 0) {
-                    if (Player.pontos > 0) {
-                        /*
-                        String nome = JOptionPane.showInputDialog(null, "Digite seu nome:");
+                // Lê as pontuações existentes e armazena em uma lista
+                ArrayList<Integer> numeros = new ArrayList<>();
+                ArrayList<String> pessoas = new ArrayList<>();
 
-                        if (nome != null && !nome.isEmpty()) {
-                            System.out.println(nome);
-                        }
-                        */
+                while (scanner.hasNextLine()) {
+                    String linha = scanner.nextLine();
+                    String[] partes = linha.split(" - ");
 
-                        JTextField textField = new JTextField();
-                        JPanel panel = new JPanel(new GridLayout(0, 1));
-                        panel.add(new JLabel("Digite seu nome:"));
-                        panel.add(textField);
+                    int valor = Integer.parseInt(partes[0]);
+                    String nome = partes[1];
 
-                        int result = JOptionPane.showOptionDialog(null, panel, "Você obteve um record",
-                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                        if (result == JOptionPane.OK_OPTION) {
-                            String nome = textField.getText();
-                            // salvar o nome do jogador ou fazer outras operações com o nome aqui
-                            PrintWriter escritor = new PrintWriter(arquivo);
-                            escritor.println(Player.pontos + " - " + nome);
-                            escritor.close();
-                        }
-
-
-
+                    // adiciona somente se for maior que zero e não for uma pontuação já registrada
+                    if (valor > 0 && !pessoas.contains(nome)) {
+                        numeros.add(valor);
+                        pessoas.add(nome);
                     }
-                } else {
-                    ArrayList<Integer> numeros = new ArrayList<>(); // lista para armazenar os números
-                    ArrayList<String> pessoas = new ArrayList<>(); // lista para armazenar os números
+                }
+                scanner.close();
 
-                    while (scanner.hasNextLine()) {
-                        String linha = scanner.nextLine(); // lê a linha do arquivo
-                        String[] partes = linha.split(" ", 2);
-
-                        int valor = Integer.parseInt(partes[0]); // converte o número para inteiro
-                        String nome = partes[1]; // recupera o nome
-                        numeros.add(valor); // armazena na lista
-                        pessoas.add(nome); // armazena na lista
+                // Adiciona o jogador atual se sua pontuação for maior ou igual a qualquer jogador existente
+                int posicao = -1;
+                for (int i = 0; i < numeros.size(); i++) {
+                    if (Player.pontos >= numeros.get(i)) {
+                        posicao = i;
+                        break;
                     }
+                }
 
-                    scanner.close();
+                if (Player.pontos > 0 && (numeros.size() < 3 || posicao != -1)) {
+                    JTextField textField = new JTextField();
+                    JPanel panel = new JPanel(new GridLayout(0, 1));
+                    panel.add(new JLabel("Digite seu nome:"));
+                    panel.add(textField);
 
+                    int result = JOptionPane.showOptionDialog(null, panel, "Você obteve um recorde",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
+                    if (result == JOptionPane.OK_OPTION) {
+                        String nome = textField.getText();
+                        if (!nome.isEmpty()) {
+                            // Verifica se o jogador já existe na lista
+                            int index = pessoas.indexOf(nome);
+                            if (index != -1) {
+                                // Se o jogador já existe, verifica se a pontuação é um novo recorde pessoal
+                                if (numeros.get(index) < Player.pontos) {
+                                    numeros.set(index, Player.pontos);
+                                } else {
+                                    // Se não for um novo recorde pessoal, não faz nada
+                                    return;
+                                }
+                            } else {
+                                // Adiciona o novo jogador à lista
+                                if (posicao == -1) {
+                                    numeros.add(Player.pontos);
+                                    pessoas.add(nome);
+                                } else {
+                                    numeros.add(posicao, Player.pontos);
+                                    pessoas.add(posicao, nome);
+                                }
+                            }
 
-                    boolean maiorQueTodos = true;
+                            // Remove o último registro, se necessário
+                            if (numeros.size() > 3) {
+                                numeros.remove(3);
+                                pessoas.remove(3);
+                            }
 
-                    for (int i = 0; i < numeros.size(); i++) {
-                        if (Player.pontos <= numeros.get(i)) {
-                            maiorQueTodos = false;
-                            break;
+                            // Escreve a lista atualizada no arquivo
+                            if (arquivo.canWrite()) {
+                                PrintWriter escritor = new PrintWriter(arquivo);
+                                for (int i = 0; i < numeros.size(); i++) {
+                                    escritor.println(numeros.get(i) + " - " + pessoas.get(i));
+                                }
+                                escritor.close();
+                            } else {
+                                System.out.println("Não é possível escrever no arquivo.");
+                            }
                         }
-                    }
-
-
-                    if (maiorQueTodos) {
-
-
-                        JTextField textField = new JTextField();
-                        JPanel panel = new JPanel(new GridLayout(0, 1));
-                        panel.add(new JLabel("Digite seu nome:"));
-                        panel.add(textField);
-
-                        int result = JOptionPane.showOptionDialog(null, panel, "Você obteve um record",
-                                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                        if (result == JOptionPane.OK_OPTION) {
-                            String nome = textField.getText();
-                            // salvar o nome do jogador ou fazer outras operações com o nome aqui
-                            PrintWriter escritor = new PrintWriter(arquivo);
-                            escritor.println(Player.pontos + " - " + nome);
-                            escritor.close();
-
-                        }
-
-                        /*
-                        numeros.add(Player.pontos);
-                        numeros.sort(Collections.reverseOrder());
-                        if (numeros.size() > 3) {
-                            numeros.remove(3);
-                        }
-
-                        // imprime a lista
-                        PrintWriter escritor = new PrintWriter(arquivo);
-                        for (Integer num : numeros) {
-                            escritor.println(num);
-                        }
-                        escritor.close();
-                        */
-
                     }
                 }
             }
