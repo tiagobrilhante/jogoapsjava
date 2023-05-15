@@ -54,7 +54,7 @@ public class Player extends Entity {
     public static int pontos = 0;
 
     // tamanho base dos plocos de player
-    public static int SIZEPLAYERX = 16, SIZEPLAYERY = 16;
+    public static int SIZEPLAYERX = 32, SIZEPLAYERY = 48;
 
     // máscara do player
     public int maskx = 0, masky = 0, maskw = SIZEPLAYERX, maskh = SIZEPLAYERY;
@@ -121,15 +121,15 @@ public class Player extends Entity {
         selectedWeapon = "Cano";
 
         // quantidade de posições da animação do player (quando andando para a direita)
-        playerRight = new BufferedImage[4];
+        playerRight = new BufferedImage[5];
         // quantidade de posições da animação do player (quando andando para a esquerda)
-        playerLeft = new BufferedImage[4];
+        playerLeft = new BufferedImage[5];
         // array para idle
         playerIdleLeft = new BufferedImage[4];
         playerIdleRigth = new BufferedImage[4];
 
-        playerJumpLeft = new BufferedImage[4];
-        playerJumpRight = new BufferedImage[4];
+        playerJumpLeft = new BufferedImage[5];
+        playerJumpRight = new BufferedImage[5];
         playerEscada = new BufferedImage[4];
         playerAttackEsquerda = new BufferedImage[4];
         playerAttackEsquerdaArma = new BufferedImage[4];
@@ -137,57 +137,57 @@ public class Player extends Entity {
         playerAttackDireitaArma = new BufferedImage[4];
 
         // loop para montar o array para a direita
-        for (int i = 0; i < 4; i++) {
-            playerRight[i] = Game.spritePlayer.getSprite((i * SIZEPLAYERX), 0, SIZEPLAYERX, SIZEPLAYERY);
+        for (int i = 0; i < 5; i++) {
+            playerRight[i] = Game.spritePlayer.getSprite((i * SIZEPLAYERX), 96, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para a esquerda
-        for (int i = 0; i < 4; i++) {
-            playerLeft[i] = Game.spritePlayer.getSprite(48 - (i * SIZEPLAYERX), 16, SIZEPLAYERX, SIZEPLAYERY);
+        for (int i = 0; i < 5; i++) {
+            playerLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX*4) - (i * SIZEPLAYERX), 144, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para a idle direita
         for (int i = 0; i < 4; i++) {
-            playerIdleRigth[i] = Game.spritePlayer.getSprite((i * SIZEPLAYERX), 32, SIZEPLAYERX, SIZEPLAYERY);
+            playerIdleRigth[i] = Game.spritePlayer.getSprite((i * SIZEPLAYERX), 0, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para a idle esquerda
         for (int i = 0; i < 4; i++) {
-            playerIdleLeft[i] = Game.spritePlayer.getSprite(48 - (i * SIZEPLAYERX), 48, SIZEPLAYERX, SIZEPLAYERY);
+            playerIdleLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX*3) - (i * SIZEPLAYERX), 48, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para a jump direita
         for (int i = 0; i < 4; i++) {
-            playerJumpRight[i] = Game.spritePlayer.getSprite(80 + (i * SIZEPLAYERX), 0, SIZEPLAYERX, SIZEPLAYERY);
+            playerJumpRight[i] = Game.spritePlayer.getSprite((i * SIZEPLAYERX), 192, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para a jump esquerda
         for (int i = 0; i < 4; i++) {
-            playerJumpLeft[i] = Game.spritePlayer.getSprite(128 - (i * SIZEPLAYERX), 16, SIZEPLAYERX, SIZEPLAYERY);
+            playerJumpLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX*4) - (i * SIZEPLAYERX), 240, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para escada
         for (int i = 0; i < 4; i++) {
-            playerEscada[i] = Game.spritePlayer.getSprite(80 + (i * SIZEPLAYERX), 48, SIZEPLAYERX, SIZEPLAYERY);
+            playerEscada[i] = Game.spritePlayer.getSprite(192 + (i * SIZEPLAYERX), 192, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para ataque
         for (int i = 0; i < 4; i++) {
-            playerAttackEsquerda[i] = Game.spritePlayer.getSprite(0, 64, SIZEPLAYERX * 2, SIZEPLAYERY);
+            playerAttackEsquerda[i] = Game.spritePlayer.getSprite(192, 48, SIZEPLAYERX * 2, SIZEPLAYERY);
         }
 
         for (int i = 0; i < 4; i++) {
-            playerAttackEsquerdaArma[i] = Game.spritePlayer.getSprite(32, 64, SIZEPLAYERX * 2, SIZEPLAYERY);
-        }
-
-        // loop para montar o array para ataque
-        for (int i = 0; i < 4; i++) {
-            playerAttackDireita[i] = Game.spritePlayer.getSprite(0, 80, SIZEPLAYERX * 2, SIZEPLAYERY);
+            playerAttackEsquerdaArma[i] = Game.spritePlayer.getSprite(192, 144, SIZEPLAYERX * 2, SIZEPLAYERY);
         }
 
         // loop para montar o array para ataque
         for (int i = 0; i < 4; i++) {
-            playerAttackDireitaArma[i] = Game.spritePlayer.getSprite(32, 80, SIZEPLAYERX * 2, SIZEPLAYERY);
+            playerAttackDireita[i] = Game.spritePlayer.getSprite(320, 0, SIZEPLAYERX * 2, SIZEPLAYERY);
+        }
+
+        // loop para montar o array para ataque
+        for (int i = 0; i < 4; i++) {
+            playerAttackDireitaArma[i] = Game.spritePlayer.getSprite(192, 96, SIZEPLAYERX * 2, SIZEPLAYERY);
         }
 
     }
@@ -267,7 +267,7 @@ public class Player extends Entity {
         }
 
         // caso eu me movimente para a direita
-        if (right && !colisao((int) (x + speed), this.getY()) && x <= (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX) {
+        if (right && !attack && !colisao((int) (x + speed), this.getY()) && x <= (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX) {
             x += speed;
             movimentacao = 1;
             timerPlayer = 0;
@@ -275,7 +275,7 @@ public class Player extends Entity {
         }
 
         // caso eu me movimente para a esquerda
-        if (left && !colisao((int) (x - speed), this.getY()) && x >= 0) {
+        if (left && !attack && !colisao((int) (x - speed), this.getY()) && x >= 0) {
             x -= speed;
             movimentacao = 1;
             timerPlayer = 0;
@@ -370,7 +370,7 @@ public class Player extends Entity {
         }
 
         // movimentação do player
-        if (movimentacao == 1) {
+        if (movimentacao == 1 && !attack ) {
             timerPlayer = 0;
             frames++;
             if (frames == maxFrames) {
