@@ -742,7 +742,7 @@ public class Player extends Entity {
     public void render(Graphics g) {
 
         // quando anda para a direita
-        if (direcaoAtual == direita && movimentacao == 1) {
+        if (direcaoAtual == direita && movimentacao == 1 && !attack) {
             if (isJump) {
                 g.drawImage(playerJumpRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else if (emEscada) {
@@ -773,7 +773,7 @@ public class Player extends Entity {
         }
 
         // quando movimenta para a esquerda
-        if (direcaoAtual == esquerda && movimentacao == 1) {
+        if (direcaoAtual == esquerda && movimentacao == 1 && !attack) {
             if (isJump) {
                 g.drawImage(playerJumpLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else if (emEscada) {

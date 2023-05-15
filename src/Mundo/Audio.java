@@ -31,7 +31,6 @@ public class Audio {
     }
 */
    public Audio(String soundPath, boolean repeat) {
-       System.out.println(soundPath);
        if (soundPath != null) {
            try {
                URL url = getClass().getResource(soundPath);
