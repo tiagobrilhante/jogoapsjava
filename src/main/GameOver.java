@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -86,43 +85,31 @@ public class GameOver {
                     if (result == JOptionPane.OK_OPTION) {
                         String nome = textField.getText();
                         if (!nome.isEmpty()) {
-                            // Verifica se o jogador já existe na lista
-                            int index = pessoas.indexOf(nome);
-                            if (index != -1) {
-                                // Se o jogador já existe, verifica se a pontuação é um novo recorde pessoal
-                                if (numeros.get(index) < Player.pontos) {
-                                    numeros.set(index, Player.pontos);
-                                } else {
-                                    // Se não for um novo recorde pessoal, não faz nada
-                                    return;
-                                }
+                            // Adiciona o novo jogador à lista
+                            if (posicao == -1) {
+                                numeros.add(Player.pontos);
+                                pessoas.add(nome);
                             } else {
-                                // Adiciona o novo jogador à lista
-                                if (posicao == -1) {
-                                    numeros.add(Player.pontos);
-                                    pessoas.add(nome);
-                                } else {
-                                    numeros.add(posicao, Player.pontos);
-                                    pessoas.add(posicao, nome);
-                                }
+                                numeros.add(posicao, Player.pontos);
+                                pessoas.add(posicao, nome);
                             }
+                        }
 
-                            // Remove o último registro, se necessário
-                            if (numeros.size() > 3) {
-                                numeros.remove(3);
-                                pessoas.remove(3);
-                            }
+                        // Remove o último registro, se necessário
+                        if (numeros.size() > 3) {
+                            numeros.remove(3);
+                            pessoas.remove(3);
+                        }
 
-                            // Escreve a lista atualizada no arquivo
-                            if (arquivo.canWrite()) {
-                                PrintWriter escritor = new PrintWriter(arquivo);
-                                for (int i = 0; i < numeros.size(); i++) {
-                                    escritor.println(numeros.get(i) + " - " + pessoas.get(i));
-                                }
-                                escritor.close();
-                            } else {
-                                System.out.println("Não é possível escrever no arquivo.");
+                        // Escreve a lista atualizada no arquivo
+                        if (arquivo.canWrite()) {
+                            PrintWriter escritor = new PrintWriter(arquivo);
+                            for (int i = 0; i < numeros.size(); i++) {
+                                escritor.println(numeros.get(i) + " - " + pessoas.get(i));
                             }
+                            escritor.close();
+                        } else {
+                            System.out.println("Não é possível escrever no arquivo.");
                         }
                     }
                 }
