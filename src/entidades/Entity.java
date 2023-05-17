@@ -29,7 +29,8 @@ public class Entity {
             posChaoIsoladoEsquerda = {160, 0},posChaoIsoladoDireita = {128, 0}, posJuncaoSimplesFundoDireita = {64,0},
             posFundoDarkBrickEsquerdo = {96,128}, posFundoDarkBrickDireito = {160,128}, posFundoDarkBrickBase = {128,128},
             posFundoDarkBrickBrokenBase1 = {96,160}, posCahoIsoladoMeioVertical = {160,96}, posPedra1 = {128,96},
-            posVidaExtra = {128,160}, posAmmunitionExtra = {160,160}, posJuncaoUmBlocoDireita = {288,32}, posJuncaoUmBlocoEsquerda = {288,64};
+            posVidaExtra = {128,160}, posAmmunitionExtra = {160,160}, posJuncaoUmBlocoDireita = {288,32}, posJuncaoUmBlocoEsquerda = {288,64},
+            posJuncaoSimplesUmBlocoDuploDireita = {192,0}, posJuncaoSimplesUmBlocoDuploEsquerda = {224,0};
     // ajustar ceu e nuvens
     // ajustar inimigo
 
@@ -41,6 +42,8 @@ public class Entity {
     public static BufferedImage save = Game.sprite.getSprite(posSavePoint[0], posSavePoint[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoEsquerda = Game.sprite.getSprite(posChaoIsoladoEsquerda[0], posChaoIsoladoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoDireita = Game.sprite.getSprite(posChaoIsoladoDireita[0], posChaoIsoladoDireita[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage juncaoSimplesUmBlocoDuploDireita = Game.sprite.getSprite(posJuncaoSimplesUmBlocoDuploDireita[0], posJuncaoSimplesUmBlocoDuploDireita[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage juncaoSimplesUmBlocoDuploEsquerda = Game.sprite.getSprite(posJuncaoSimplesUmBlocoDuploEsquerda[0], posJuncaoSimplesUmBlocoDuploEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoFundo = Game.sprite.getSprite(posChaoIsoladoFundo[0], posChaoIsoladoFundo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoBifurcaChaoIsoladoTopo = Game.sprite.getSprite(posNucleoBifurcaChaoIsoladoTopo[0], posNucleoBifurcaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage nucleoBifurcaChaoIsoladoFundo = Game.sprite.getSprite(posNucleoBifurcaChaoIsoladoFundo[0], posNucleoBifurcaChaoIsoladoFundo[1], SIZEENTITYX, SIZEENTITYY);
