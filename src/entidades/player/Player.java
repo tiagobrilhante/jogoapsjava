@@ -11,6 +11,8 @@ import main.Game;
 import main.GameOver;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +30,14 @@ public class Player extends Entity {
     public static String soundPathAttack = "/res/sounds/soundfx/attack.wav";
     public static String soundPathJump = "/res/sounds/soundfx/jump.wav";
     public static String soundPathTiro = "/res/sounds/soundfx/go.wav";
+    public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
+    public static String soundPathTake = "/res/sounds/soundfx/take.wav";
 
     Audio audioAttack = new Audio(null, false);
     Audio audioJump = new Audio(null, false);
     Audio audioTiro = new Audio(null, false);
+    Audio audioSteps = new Audio(null, false);
+    Audio audioTake = new Audio(null, false);
 
     public static double atualX, atualY;
 
@@ -81,6 +87,8 @@ public class Player extends Entity {
     // frame inicial do pulo
     public int jumpFrames = 0;
 
+    public boolean playAudioWalk = false;
+
     // inimigo
     public Inimigo enemy;
 
@@ -108,6 +116,8 @@ public class Player extends Entity {
 
     public int timerPlayer = 0, tempoParado;
     public int timerEnemy = 0;
+
+    public int timeEfectsParam = 0;
 
     public int timerNoDamageEnemy = 0;
 
@@ -194,6 +204,10 @@ public class Player extends Entity {
 
     public void tick() {
 
+        timeEfectsParam++;
+
+
+
         // aqui eu inicio a movimentação em parado ==== 0
         movimentacao = 0;
         atualX = (int) x;
@@ -272,6 +286,7 @@ public class Player extends Entity {
             movimentacao = 1;
             timerPlayer = 0;
             direcaoAtual = direita;
+
         }
 
         // caso eu me movimente para a esquerda
@@ -280,6 +295,7 @@ public class Player extends Entity {
             movimentacao = 1;
             timerPlayer = 0;
             direcaoAtual = esquerda;
+
         }
 
         // momento do pulo (habilita a condição de estar pulando)
@@ -312,7 +328,6 @@ public class Player extends Entity {
                     isJump = false;
                     jump = false;
                     jumpFrames = 0;
-                    System.out.println("termino da altura do pulo");
 
                 }
             } else {
@@ -320,7 +335,6 @@ public class Player extends Entity {
                 jumpTimeSound = 0;
                 jump = false;
                 jumpFrames = 0;
-                System.out.println("pulo é false");
             }
 
         } else {
@@ -420,6 +434,13 @@ public class Player extends Entity {
         // dano contra o player (deverá levar em consideração a ameaça)
         if (damage((int) (x + speed), this.getY())) {
             life -= damageFactor;
+        }
+
+        if (movimentacao == 1 && colisao((int) x, (int) (y + 1))) {
+            playAudioWalk = true;
+
+        } else {
+            playAudioWalk = false;
         }
 
         // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
@@ -659,6 +680,8 @@ public class Player extends Entity {
                 Rectangle kitVida = new Rectangle(kitHealth.getX() + maskx, kitHealth.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(kitVida)) {
                     vida = kitHealth;
+                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
+                    audioTake.start();
                     return true;
                 }
             }
@@ -674,6 +697,8 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(trashBagAtivo.getX() + maskx, trashBagAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     trashBag = trashBagAtivo;
+                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
+                    audioTake.start();
                     return true;
                 }
             }
@@ -689,6 +714,8 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(vidaExtraAtivo.getX() + maskx, vidaExtraAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     vidaExtra = vidaExtraAtivo;
+                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
+                    audioTake.start();
                     return true;
                 }
             }
@@ -704,6 +731,8 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(ammoBoxAtivo.getX() + maskx, ammoBoxAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     ammoBox = ammoBoxAtivo;
+                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
+                    audioTake.start();
                     return true;
                 }
             }
@@ -861,4 +890,6 @@ public class Player extends Entity {
         }
 
     }
+
+
 }
