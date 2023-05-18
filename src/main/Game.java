@@ -362,12 +362,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 TiroPlayer myShot = tirosPLayer.get(i);
 
                 if (myShot.colisaoInimigo((int) myShot.x, (int) myShot.y) != null) {
+                    Entity inimigo = myShot.colisaoInimigo((int) myShot.x, (int) myShot.y);
                     // Inimigo leInimigo = (Inimigo) myShot.colisaoInimigo((int) myShot.x, (int) myShot.y);
                     Game.tirosPLayer.remove(myShot);
 
                     // ajustar as regras de dano no proprio inimigo e não no player
 
-                    player.causaDanoInimigo(0);
+                    player.causaDanoInimigo(0, inimigo);
                 } else {
                     if (myShot.x >= Mundo.HEIGHT * 32 - 300 || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
                         Game.tirosPLayer.remove(myShot);

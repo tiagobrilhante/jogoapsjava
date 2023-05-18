@@ -11,6 +11,8 @@ import main.Game;
 import main.GameOver;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +30,13 @@ public class Player extends Entity {
     public static String soundPathAttack = "/res/sounds/soundfx/attack.wav";
     public static String soundPathJump = "/res/sounds/soundfx/jump.wav";
     public static String soundPathTiro = "/res/sounds/soundfx/go.wav";
-    // public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
+    public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
     public static String soundPathTake = "/res/sounds/soundfx/take.wav";
 
     Audio audioAttack = new Audio(null, false);
     Audio audioJump = new Audio(null, false);
     Audio audioTiro = new Audio(null, false);
-    // Audio audioSteps = new Audio(null, false);
+    Audio audioSteps = new Audio(null, false);
     Audio audioTake = new Audio(null, false);
 
     public static double atualX, atualY;
@@ -86,6 +88,7 @@ public class Player extends Entity {
     public int jumpFrames = 0;
 
     public boolean playAudioWalk = false;
+
 
     // inimigo
     public Inimigo enemy;
@@ -346,7 +349,7 @@ public class Player extends Entity {
                 // aqui existe a colisão de ataque pelo cano (passo a minha posição)
                 if (ataqueCano(this.getX(), this.getY())) {
 
-                    causaDanoInimigo(timerNoDamageEnemy);
+                    causaDanoInimigo(timerNoDamageEnemy, enemy);
 
                 }
             } else {
@@ -434,7 +437,12 @@ public class Player extends Entity {
             life -= damageFactor;
         }
 
-        playAudioWalk = movimentacao == 1 && colisao((int) x, (int) (y + 1));
+        if (movimentacao == 1 && colisao((int) x, (int) (y + 1))) {
+            playAudioWalk = true;
+
+        } else {
+            playAudioWalk = false;
+        }
 
         // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
         if (vida(this.getX(), this.getY()) && life < 100) {
@@ -566,7 +574,8 @@ public class Player extends Entity {
         return false;
     }
 
-    public void causaDanoInimigo(int timerNoDamageEnemy) {
+    public void causaDanoInimigo(int timerNoDamageEnemy, Entity inimigo) {
+        this.enemy = (Inimigo) inimigo;
         if (timerNoDamageEnemy == 0) {
             // removo a vida do inimigo
             enemy.life--;
@@ -587,7 +596,7 @@ public class Player extends Entity {
 
         // movimenta o inimigo na direção oposta a que eu me encontro
         // direita
-        if (direcaoAtual == 1 && Objects.equals(selectedWeapon, "Cano")) {
+        if (direcaoAtual == 1 && selectedWeapon == "Cano") {
 
             // executo o loop por 19 ticks (índice de afastamento)
             for (int j = 0; j < 19; j++) {
@@ -601,7 +610,7 @@ public class Player extends Entity {
                 }
 
             }
-        } else if (direcaoAtual == 0 && Objects.equals(selectedWeapon, "Cano")) {
+        } else if (direcaoAtual == 0 && selectedWeapon == "Cano") {
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
                     // se não houver objeto para colidir, movimento o inimigo para a direita
@@ -613,7 +622,7 @@ public class Player extends Entity {
 
             }
 
-        } else if (direcaoAtual == 1) {
+        } else if (direcaoAtual == 1 && selectedWeapon != "Cano") {
 
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
@@ -626,7 +635,7 @@ public class Player extends Entity {
                 }
 
             }
-        } else if (direcaoAtual == 0) {
+        } else if (direcaoAtual == 0 && selectedWeapon != "Cano") {
 
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
@@ -853,7 +862,7 @@ public class Player extends Entity {
         if (attack) {
 
             if (attackTimeSound == 0) {
-                if (Objects.equals(selectedWeapon, "Cano")) {
+                if (selectedWeapon == "Cano") {
                     audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
                     audioAttack.start();
                 }
