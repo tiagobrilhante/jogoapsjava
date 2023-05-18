@@ -11,8 +11,6 @@ import main.Game;
 import main.GameOver;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +28,13 @@ public class Player extends Entity {
     public static String soundPathAttack = "/res/sounds/soundfx/attack.wav";
     public static String soundPathJump = "/res/sounds/soundfx/jump.wav";
     public static String soundPathTiro = "/res/sounds/soundfx/go.wav";
-    public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
+    // public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
     public static String soundPathTake = "/res/sounds/soundfx/take.wav";
 
     Audio audioAttack = new Audio(null, false);
     Audio audioJump = new Audio(null, false);
     Audio audioTiro = new Audio(null, false);
-    Audio audioSteps = new Audio(null, false);
+    // Audio audioSteps = new Audio(null, false);
     Audio audioTake = new Audio(null, false);
 
     public static double atualX, atualY;
@@ -436,12 +434,7 @@ public class Player extends Entity {
             life -= damageFactor;
         }
 
-        if (movimentacao == 1 && colisao((int) x, (int) (y + 1))) {
-            playAudioWalk = true;
-
-        } else {
-            playAudioWalk = false;
-        }
+        playAudioWalk = movimentacao == 1 && colisao((int) x, (int) (y + 1));
 
         // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
         if (vida(this.getX(), this.getY()) && life < 100) {
@@ -594,7 +587,7 @@ public class Player extends Entity {
 
         // movimenta o inimigo na direção oposta a que eu me encontro
         // direita
-        if (direcaoAtual == 1 && selectedWeapon == "Cano") {
+        if (direcaoAtual == 1 && Objects.equals(selectedWeapon, "Cano")) {
 
             // executo o loop por 19 ticks (índice de afastamento)
             for (int j = 0; j < 19; j++) {
@@ -608,7 +601,7 @@ public class Player extends Entity {
                 }
 
             }
-        } else if (direcaoAtual == 0 && selectedWeapon == "Cano") {
+        } else if (direcaoAtual == 0 && Objects.equals(selectedWeapon, "Cano")) {
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
                     // se não houver objeto para colidir, movimento o inimigo para a direita
@@ -620,7 +613,7 @@ public class Player extends Entity {
 
             }
 
-        } else if (direcaoAtual == 1 && selectedWeapon != "Cano") {
+        } else if (direcaoAtual == 1) {
 
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
@@ -633,7 +626,7 @@ public class Player extends Entity {
                 }
 
             }
-        } else if (direcaoAtual == 0 && selectedWeapon != "Cano") {
+        } else if (direcaoAtual == 0) {
 
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
@@ -860,7 +853,7 @@ public class Player extends Entity {
         if (attack) {
 
             if (attackTimeSound == 0) {
-                if (selectedWeapon == "Cano") {
+                if (Objects.equals(selectedWeapon, "Cano")) {
                     audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
                     audioAttack.start();
                 }
