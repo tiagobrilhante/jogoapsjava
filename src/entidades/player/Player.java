@@ -44,7 +44,7 @@ public class Player extends Entity {
     // o player começa a fase virado para a direita
     public static int direita = 1;
     public static int esquerda = 0;
-    public  static int direcaoAtual = direita;
+    public static int direcaoAtual = direita;
 
     // o player começa parado
     public int movimentacao = 0;
@@ -143,7 +143,7 @@ public class Player extends Entity {
 
         // loop para montar o array para a esquerda
         for (int i = 0; i < 5; i++) {
-            playerLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX*4) - (i * SIZEPLAYERX), 144, SIZEPLAYERX, SIZEPLAYERY);
+            playerLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX * 4) - (i * SIZEPLAYERX), 144, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para a idle direita
@@ -153,7 +153,7 @@ public class Player extends Entity {
 
         // loop para montar o array para a idle esquerda
         for (int i = 0; i < 4; i++) {
-            playerIdleLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX*3) - (i * SIZEPLAYERX), 48, SIZEPLAYERX, SIZEPLAYERY);
+            playerIdleLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX * 3) - (i * SIZEPLAYERX), 48, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para a jump direita
@@ -163,7 +163,7 @@ public class Player extends Entity {
 
         // loop para montar o array para a jump esquerda
         for (int i = 0; i < 4; i++) {
-            playerJumpLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX*4) - (i * SIZEPLAYERX), 240, SIZEPLAYERX, SIZEPLAYERY);
+            playerJumpLeft[i] = Game.spritePlayer.getSprite((SIZEPLAYERX * 4) - (i * SIZEPLAYERX), 240, SIZEPLAYERX, SIZEPLAYERY);
         }
 
         // loop para montar o array para escada
@@ -301,19 +301,26 @@ public class Player extends Entity {
             jumpTimeSound++;
 
 
+            // se não houver colisão
             if (!colisao(this.getX(), this.getY() - 2)) {
+                // somo o y até que
                 y -= jumpSpeed;
                 jumpFrames += jumpSpeed;
+
+                //a altura do frameJump seja igual ao tamanho máximo de pulo
                 if (jumpFrames == jumpHeigth) {
                     isJump = false;
                     jump = false;
                     jumpFrames = 0;
+                    System.out.println("termino da altura do pulo");
+
                 }
             } else {
                 isJump = false;
                 jumpTimeSound = 0;
                 jump = false;
                 jumpFrames = 0;
+                System.out.println("pulo é false");
             }
 
         } else {
@@ -341,7 +348,7 @@ public class Player extends Entity {
                         if (direcaoAtual == 1) {
                             Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y, 50, 50, null));
                         } else {
-                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x -10, this.getY() - Camera.y, 50, 50, null));
+                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x - 10, this.getY() - Camera.y, 50, 50, null));
                         }
                     }
 
@@ -370,7 +377,7 @@ public class Player extends Entity {
         }
 
         // movimentação do player
-        if (movimentacao == 1 && !attack ) {
+        if (movimentacao == 1 && !attack) {
             timerPlayer = 0;
             frames++;
             if (frames == maxFrames) {
@@ -438,7 +445,7 @@ public class Player extends Entity {
 
         // vidas extras para o player
         if (pegaMunicaoExtra(this.getX(), this.getY())) {
-            qtdTiro+= ammoBox.qtdTiroBox;
+            qtdTiro += ammoBox.qtdTiroBox;
             Game.ammunitionExtras.remove(ammoBox);
         }
 
@@ -580,7 +587,7 @@ public class Player extends Entity {
                 }
 
             }
-        } else if (direcaoAtual == 0 && selectedWeapon == "Cano"){
+        } else if (direcaoAtual == 0 && selectedWeapon == "Cano") {
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
                     // se não houver objeto para colidir, movimento o inimigo para a direita
@@ -741,65 +748,79 @@ public class Player extends Entity {
     // renderiza tudão
     public void render(Graphics g) {
 
-        // quando anda para a direita
-        if (direcaoAtual == direita && movimentacao == 1 && !attack) {
+        // quando anda para a direita (e pula para a direita)
+        if (direcaoAtual == direita && movimentacao == 1 && !attack && !emEscada) {
+            // caso esteja pulando
             if (isJump) {
+                // executa a animação do pulo
                 g.drawImage(playerJumpRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if (emEscada) {
-                g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
-                g.drawImage(playerRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                // se houver colisão por gravidade, ele executa a animação andando
+                if (colisao((int) x, (int) (y + 1))) {
+                    g.drawImage(playerRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                } else {
+                    // caso contrário ele trava em um frame do pulo
+                    g.drawImage(playerJumpRight[3], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                }
             }
         }
+
+        // quando movimenta para a esquerda e pula para a esquerda
+        if (direcaoAtual == esquerda && movimentacao == 1 && !attack && !emEscada) {
+            // caso esteja pulando
+            if (isJump) {
+                // executa a animação do pulo
+                g.drawImage(playerJumpLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else {
+                // se houver colisão por gravidade, ele executa a animação andando
+                if (colisao((int) x, (int) (y + 1))) {
+                    g.drawImage(playerLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                } else {
+                    // caso contrário ele trava em um frame do pulo
+                    g.drawImage(playerJumpLeft[3], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                }
+            }
+        }
+
 
         // quando para de andar para a direita (mantem o corpo voltado pra direita)
         // animação de Idle quando o tempo for maior que 4
-        if (direcaoAtual == direita && movimentacao == 0) {
-
+        if (direcaoAtual == direita && movimentacao == 0 && !emEscada) {
             if (isJump) {
-
+                // executa a animação do pulo
                 g.drawImage(playerJumpRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if (emEscada) {
-                g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else if (tempoParado > 4) {
+                g.drawImage(playerIdleRigth[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
-
-                if (tempoParado > 4) {
-                    g.drawImage(playerIdleRigth[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                } else {
-                    g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                }
-            }
-
-        }
-
-        // quando movimenta para a esquerda
-        if (direcaoAtual == esquerda && movimentacao == 1 && !attack) {
-            if (isJump) {
-                g.drawImage(playerJumpLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if (emEscada) {
-                g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else {
-                g.drawImage(playerLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
             }
         }
+
 
         // quando para de andar para a esquerda (mantem o corpo voltado pra esquerda)
         // animação de Idle quando o tempo for maior que 4
-        if (direcaoAtual == esquerda && movimentacao == 0) {
-
+        if (direcaoAtual == esquerda && movimentacao == 0 && !emEscada) {
             if (isJump) {
+                // executa a animação do pulo
                 g.drawImage(playerJumpLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if (emEscada) {
-                g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else if (tempoParado > 4) {
+                g.drawImage(playerIdleLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
-
-                if (tempoParado > 4) {
-                    g.drawImage(playerIdleLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                } else {
-                    g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                }
+                g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
             }
         }
+
+
+        // rederização para movimento em escada
+        if (emEscada) {
+            if (up || down) {
+                System.out.println("do this");
+                g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else {
+                g.drawImage(playerEscada[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            }
+        }
+
 
         // renderiza as particulas se houverem
         for (Particula particula : particulas) {
