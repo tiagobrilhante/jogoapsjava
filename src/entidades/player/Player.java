@@ -346,9 +346,9 @@ public class Player extends Entity {
                         audioTiro.start();
 
                         if (direcaoAtual == 1) {
-                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y, 50, 50, null));
+                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y + 16, 50, 50, null));
                         } else {
-                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x - 10, this.getY() - Camera.y, 50, 50, null));
+                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x - 10, this.getY() - Camera.y + 16, 50, 50, null));
                         }
                     }
 
