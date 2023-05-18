@@ -7,21 +7,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class UserInterface {
-
     private BufferedImage imagemArma;
 
-
-
-    // por enquanto esse método só renderiza a barra de vida do player
-    // deve evoluir para uma interface melhorada
     public void render(Graphics g) {
 
-
+        g.setColor(Color.BLACK);
+        g.fillRect(0, (Game.HEIGTH) - (Game.HEIGTH - 255), Game.WIDTH, Game.HEIGTH - (Game.HEIGTH - 150));
 
         g.setColor(Color.GRAY);
-        g.fillRect(0, (Game.HEIGTH) - (Game.HEIGTH - 258), Game.WIDTH, Game.HEIGTH - (Game.HEIGTH - 150));
+        g.fillRect(2, (Game.HEIGTH) - (Game.HEIGTH - 258), Game.WIDTH -5, Game.HEIGTH - (Game.HEIGTH - 31));
 
 
         g.setColor(Color.BLACK);
@@ -53,7 +50,7 @@ public class UserInterface {
         g.drawString("Pontos:  " + Player.pontos, 400, (Game.HEIGTH) - (Game.HEIGTH - 266) + 6);
 
         // cano é retangulo preto, arma de fogo amarelo
-        if (Player.selectedWeapon == "Cano") {
+        if (Objects.equals(Player.selectedWeapon, "Cano")) {
 
             try {
                 ClassLoader classLoader = getClass().getClassLoader();
@@ -82,8 +79,8 @@ public class UserInterface {
             }
         }
 
-        g.fillRect(10, (Game.HEIGTH) - (Game.HEIGTH - 261), 38, 28);
-        g.drawImage(imagemArma, 10, (Game.HEIGTH) - (Game.HEIGTH - 261), null);
+        g.fillRect(10, (Game.HEIGTH) - (Game.HEIGTH - 260), 38, 28);
+        g.drawImage(imagemArma, 10, (Game.HEIGTH) - (Game.HEIGTH - 260), null);
     }
 
 }
