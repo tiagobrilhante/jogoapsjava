@@ -558,6 +558,11 @@ public class Player extends Entity {
             if (espinho != null) {
                 Rectangle espinhoRetangulo = new Rectangle(espinho.getX() + maskx, espinho.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(espinhoRetangulo)) {
+                    timerDamageControllPlayer = 0;
+                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer%30 == 0) {
+                        audioDamage = new Audio(soundPathDamage, false); // Chamando a classe aonde está o audio.
+                        audioDamage.start();
+                    }
                     return true;
 
                 }
@@ -576,7 +581,6 @@ public class Player extends Entity {
             if (entidade != null) {
                 Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(solido)) {
-                    System.out.println(entidade);
                     timerDamageControllPlayer = 0;
                     enemy = entidade;
                     if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer%30 == 0) {
