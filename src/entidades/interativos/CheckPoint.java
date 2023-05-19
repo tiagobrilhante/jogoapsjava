@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 public class CheckPoint extends Entity {
 
     public int maskx = 0, masky = 0, maskw = Entity.SIZEENTITYX, maskh = Entity.SIZEENTITYY;
-    public CheckPoint(int x, int y, int width, int height, BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public CheckPoint(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
     }
 
     public void tick(){

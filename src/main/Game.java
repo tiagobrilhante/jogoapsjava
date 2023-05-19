@@ -180,7 +180,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 
         // chama o player (de acordo com a posição inicial no sprite)
-        player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
+        player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY), "Player");
         // adiciona o player em entidades (só pode haver 1)
         entidades.add(player);
 
@@ -283,7 +283,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
         // reinicia o mundo e o jogador
         mundo = new Mundo(levelPath);
-        player = new Player(64, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY));
+        player = new Player(64, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY), "Player");
         Player.pontos = 0;
         Player.tentativas = 3;
         Player.qtdTiro = 5;
@@ -358,19 +358,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Mundo.newlevel(Level);
             }
 
+            System.out.println(tirosPLayer);
+
             for (int i = 0; i < tirosPLayer.size(); i++) {
                 TiroPlayer myShot = tirosPLayer.get(i);
 
                 if (myShot.colisaoInimigo((int) myShot.x, (int) myShot.y) != null) {
                     Entity inimigo = myShot.colisaoInimigo((int) myShot.x, (int) myShot.y);
-                    // Inimigo leInimigo = (Inimigo) myShot.colisaoInimigo((int) myShot.x, (int) myShot.y);
-                    Game.tirosPLayer.remove(myShot);
-
-                    // ajustar as regras de dano no proprio inimigo e não no player
-
                     player.causaDanoInimigo(0, inimigo);
+                    Game.tirosPLayer.remove(myShot);
                 } else {
-                    if (myShot.x >= Mundo.HEIGHT * 32 - 300 || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
+                    if (myShot.x >= Mundo.HEIGHT * 32 || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
                         Game.tirosPLayer.remove(myShot);
                     }
                 }

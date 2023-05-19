@@ -57,12 +57,13 @@ public class Inimigo extends Entity {
     // tamanho, altura
     // e sprite a ser usado
     // herda de entidade
-    public Inimigo(int identificadorUnico, int x, int y, int width, int height, int tipoInimigo, BufferedImage sprite) {
+    public Inimigo(int identificadorUnico, int x, int y, int width, int height, int tipoInimigo, BufferedImage sprite, String tipo) {
 
-        super(x, y, width, height, sprite);
+        super(x, y, width, height, sprite, tipo);
 
         this.identificadorUnico = identificadorUnico;
         this.tipoInimigo = tipoInimigo;
+        this.tipo = "Inimigo";
 
         // aqui eu crio a array responsável pelas imagens de movimento do inimigo
         // nesse caso, existem 3 posições (ver spritesheet)
@@ -169,7 +170,9 @@ public class Inimigo extends Entity {
     @Override
     public String toString() {
         return "Inimigo{" +
-                "identificadorUnico=" + identificadorUnico +
+                " identificadorUnico=" + identificadorUnico +
+                " x=" + x +
+                " y=" + y +
                 ", tipoInimigo=" + tipoInimigo +
                 ", life=" + life +
                 ", speed=" + speed +

@@ -14,8 +14,8 @@ public class AmmunitionExtra extends Entity {
     public int maskx= 0, masky = 0, maskw = Entity.SIZEENTITYX, maskh = Entity.SIZEENTITYY;
     public int qtdTiroBox;
 
-    public AmmunitionExtra(int x, int y, int width, int height, BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public AmmunitionExtra(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
         this.qtdTiroBox = 5;
     }
 

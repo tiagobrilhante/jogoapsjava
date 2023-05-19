@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 
 // ceu
 public class Nuvens extends Entity {
-    public Nuvens(int x, int y, int width, int height, BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public Nuvens(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
     }
 
     // movimenta as nuvens

@@ -11,8 +11,6 @@ import main.Game;
 import main.GameOver;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +28,22 @@ public class Player extends Entity {
     public static String soundPathAttack = "/res/sounds/soundfx/attack.wav";
     public static String soundPathJump = "/res/sounds/soundfx/jump.wav";
     public static String soundPathTiro = "/res/sounds/soundfx/go.wav";
-    public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
+    // public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
     public static String soundPathTake = "/res/sounds/soundfx/take.wav";
+    public static String soundPathReload = "/res/sounds/soundfx/reload.wav";
+    public static String soundPath1up = "/res/sounds/soundfx/1up.wav";
+    public static String soundPathExtraEnergy = "/res/sounds/soundfx/energy.wav";
+    public static String soundPathDamage = "/res/sounds/soundfx/damage.wav";
 
     Audio audioAttack = new Audio(null, false);
     Audio audioJump = new Audio(null, false);
     Audio audioTiro = new Audio(null, false);
-    Audio audioSteps = new Audio(null, false);
+    // Audio audioSteps = new Audio(null, false);
     Audio audioTake = new Audio(null, false);
+    Audio audioReload = new Audio(null, false);
+    Audio audio1up = new Audio(null, false);
+    Audio audioEnergy = new Audio(null, false);
+    Audio audioDamage = new Audio(null, false);
 
     public static double atualX, atualY;
 
@@ -89,6 +95,9 @@ public class Player extends Entity {
 
     public boolean playAudioWalk = false;
 
+    public int timerDamageControllPlayer = 0;
+    public int timerDamageControllResetPlayer = 0;
+
 
     // inimigo
     public Inimigo enemy;
@@ -127,8 +136,8 @@ public class Player extends Entity {
     public List<Particula> particulas = new ArrayList<>();
 
     // construtor
-    public Player(int x, int y, int width, int height, BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public Player(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
         selectedWeapon = "Cano";
 
         // quantidade de posições da animação do player (quando andando para a direita)
@@ -206,6 +215,10 @@ public class Player extends Entity {
     public void tick() {
 
         timeEfectsParam++;
+        timerDamageControllPlayer++;
+        timerDamageControllResetPlayer++;
+
+        System.out.println(timerDamageControllPlayer);
 
 
 
@@ -361,9 +374,9 @@ public class Player extends Entity {
                         audioTiro.start();
 
                         if (direcaoAtual == 1) {
-                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 10, this.getY() - Camera.y + 16, 50, 50, null));
+                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 20, this.getY() - Camera.y + 16, 50, 50, null, "tiro"));
                         } else {
-                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x - 10, this.getY() - Camera.y + 16, 50, 50, null));
+                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x - 20, this.getY() - Camera.y + 16, 50, 50, null, "tiro"));
                         }
                     }
 
@@ -437,12 +450,7 @@ public class Player extends Entity {
             life -= damageFactor;
         }
 
-        if (movimentacao == 1 && colisao((int) x, (int) (y + 1))) {
-            playAudioWalk = true;
-
-        } else {
-            playAudioWalk = false;
-        }
+        playAudioWalk = movimentacao == 1 && colisao((int) x, (int) (y + 1));
 
         // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
         if (vida(this.getX(), this.getY()) && life < 100) {
@@ -558,6 +566,8 @@ public class Player extends Entity {
         return false;
     }
 
+
+
     // player toma dano dos inimigos no contato
     public boolean damage(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
@@ -566,7 +576,13 @@ public class Player extends Entity {
             if (entidade != null) {
                 Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(solido)) {
+                    System.out.println(entidade);
+                    timerDamageControllPlayer = 0;
                     enemy = entidade;
+                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer%30 == 0) {
+                        audioDamage = new Audio(soundPathDamage, false); // Chamando a classe aonde está o audio.
+                        audioDamage.start();
+                    }
                     return true;
                 }
             }
@@ -579,25 +595,21 @@ public class Player extends Entity {
         if (timerNoDamageEnemy == 0) {
             // removo a vida do inimigo
             enemy.life--;
-
             noDamageStateEnemy = true;
             if (enemy.life <= 0) {
                 // adiciona particulas da explosao
-
                 for (int i = 0; i < 100; i++) {
                     particulas.add(new Particula(enemy.getX() - Camera.x, enemy.getY() - Camera.y, 3, 3, Color.BLUE));
                 }
 
                 Game.inimigo.remove(enemy);
-
             }
 
         }
 
         // movimenta o inimigo na direção oposta a que eu me encontro
         // direita
-        if (direcaoAtual == 1 && selectedWeapon == "Cano") {
-
+        if (direcaoAtual == 1 ) {
             // executo o loop por 19 ticks (índice de afastamento)
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
@@ -610,7 +622,7 @@ public class Player extends Entity {
                 }
 
             }
-        } else if (direcaoAtual == 0 && selectedWeapon == "Cano") {
+        } else {
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
                     // se não houver objeto para colidir, movimento o inimigo para a direita
@@ -622,31 +634,6 @@ public class Player extends Entity {
 
             }
 
-        } else if (direcaoAtual == 1 && selectedWeapon != "Cano") {
-
-            for (int j = 0; j < 19; j++) {
-                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
-                    // se não houver objeto para colidir, movimento o inimigo para a direita
-                    enemy.setX(enemy.getX() + 1);
-
-                } else {
-                    // nesse caso existe objeto para colidir
-                    enemy.setX(enemy.getX() - 3);
-                }
-
-            }
-        } else if (direcaoAtual == 0 && selectedWeapon != "Cano") {
-
-            for (int j = 0; j < 19; j++) {
-                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
-                    // se não houver objeto para colidir, movimento o inimigo para a direita
-                    enemy.setX(enemy.getX() - 1);
-                } else {
-                    // nesse caso existe objeto para colidir
-                    enemy.setX(enemy.getX() + 3);
-                }
-
-            }
         }
 
     }
@@ -682,8 +669,8 @@ public class Player extends Entity {
                 Rectangle kitVida = new Rectangle(kitHealth.getX() + maskx, kitHealth.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(kitVida)) {
                     vida = kitHealth;
-                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
-                    audioTake.start();
+                    audioEnergy = new Audio(soundPathExtraEnergy, false); // Chamando a classe aonde está o audio.
+                    audioEnergy.start();
                     return true;
                 }
             }
@@ -716,8 +703,8 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(vidaExtraAtivo.getX() + maskx, vidaExtraAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     vidaExtra = vidaExtraAtivo;
-                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
-                    audioTake.start();
+                    audio1up = new Audio(soundPath1up, false); // Chamando a classe aonde está o audio.
+                    audio1up.start();
                     return true;
                 }
             }
@@ -733,8 +720,8 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(ammoBoxAtivo.getX() + maskx, ammoBoxAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     ammoBox = ammoBoxAtivo;
-                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
-                    audioTake.start();
+                    audioReload = new Audio(soundPathReload, false); // Chamando a classe aonde está o audio.
+                    audioReload.start();
                     return true;
                 }
             }
@@ -845,7 +832,6 @@ public class Player extends Entity {
         // rederização para movimento em escada
         if (emEscada) {
             if (up || down) {
-                System.out.println("do this");
                 g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
                 g.drawImage(playerEscada[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -862,7 +848,7 @@ public class Player extends Entity {
         if (attack) {
 
             if (attackTimeSound == 0) {
-                if (selectedWeapon == "Cano") {
+                if (Objects.equals(selectedWeapon, "Cano")) {
                     audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
                     audioAttack.start();
                 }

@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 // wall fundo 1
 public class PredioFundo1 extends Entity {
-    public PredioFundo1(int x, int y, int width, int height, BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public PredioFundo1(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
     }
 }

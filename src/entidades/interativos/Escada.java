@@ -8,8 +8,8 @@ public class Escada extends Entity {
 
     public int tipoEscada;
 
-    public Escada(int x, int y, int width, int height, int tipoEscada,  BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public Escada(int x, int y, int width, int height, int tipoEscada,  BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
         this.tipoEscada = tipoEscada;
     }
 

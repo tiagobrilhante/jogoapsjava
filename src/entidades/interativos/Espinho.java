@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class Espinho extends Entity {
 
     public int maskx= 0, masky = 0, maskw = Entity.SIZEENTITYX, maskh = Entity.SIZEENTITYY;
-    public Espinho(int x, int y, int width, int height, BufferedImage sprite) {super(x, y, width, height, sprite);}
+    public Espinho(int x, int y, int width, int height, BufferedImage sprite, String tipo) {super(x, y, width, height, sprite, tipo);}
 
     // manda para encostar no solo
     public void tick(){

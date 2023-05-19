@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 
 // ceu
 public class MountainsParalax extends Entity {
-    public MountainsParalax(int x, int y, int width, int height, BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public MountainsParalax(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
     }
 
     public void tick() {

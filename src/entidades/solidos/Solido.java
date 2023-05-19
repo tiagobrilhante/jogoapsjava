@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 // entidades solidas
 public class Solido extends Entity {
 
-    public Solido(int x, int y, int width, int height, BufferedImage sprite) {
-        super(x, y, width, height, sprite);
+    public Solido(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
+        super(x, y, width, height, sprite, tipo);
     }
 
 }

@@ -26,9 +26,9 @@ public class TiroPlayer extends Entity {
 
     public String dirDisparo = "Esquerda";
 
-    public TiroPlayer(int x, int y, int width, int height, BufferedImage sprite) {
+    public TiroPlayer(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
 
-        super(x, y, width, height, sprite);
+        super(x, y, width, height, sprite, tipo);
 
         xa = x;
         ya = y;
@@ -64,11 +64,22 @@ public class TiroPlayer extends Entity {
     }
 
     public boolean colisao(int nextx, int nexty) {
-        Rectangle tiroRetangle = new Rectangle((int) xa, (int) ya, dimensoesTiro[0], dimensoesTiro[1]);
+
+        Rectangle tiroRetangle;
+
+        if (Player.direcaoAtual == 1) {
+            tiroRetangle = new Rectangle(nextx - Camera.x + 20, nexty - Camera.y +16, dimensoesTiro[0], dimensoesTiro[1]);
+        } else {
+            tiroRetangle = new Rectangle(nextx - Camera.x - 20, nexty - Camera.y +16, dimensoesTiro[0], dimensoesTiro[1]);
+        }
+
+
         for (int i = 0; i < Game.entidades.size(); i++) {
             Entity entidade = Game.entidades.get(i);
             Rectangle solido = new Rectangle(entidade.getX(), entidade.getY(), Entity.SIZEENTITYX, Entity.SIZEENTITYY);
             if (tiroRetangle.intersects(solido)) {
+                System.out.println(entidade);
+                System.out.println("colisão com solido");
                 return true;
             }
 
@@ -78,11 +89,18 @@ public class TiroPlayer extends Entity {
 
 
     public Entity colisaoInimigo(int nextx, int nexty) {
-        Rectangle tiroRetangle = new Rectangle((int) xa, (int) ya, dimensoesTiro[0], dimensoesTiro[1]);
+        Rectangle tiroRetangle;
+
+        if (Player.direcaoAtual == 1) {
+            tiroRetangle = new Rectangle(nextx - Camera.x + 20, nexty - Camera.y +16, dimensoesTiro[0], dimensoesTiro[1]);
+        } else {
+            tiroRetangle = new Rectangle(nextx - Camera.x - 20, nexty - Camera.y +16, dimensoesTiro[0], dimensoesTiro[1]);
+        }
         for (int i = 0; i < Game.inimigo.size(); i++) {
             Inimigo entidade = Game.inimigo.get(i);
-            Rectangle solido = new Rectangle(entidade.getX(), entidade.getY(), Entity.SIZEENTITYX, Entity.SIZEENTITYY);
-            if (tiroRetangle.intersects(solido)) {
+            Rectangle inimigoRectangle = new Rectangle(entidade.getX(), entidade.getY(), Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+            if (tiroRetangle.intersects(inimigoRectangle)) {
+                System.out.println("dano");
                 return entidade;
             }
         }

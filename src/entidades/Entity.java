@@ -105,10 +105,13 @@ public class Entity {
     //sprite
     protected BufferedImage sprite;
 
+    public String tipo;
+
     // construtor
-    public Entity(int x, int y, int width, int height, BufferedImage sprite) {
+    public Entity(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
         this.x = x;
         this.y = y;
+        this.tipo = tipo;
         this.width = width;
         this.height = height;
         this.sprite = sprite;
@@ -160,6 +163,7 @@ public class Entity {
                 ", width=" + width +
                 ", height=" + height +
                 ", sprite=" + sprite +
+                ", tipo=" + tipo +
                 '}';
     }
 }
