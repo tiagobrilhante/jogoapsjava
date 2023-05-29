@@ -19,27 +19,4 @@ public class AmmunitionExtra extends Entity {
         this.qtdTiroBox = 5;
     }
 
-    // manda para encostar no solo
-    public void tick(){
-        if (!colisao((int)x,(int)(y+1))){
-            y+=2;
-        }
-
-    }
-
-    // responsável pela colisão
-    public boolean colisao(int nextX, int nextY){
-        Rectangle leAmmo = new Rectangle(nextX + maskx, nextY + masky, maskw, maskh);
-        for (int i = 0; i < Game.entidades.size(); i++) {
-            Entity entidade = Game.entidades.get(i);
-            if (entidade instanceof Solido){
-                Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh );
-                if (leAmmo.intersects(solido)){
-                    return true;
-                }
-            }
-        }
-        return false;
-
-    }
 }

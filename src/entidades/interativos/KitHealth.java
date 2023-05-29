@@ -17,27 +17,4 @@ public class KitHealth extends Entity {
         super(x, y, width, height, sprite, tipo);
     }
 
-    // manda para encostar no solo
-    public void tick(){
-        if (!colisao((int)x,(int)(y+1))){
-            y+=2;
-        }
-
-    }
-
-    // responsável pela colisão
-    public boolean colisao(int nextX, int nextY){
-        Rectangle kitVida = new Rectangle(nextX + maskx, nextY + masky, maskw, maskh);
-        for (int i = 0; i < Game.entidades.size(); i++) {
-            Entity entidade = Game.entidades.get(i);
-            if (entidade instanceof Solido){
-                Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, maskw, maskh );
-                if (kitVida.intersects(solido)){
-                    return true;
-                }
-            }
-        }
-        return false;
-
-    }
 }

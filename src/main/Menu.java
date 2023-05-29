@@ -18,8 +18,8 @@ public class Menu {
     private BufferedImage imagem;
     public static Spritsheet animaMenu;
     public static Spritsheet fundoMenu;
-    public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
-    public String fundoMenuPath = "/res/spritesheets/testemenu.png";
+    public String menuAnimaPath = "/res/menus/animations/menuSprite1.png";
+    public String fundoMenuPath = "/res/menus/images/testemenu.png";
 
     public static String soundPath = "/res/sounds/soundtracks/fase0.wav";
 

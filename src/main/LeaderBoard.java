@@ -14,8 +14,8 @@ public class LeaderBoard {
     public boolean end;
     public static Spritsheet animaMenu;
     public static Spritsheet fundoMenu;
-    public String menuAnimaPath = "/res/spritesheets/menuSprite1.png";
-    public String fundoMenuPath = "/res/spritesheets/testeleaderboards.png";
+    public String menuAnimaPath = "/res/menus/animations/menuSprite1.png";
+    public String fundoMenuPath = "/res/menus/images/testeleaderboards.png";
     public BufferedImage[] playerMenuAnima;
     public BufferedImage[] fundoMenuSimples;
 

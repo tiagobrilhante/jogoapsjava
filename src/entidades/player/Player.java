@@ -1,6 +1,5 @@
 package entidades.player;
 
-import Mundo.Audio;
 import Mundo.Camera;
 import Mundo.Mundo;
 import entidades.Entity;
@@ -20,126 +19,143 @@ import java.util.Objects;
 // aqui tem coisas bem importantes sobre a mecânica do player
 public class Player extends Entity {
 
-    // movimentação basica do player
-    public boolean right, left, down, up;
+    // -------------------------------------- //
+    // --------Atributos da Entidade--------- //
+    // -------------------------------------- //
 
-    public static String selectedWeapon;
+    // tamanho base dos plocos de player
+    public static int SIZEPLAYERX = 32, SIZEPLAYERY = 48;
+    // máscara do player
+    public int maskx = 0, masky = 0, maskw = SIZEPLAYERX, maskh = SIZEPLAYERY;
 
-    public static String soundPathAttack = "/res/sounds/soundfx/attack.wav";
-    public static String soundPathJump = "/res/sounds/soundfx/jump.wav";
-    public static String soundPathTiro = "/res/sounds/soundfx/go.wav";
-    // public static String soundPathSteps = "/res/sounds/soundfx/step.wav";
-    public static String soundPathTake = "/res/sounds/soundfx/take.wav";
-    public static String soundPathReload = "/res/sounds/soundfx/reload.wav";
-    public static String soundPath1up = "/res/sounds/soundfx/1up.wav";
-    public static String soundPathExtraEnergy = "/res/sounds/soundfx/energy.wav";
-    public static String soundPathDamage = "/res/sounds/soundfx/damage.wav";
 
-    Audio audioAttack = new Audio(null, false);
-    Audio audioJump = new Audio(null, false);
-    Audio audioTiro = new Audio(null, false);
-    // Audio audioSteps = new Audio(null, false);
-    Audio audioTake = new Audio(null, false);
-    Audio audioReload = new Audio(null, false);
-    Audio audio1up = new Audio(null, false);
-    Audio audioEnergy = new Audio(null, false);
-    Audio audioDamage = new Audio(null, false);
-
-    public static double atualX, atualY;
-
-    // velocidade de deslocamento do player
-    public double speed = 2.9;
+    // ------------------------------------------- //
+    // --------Atributos de Vida e energia-------- //
+    // ------------------------------------------- //
 
     // vida inicial e máximo de vida permitido no jogo
     public static double life = 100, maxLife = 100;
 
-    // o player começa a fase virado para a direita
+    // numero de vidas que o player tem
+    public static int tentativas = 3;
+
+    // -------------------------------------- //
+    // --------Atributos de Movimento-------- //
+    // -------------------------------------- //
+
+    // movimentação basica do player
+    public boolean right, left, down, up;
+    // posição atual
+    public static double atualX, atualY;
+    // localização
+    public static int posx;
+    public static int posy;
     public static int direita = 1;
     public static int esquerda = 0;
+    // o player começa a fase virado para a direita
     public static int direcaoAtual = direita;
 
+    // velocidade de deslocamento do player
+    public double speed = 2.9;
+
     // o player começa parado
-    public int movimentacao = 0;
+    public boolean movimentacao = false;
 
-    public boolean emEscada;
+    // ####### EScada ######### //
+    public boolean emEscada = false;
 
-    public static int pontos = 0;
-
-    // tamanho base dos plocos de player
-    public static int SIZEPLAYERX = 32, SIZEPLAYERY = 48;
-
-    // máscara do player
-    public int maskx = 0, masky = 0, maskw = SIZEPLAYERX, maskh = SIZEPLAYERY;
+    // apoio para saber se está ou n ão no topo da escada
+    public boolean posTopoEscada;
+    public int yTopoEscada;
 
     // frames e indexes de movimentação do sprite do player
     public int frames = 0, maxFrames = 5, index = 0, maxIndex = 3, indexAtack = 0;
 
-
     // buffer de geração de imagem do player em movimento
     public BufferedImage[] playerRight, playerLeft, playerIdleLeft, playerIdleRigth, playerJumpLeft, playerJumpRight, playerEscada, playerAttackEsquerda, playerAttackEsquerdaArma, playerAttackDireita, playerAttackDireitaArma;
 
+    // ######## JUMP ####### //
+
     // se o player está pulando (jump é o momento que aperto o pulo, isJump é enquanto o pulo está acontecendo)
     public boolean jump = false, isJump = false;
+    // atributos de jump
+    public int jumpTimeSound = 0, jumpHeigth = 64, jumpSpeed = 4, jumpFrames = 0;
 
+    // ######## Attack ####### //
     public boolean attack = false;
+
+    public static String selectedWeapon;
     public int attackTimeSound = 0;
-    public int jumpTimeSound = 0;
-
-    // altura de incremento do pulo
-    public int jumpHeigth = 64;
-
-    // velocidade do pulo
-    public int jumpSpeed = 4;
-    // frame inicial do pulo
-    public int jumpFrames = 0;
-
-    public boolean playAudioWalk = false;
 
     public int timerDamageControllPlayer = 0;
     public int timerDamageControllResetPlayer = 0;
 
+    // quantidade de tiros iniciais do player
+    public static int qtdTiro = 50;
 
-    // inimigo
+    // ------------------------------------------- //
+    // --------Atributos de Pontuação ------------ //
+    // ------------------------------------------- //
+
+    public static int pontos = 0;
+
+
+    // ------------------ //
+    //      inimigo       //
+    // ------------------ //
+
     public Inimigo enemy;
 
-    // kits de vida
+    // estado em que o inimigo não recebe dano (recuperação)
+    public boolean noDamageStateEnemy = false;
+
+    // tempo de invulnerabilidade do inimigo
+    public int timerNoDamageEnemy = 0;
+
+    // ------------------------------------- //
+    //     Itens de interação do player      //
+    // ------------------------------------- //
     public KitHealth vida;
     public TrashBag trashBag;
     public VidaExtra vidaExtra;
     public AmmunitionExtra ammoBox;
 
-    public static int qtdTiro = 5;
 
-    public boolean posTopoEscada;
-    public int yTopoEscada;
-
-    // posicionamento do player
-    public int posx, posy;
+    // --------------------------------- //
+    //      indice de dano do player     //
+    // --------------------------------- //
 
     // indice de dano (será alterado face a cada ameaça)
+    // o índice de dano representa o fator de diminuição de vida do player ao receber dano
+    // por enquanto está fixado em cada entidade que causa dano, a posteriori será passado como parâmetro
+
     public double damageFactor = 0.40;
-    public static int tentativas = 3;
     public double damageFactorEspinho = 0.20;
+
+    // --------------------------------- //
+    //         Outros (Arrumar)          //
+    // --------------------------------- //
 
     // o quanto de vida um kit de recuperação recupera (no futuro poderão existir tipos de kits diferentes)
     public int indiceRecuperacaoKitVida = 10;
 
+    // timers de suporte para a lógica do player (TEM QUE REVISAR)
     public int timerPlayer = 0, tempoParado;
+    // timer de suporte a mecânicas do inimigo (TEM QUE REVISAR)
     public int timerEnemy = 0;
 
+    // controlador de efeitos (TEM QUE REVISAR)
     public int timeEfectsParam = 0;
 
-    public int timerNoDamageEnemy = 0;
 
-    public boolean noDamageStateEnemy = false;
-
+    // particulas geradas para mortes de inimigos
     public List<Particula> particulas = new ArrayList<>();
 
     // construtor
     public Player(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
         super(x, y, width, height, sprite, tipo);
+        // inicia com o cano
         selectedWeapon = "Cano";
-
         // quantidade de posições da animação do player (quando andando para a direita)
         playerRight = new BufferedImage[5];
         // quantidade de posições da animação do player (quando andando para a esquerda)
@@ -147,13 +163,17 @@ public class Player extends Entity {
         // array para idle
         playerIdleLeft = new BufferedImage[4];
         playerIdleRigth = new BufferedImage[4];
-
+        // jump
         playerJumpLeft = new BufferedImage[5];
         playerJumpRight = new BufferedImage[5];
+        // escada
         playerEscada = new BufferedImage[4];
+        //ataques
+        // cano
         playerAttackEsquerda = new BufferedImage[4];
-        playerAttackEsquerdaArma = new BufferedImage[4];
         playerAttackDireita = new BufferedImage[4];
+        // pistola
+        playerAttackEsquerdaArma = new BufferedImage[4];
         playerAttackDireitaArma = new BufferedImage[4];
 
         // loop para montar o array para a direita
@@ -217,20 +237,19 @@ public class Player extends Entity {
         timeEfectsParam++;
         timerDamageControllPlayer++;
         timerDamageControllResetPlayer++;
-
-        System.out.println(timerDamageControllPlayer);
-
-
+        timerPlayer++;
 
         // aqui eu inicio a movimentação em parado ==== 0
-        movimentacao = 0;
         atualX = (int) x;
         atualY = (int) y;
-        timerPlayer++;
-        double rawTime = (double) timerPlayer / 60;
-        tempoParado = (int) rawTime;
+
         timerEnemy++;
 
+        if (!movimentacao){
+            tempoParado++;
+        } else {
+            tempoParado = 0;
+        }
 
         // reset de invulnerabilidade do inimigo
         if (noDamageStateEnemy) {
@@ -253,10 +272,15 @@ public class Player extends Entity {
 
         // testa se estou em uma escada
         emEscada = colisaoEscada(this.getX(), this.getY());
+        if (emEscada) {
+            attack = false;
+            jump = false;
+            isJump = false;
+        }
 
         // Gravidade
         // Situação de ação da GRAVIDADE e MOVIMENTO de PLAYER em ESCADAS (pois desafia a gravidade)
-        if (!colisao((int) x, (int) (y + 1)) && !isJump && !emEscada) {
+        if (!colisao((int) x, (int) (y + 2)) && !isJump && !emEscada) {
             // não existe a colisão não estou em pulo e nem em escada
             // situação normal do player
             // se não existe colisão, eu sou afetado pela gravidade
@@ -264,7 +288,12 @@ public class Player extends Entity {
             // quando estou em pulo, eu desafio a gravidade pelo tempo do pulo
             y += 4; // índice de velocidade de queda
         } else {
-            // regras para movimento em escadas
+            // regras para movimento em escadas (quando eu nao colido com nada)
+            // vale ressaltar que a melhor estratégia é centralizar o player na escada
+            // aqui obrigatoriamente:
+            // - estou em colisão ou não
+            // - estou pulando ou não
+            // - estou em escada ou não
             if (emEscada && !colisao((int) x, (int) (y))) {
                 if (down) {
                     y += speed;
@@ -274,40 +303,64 @@ public class Player extends Entity {
                     y -= speed;
                     y = (int) y;
                 }
-                movimentacao = 1;
-                timerPlayer = 0;
-            } else {
-                // nesse caso, eu tento me colocar no nivel y da entidade solida ao qual eu colido
-                // evita que o player fique travado no chão
+                movimentacao = true;
+            } else if (emEscada && colisao((int) x, (int) (y))) {
+
+                // no caso estou em uma escada e colidindo com algo
                 Rectangle playerRect = new Rectangle((int) x + maskx, (int) y + masky, maskw, maskh);
 
                 for (int i = 0; i < Game.entidades.size(); i++) {
                     Entity entidade = Game.entidades.get(i);
+
                     if (entidade instanceof Solido) {
                         Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+
                         if (playerRect.intersects(solido)) {
-                            this.y = entidade.getY() - (SIZEPLAYERY);
+                            if (up && !posTopoEscada) {
+                                y = entidade.getY() + (SIZEENTITYY);
+                                up = false;
+                            } else {
+                                down = false;
+                                this.y = entidade.getY() - (SIZEPLAYERY);
+                            }
                         }
                     }
                 }
+
+            } else {
+
+                if (down) {
+                    y += 0;
+                    y = (int) y;
+                }
+                if (up) {
+                    y -= 0;
+                    y = (int) y;
+                }
+                movimentacao = false;
+
             }
 
         }
 
         // caso eu me movimente para a direita
+        // - não estou colidindo com nada
+        // - não estou atacando
+        // - estou dentro dos limites do mundo
         if (right && !attack && !colisao((int) (x + speed), this.getY()) && x <= (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX) {
             x += speed;
-            movimentacao = 1;
-            timerPlayer = 0;
+            movimentacao = true;
             direcaoAtual = direita;
 
         }
 
         // caso eu me movimente para a esquerda
+        // - não estou colidindo com nada
+        // - não estou atacando
+        // - estou dentro dos limites do mundo
         if (left && !attack && !colisao((int) (x - speed), this.getY()) && x >= 0) {
             x -= speed;
-            movimentacao = 1;
-            timerPlayer = 0;
+            movimentacao = true;
             direcaoAtual = esquerda;
 
         }
@@ -316,20 +369,16 @@ public class Player extends Entity {
         if (jump) {
             if (colisao(this.getX(), this.getY() + 1)) {
                 isJump = true;
-                timerPlayer = 0;
             }
         }
 
         // durante a execução do pulo (comportamento)
         if (isJump) {
-            timerPlayer = 0;
 
             if (jumpTimeSound == 0) {
-                audioJump = new Audio(soundPathJump, false); // Chamando a classe aonde está o audio.
-                audioJump.start();
+                PlayerAudio.tocaAudio("jump");
             }
             jumpTimeSound++;
-
 
             // se não houver colisão
             if (!colisao(this.getX(), this.getY() - 2)) {
@@ -358,6 +407,8 @@ public class Player extends Entity {
         // ação de ataque em relação ao inimigo (com o cano)
         if (attack) {
 
+            // após o ataque, tenho que fazer o ataque ser falso
+
             if (Objects.equals(selectedWeapon, "Cano")) {
                 // aqui existe a colisão de ataque pelo cano (passo a minha posição)
                 if (ataqueCano(this.getX(), this.getY())) {
@@ -366,17 +417,15 @@ public class Player extends Entity {
 
                 }
             } else {
-
                 if (attackTimeSound == 0) {
                     // o tick é muito rápido
                     if (qtdTiro > 0) {
-                        audioTiro = new Audio(soundPathTiro, false); // Chamando a classe aonde está o audio.
-                        audioTiro.start();
-
+                        PlayerAudio.tocaAudio("tiro");
+                        // aqui começa o problema de ajuste de tiro
                         if (direcaoAtual == 1) {
-                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x + 20, this.getY() - Camera.y + 16, 50, 50, null, "tiro"));
+                            Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y , 30, 2, null, "tiro", "Direita"));
                         } else {
-                            Game.tirosPLayer.add(new TiroPlayer(this.getX() - Camera.x - 20, this.getY() - Camera.y + 16, 50, 50, null, "tiro"));
+                            Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX- Camera.x , (int)Player.atualY + 16- Camera.y,  30, 2, null, "tiro", "Esquerda"));
                         }
                     }
 
@@ -387,11 +436,9 @@ public class Player extends Entity {
                     }
                 }
 
-
             }
 
-            timerPlayer = 0;
-            movimentacao = 1;
+            movimentacao = true;
             frames++;
 
             if (frames == maxFrames) {
@@ -399,14 +446,15 @@ public class Player extends Entity {
                 frames = 0;
                 if (indexAtack > maxIndex) {
                     indexAtack = 0;
+                    attack = false;
                 }
             }
+
 
         }
 
         // movimentação do player
-        if (movimentacao == 1 && !attack) {
-            timerPlayer = 0;
+        if (movimentacao && !attack) {
             frames++;
             if (frames == maxFrames) {
                 index++;
@@ -420,7 +468,6 @@ public class Player extends Entity {
 
             // em pulo
             if (isJump) {
-                timerPlayer = 0;
                 frames++;
                 if (frames == maxFrames) {
                     index++;
@@ -432,7 +479,7 @@ public class Player extends Entity {
             } else {
 
                 // comportamento em idle
-                if (tempoParado > 4) {
+                if ((int)tempoParado/60 > 4) {
                     frames++;
                     if (frames == maxFrames) {
                         index++;
@@ -450,7 +497,6 @@ public class Player extends Entity {
             life -= damageFactor;
         }
 
-        playAudioWalk = movimentacao == 1 && colisao((int) x, (int) (y + 1));
 
         // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
         if (vida(this.getX(), this.getY()) && life < 100) {
@@ -461,7 +507,7 @@ public class Player extends Entity {
             Game.kitHealth.remove(vida);
         }
 
-        // kit de vida (se tiver com a vida cheia não pega, caso contrário pega, recupera a vida e remove da tela)
+        // pegar Lixo no chão
         if (pegaLixo(this.getX(), this.getY())) {
             pontos++;
             Game.trashBags.remove(trashBag);
@@ -473,7 +519,7 @@ public class Player extends Entity {
             Game.vidasExtras.remove(vidaExtra);
         }
 
-        // vidas extras para o player
+        // Munição extra para o player
         if (pegaMunicaoExtra(this.getX(), this.getY())) {
             qtdTiro += ammoBox.qtdTiroBox;
             Game.ammunitionExtras.remove(ammoBox);
@@ -490,7 +536,7 @@ public class Player extends Entity {
             life -= damageFactorEspinho;
         }
 
-        // caindo fora da tela
+        // caindo fora da tela (dano)
         if (y >= (Mundo.HEIGHT * Entity.SIZEENTITYY)) {
             life -= damageFactor * 4;
         }
@@ -518,15 +564,23 @@ public class Player extends Entity {
     }
 
     // colisor base do player
+
+    // -------------------------------- //
+    //              Basico              //
+    // -------------------------------- //
+    //colisão (gravidade)
     public boolean colisao(int nextx, int nexty) {
+
 
         Rectangle playerRectangle = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
 
         for (int i = 0; i < Game.entidades.size(); i++) {
             Entity entidade = Game.entidades.get(i);
             if (entidade instanceof Solido) {
+
                 Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (playerRectangle.intersects(solido)) {
+
                     return true;
                 }
             }
@@ -534,22 +588,23 @@ public class Player extends Entity {
         return false;
     }
 
-    // checkpoint (player toca o checkpoint)
-    public boolean checkPoint(int nextx, int nexty) {
-        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+    // troca de armas
+    public synchronized void toggleWeapon() {
 
-        for (int i = 0; i < Game.checkPoints.size(); i++) {
-            Entity checkPoint = Game.checkPoints.get(i);
-            if (checkPoint != null) {
-                Rectangle placa = new Rectangle(checkPoint.getX() + maskx, checkPoint.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
-                if (player.intersects(placa)) {
-                    return true;
-                }
+        if (Objects.equals(selectedWeapon, "Cano")) {
+            if (qtdTiro > 0) {
+                selectedWeapon = "Arma";
             }
+        } else {
+            selectedWeapon = "Cano";
         }
-        return false;
     }
 
+    // -------------------------------- //
+    //            Dano (tomado)         //
+    // -------------------------------- //
+
+    // dano por contato com espinhos
     public boolean danoEspinho(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
 
@@ -559,9 +614,8 @@ public class Player extends Entity {
                 Rectangle espinhoRetangulo = new Rectangle(espinho.getX() + maskx, espinho.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(espinhoRetangulo)) {
                     timerDamageControllPlayer = 0;
-                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer%30 == 0) {
-                        audioDamage = new Audio(soundPathDamage, false); // Chamando a classe aonde está o audio.
-                        audioDamage.start();
+                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer % 30 == 0) {
+                        PlayerAudio.tocaAudio("dano");
                     }
                     return true;
 
@@ -571,9 +625,7 @@ public class Player extends Entity {
         return false;
     }
 
-
-
-    // player toma dano dos inimigos no contato
+    // dano por contato com inimigos
     public boolean damage(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.inimigo.size(); i++) {
@@ -583,9 +635,8 @@ public class Player extends Entity {
                 if (player.intersects(solido)) {
                     timerDamageControllPlayer = 0;
                     enemy = entidade;
-                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer%30 == 0) {
-                        audioDamage = new Audio(soundPathDamage, false); // Chamando a classe aonde está o audio.
-                        audioDamage.start();
+                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer % 30 == 0) {
+                       PlayerAudio.tocaAudio("dano");
                     }
                     return true;
                 }
@@ -594,6 +645,11 @@ public class Player extends Entity {
         return false;
     }
 
+    // -------------------------------- //
+    //            Dano (causado)        //
+    // -------------------------------- //
+
+    // Dano que o player causa no inimigo
     public void causaDanoInimigo(int timerNoDamageEnemy, Entity inimigo) {
         this.enemy = (Inimigo) inimigo;
         if (timerNoDamageEnemy == 0) {
@@ -613,7 +669,7 @@ public class Player extends Entity {
 
         // movimenta o inimigo na direção oposta a que eu me encontro
         // direita
-        if (direcaoAtual == 1 ) {
+        if (direcaoAtual == 1) {
             // executo o loop por 19 ticks (índice de afastamento)
             for (int j = 0; j < 19; j++) {
                 if (!enemy.colisao(enemy.getX(), enemy.getY())) {
@@ -642,6 +698,11 @@ public class Player extends Entity {
 
     }
 
+    // -------------------------------- //
+    //            Ataques               //
+    // -------------------------------- //
+
+    // ataque com o cano, tenho que ajustar para impedir que o inimigo fique preso em alguma parte de tela
     public boolean ataqueCano(int nextx, int nexty) {
 
         int incremento = 0;
@@ -664,6 +725,26 @@ public class Player extends Entity {
         return false;
     }
 
+    // -------------------------------- //
+    //          Interativos             //
+    // -------------------------------- //
+
+    // checkpoint (player toca o checkpoint)
+    public boolean checkPoint(int nextx, int nexty) {
+        Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+
+        for (int i = 0; i < Game.checkPoints.size(); i++) {
+            Entity checkPoint = Game.checkPoints.get(i);
+            if (checkPoint != null) {
+                Rectangle placa = new Rectangle(checkPoint.getX() + maskx, checkPoint.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                if (player.intersects(placa)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // player colide com o kit de vida
     public boolean vida(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
@@ -673,8 +754,7 @@ public class Player extends Entity {
                 Rectangle kitVida = new Rectangle(kitHealth.getX() + maskx, kitHealth.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(kitVida)) {
                     vida = kitHealth;
-                    audioEnergy = new Audio(soundPathExtraEnergy, false); // Chamando a classe aonde está o audio.
-                    audioEnergy.start();
+                    PlayerAudio.tocaAudio("extraEnergy");
                     return true;
                 }
             }
@@ -682,6 +762,7 @@ public class Player extends Entity {
         return false;
     }
 
+    //coleta de lixo
     public boolean pegaLixo(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.trashBags.size(); i++) {
@@ -690,8 +771,7 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(trashBagAtivo.getX() + maskx, trashBagAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     trashBag = trashBagAtivo;
-                    audioTake = new Audio(soundPathTake, false); // Chamando a classe aonde está o audio.
-                    audioTake.start();
+                    PlayerAudio.tocaAudio("pegaLixo");
                     return true;
                 }
             }
@@ -699,6 +779,7 @@ public class Player extends Entity {
         return false;
     }
 
+    // vida extra
     public boolean pegaVidaExtra(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.vidasExtras.size(); i++) {
@@ -707,8 +788,7 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(vidaExtraAtivo.getX() + maskx, vidaExtraAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     vidaExtra = vidaExtraAtivo;
-                    audio1up = new Audio(soundPath1up, false); // Chamando a classe aonde está o audio.
-                    audio1up.start();
+                    PlayerAudio.tocaAudio("vidaExtra");
                     return true;
                 }
             }
@@ -716,6 +796,7 @@ public class Player extends Entity {
         return false;
     }
 
+    // munição extra
     public boolean pegaMunicaoExtra(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.ammunitionExtras.size(); i++) {
@@ -724,8 +805,7 @@ public class Player extends Entity {
                 Rectangle trashRetangle = new Rectangle(ammoBoxAtivo.getX() + maskx, ammoBoxAtivo.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(trashRetangle)) {
                     ammoBox = ammoBoxAtivo;
-                    audioReload = new Audio(soundPathReload, false); // Chamando a classe aonde está o audio.
-                    audioReload.start();
+                    PlayerAudio.tocaAudio("reload");
                     return true;
                 }
             }
@@ -733,22 +813,15 @@ public class Player extends Entity {
         return false;
     }
 
-    public synchronized void toggleWeapon() {
+    // -------------------------------- //
+    //          Movimentacao            //
+    // -------------------------------- //
 
-        if (Objects.equals(selectedWeapon, "Cano")) {
-            if (qtdTiro > 0) {
-                selectedWeapon = "Arma";
-            }
-        } else {
-            selectedWeapon = "Cano";
-        }
-    }
-
+    // colisão com escadas
     public boolean colisaoEscada(int nextx, int nexty) {
         Rectangle retanguloPlayer = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.escada.size(); i++) {
             Escada escada = Game.escada.get(i);
-
             Rectangle retanguloEscada = new Rectangle(escada.getX() + maskx, escada.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
             if (retanguloPlayer.intersects(retanguloEscada)) {
                 if (escada.tipoEscada == 3) {
@@ -757,7 +830,6 @@ public class Player extends Entity {
                 } else {
                     posTopoEscada = false;
                 }
-
                 return true;
             }
 
@@ -770,8 +842,12 @@ public class Player extends Entity {
     // renderiza tudão
     public void render(Graphics g) {
 
+         //g.fillRect((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y,  32,32);
+
+        //Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y , 30, 2, null, "tiro", "Direita"));
+
         // quando anda para a direita (e pula para a direita)
-        if (direcaoAtual == direita && movimentacao == 1 && !attack && !emEscada) {
+        if (direcaoAtual == direita && movimentacao && !attack && !emEscada) {
             // caso esteja pulando
             if (isJump) {
                 // executa a animação do pulo
@@ -788,7 +864,7 @@ public class Player extends Entity {
         }
 
         // quando movimenta para a esquerda e pula para a esquerda
-        if (direcaoAtual == esquerda && movimentacao == 1 && !attack && !emEscada) {
+        if (direcaoAtual == esquerda && movimentacao && !attack && !emEscada) {
             // caso esteja pulando
             if (isJump) {
                 // executa a animação do pulo
@@ -807,11 +883,14 @@ public class Player extends Entity {
 
         // quando para de andar para a direita (mantem o corpo voltado pra direita)
         // animação de Idle quando o tempo for maior que 4
-        if (direcaoAtual == direita && movimentacao == 0 && !emEscada) {
+        if (direcaoAtual == direita && !movimentacao && !emEscada) {
+
             if (isJump) {
                 // executa a animação do pulo
                 g.drawImage(playerJumpRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if (tempoParado > 4) {
+            } else if ((int)tempoParado/60 <= 4) {
+                g.drawImage(playerIdleRigth[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else if ((int)tempoParado/60 > 4) {
                 g.drawImage(playerIdleRigth[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
                 g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -821,11 +900,13 @@ public class Player extends Entity {
 
         // quando para de andar para a esquerda (mantem o corpo voltado pra esquerda)
         // animação de Idle quando o tempo for maior que 4
-        if (direcaoAtual == esquerda && movimentacao == 0 && !emEscada) {
+        if (direcaoAtual == esquerda && !movimentacao && !emEscada) {
             if (isJump) {
                 // executa a animação do pulo
                 g.drawImage(playerJumpLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if (tempoParado > 4) {
+            } else if ((int)tempoParado/60 <= 4) {
+                g.drawImage(playerIdleLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else if ((int)tempoParado/60 > 4) {
                 g.drawImage(playerIdleLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
                 g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -851,11 +932,14 @@ public class Player extends Entity {
         // ataque (em testes)
         if (attack) {
 
+            //g.fillRect(this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, 50,50);
+            //g.fillRect((int)atualX - Camera.x, (int)atualY - Camera.y, 50,50);
+
             if (attackTimeSound == 0) {
                 if (Objects.equals(selectedWeapon, "Cano")) {
-                    audioAttack = new Audio(soundPathAttack, false); // Chamando a classe aonde está o audio.
-                    audioAttack.start();
+                    PlayerAudio.tocaAudio("ataqueCano");
                 }
+
             }
             attackTimeSound++;
 
@@ -882,6 +966,4 @@ public class Player extends Entity {
         }
 
     }
-
-
 }

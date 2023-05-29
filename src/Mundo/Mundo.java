@@ -51,7 +51,7 @@ public class Mundo {
             corMountainParalax= 0xFF3e7682, corJuncaoUmBlocoDireita = 0xFF203766 , corJuncaoUmBlocoEsquerda = 0xFF364366,
             corJuncaoSimplesUmBlocoDuploDireita = 0xFF72ccf2 , corJuncaoSimplesUmBlocoDuploEsquerda = 0xFFf294cb;
 
-    public static String gameSpritePath = "/res/spritesheets/spritesheet32.png";
+    public static String gameSpritePath = "/res/spritesheets/terrain/spritesheet32.png";
     public static String ceuSpritePath = "/res/spritesheets/ceusprite.png";
     public static String nuvemSpritePath = "/res/spritesheets/ceuspriteClouds.png";
     public static String levelPath = "/res/fases/";

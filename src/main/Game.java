@@ -17,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.Serial;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -90,8 +91,8 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
 
     // objetos base (PATHS)
-    public String spriteGamePath = "/res/spritesheets/spritesheet32.png", spritePlayerPath = "/res/spritesheets/spritesheetPlayer2.png",
-            spriteEnemyPath = "/res/spritesheets/spritesheetEnemy.png", spriteCeuPath = "/res/spritesheets/ceusprite.png",
+    public String spriteGamePath = "/res/spritesheets/terrain/spritesheet32.png", spritePlayerPath = "/res/spritesheets/player/spritesheetPlayer3.png",
+            spriteEnemyPath = "/res/spritesheets/enemy/spritesheetEnemy.png", spriteCeuPath = "/res/spritesheets/ceusprite.png",
             spriteMountainPath = "/res/spritesheets/mountain1lvlsprite.png",
             spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png", spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png",
             spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png", levelPath = "/res/fases/level1.png";
@@ -178,7 +179,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
         darkBricksFundo = new ArrayList<>();
         tirosPLayer = new ArrayList<>();
 
-
         // chama o player (de acordo com a posição inicial no sprite)
         player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY), "Player");
         // adiciona o player em entidades (só pode haver 1)
@@ -205,6 +205,13 @@ public class Game extends Canvas implements Runnable, KeyListener {
         jFrame.setLocationRelativeTo(null);
         // comportamento esperado quando eu aperto o botão de fechar a janela
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Define o ícone da aplicação
+        ImageIcon icon = createImageIcon("/res/icons/scrapsicon.png");
+
+        if (icon != null) {
+            jFrame.setIconImage(icon.getImage());
+        }
         jFrame.setFocusableWindowState(true);
 
         jFrame.addWindowListener(new WindowAdapter() {
@@ -236,6 +243,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
         game = new Game();
         game.start();
 
+    }
+
+    // Método auxiliar para criar um ImageIcon com o caminho fornecido
+    private ImageIcon createImageIcon(String path) {
+        URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            System.err.println("Imagem não encontrada: " + path);
+            return null;
+        }
     }
 
     // método que realmente inicializa o jogo
@@ -301,6 +319,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {
 
+
         if (Objects.equals(gameState, "MENU")) {
             menu.choose();
             menu.tick();
@@ -358,17 +377,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
                 Mundo.newlevel(Level);
             }
 
-            System.out.println(tirosPLayer);
-
             for (int i = 0; i < tirosPLayer.size(); i++) {
                 TiroPlayer myShot = tirosPLayer.get(i);
-
                 if (myShot.colisaoInimigo((int) myShot.x, (int) myShot.y) != null) {
                     Entity inimigo = myShot.colisaoInimigo((int) myShot.x, (int) myShot.y);
                     player.causaDanoInimigo(0, inimigo);
                     Game.tirosPLayer.remove(myShot);
                 } else {
-                    if (myShot.x >= Mundo.HEIGHT * 32 || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
+                    // if (myShot.x >= Mundo.WIDTH * 32 || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
+                    if (myShot.x >= Game.WIDTH || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
+
                         Game.tirosPLayer.remove(myShot);
                     }
                 }
@@ -401,26 +419,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
             // atribuo a responsabilidade para o nuvens realizar os ticks dos seus filhos
             for (Nuvens entidade : nuvemVetor) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para o kitHealth (vida) realizar os ticks dos seus filhos
-            for (KitHealth entidade : kitHealth) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para o trashBag realizar os ticks dos seus filhos
-            for (TrashBag entidade : trashBags) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para o vidaExtra realizar os ticks dos seus filhos
-            for (VidaExtra entidade : vidasExtras) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para o ammunitionExtra realizar os ticks dos seus filhos
-            for (AmmunitionExtra entidade : ammunitionExtras) {
                 entidade.tick();
             }
 
@@ -461,6 +459,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     // renderiza os elementos de acordo com a estratégia de buffer
     public void render() {
+
 
         BufferStrategy buffer = this.getBufferStrategy();
         if (buffer == null) {
