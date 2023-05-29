@@ -367,7 +367,7 @@ public class Player extends Entity {
 
         // momento do pulo (habilita a condição de estar pulando)
         if (jump) {
-            if (colisao(this.getX(), this.getY() + 1)) {
+            if (colisao(this.getX(), this.getY() + 2)) {
                 isJump = true;
             }
         }
