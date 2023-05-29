@@ -91,7 +91,7 @@ public class Player extends Entity {
     public int timerDamageControllResetPlayer = 0;
 
     // quantidade de tiros iniciais do player
-    public static int qtdTiro = 50;
+    public static int qtdTiro = 5;
 
     // ------------------------------------------- //
     // --------Atributos de Pontuação ------------ //
