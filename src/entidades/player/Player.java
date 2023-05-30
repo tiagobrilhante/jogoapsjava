@@ -138,13 +138,8 @@ public class Player extends Entity {
     // o quanto de vida um kit de recuperação recupera (no futuro poderão existir tipos de kits diferentes)
     public int indiceRecuperacaoKitVida = 10;
 
-    // timers de suporte para a lógica do player (TEM QUE REVISAR)
-    public int timerPlayer = 0, tempoParado;
-    // timer de suporte a mecânicas do inimigo (TEM QUE REVISAR)
-    public int timerEnemy = 0;
-
-    // controlador de efeitos (TEM QUE REVISAR)
-    public int timeEfectsParam = 0;
+    // timer de para Idle
+    public int  tempoParado;
 
     // ######################## //
     // ###### Particulas ###### //
@@ -235,16 +230,12 @@ public class Player extends Entity {
 
     public void tick() {
 
-        timeEfectsParam++;
         timerDamageControllPlayer++;
         timerDamageControllResetPlayer++;
-        timerPlayer++;
 
         // aqui eu inicio a movimentação em parado ==== 0
         atualX = (int) x;
         atualY = (int) y;
-
-        timerEnemy++;
 
         if (!movimentacao){
             tempoParado++;
