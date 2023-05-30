@@ -54,18 +54,16 @@ public class Player extends Entity {
     public static int esquerda = 0;
     // o player começa a fase virado para a direita
     public static int direcaoAtual = direita;
-
     // velocidade de deslocamento do player
     public double speed = 2.9;
-
     // o player começa parado
     public boolean movimentacao = false;
 
-    // ####### EScada ######### //
-    public boolean emEscada = false;
-
-    // apoio para saber se está ou n ão no topo da escada
-    public boolean posTopoEscada;
+    // ######################## //
+    // ####### Escada ######### //
+    // ######################## //
+    // inicia fora de escada / apoio para saber se está ou n ão no topo da escada
+    public boolean emEscada = false, posTopoEscada;
     public int yTopoEscada;
 
     // frames e indexes de movimentação do sprite do player
@@ -74,22 +72,23 @@ public class Player extends Entity {
     // buffer de geração de imagem do player em movimento
     public BufferedImage[] playerRight, playerLeft, playerIdleLeft, playerIdleRigth, playerJumpLeft, playerJumpRight, playerEscada, playerAttackEsquerda, playerAttackEsquerdaArma, playerAttackDireita, playerAttackDireitaArma;
 
-    // ######## JUMP ####### //
+    // ######################## //
+    // ######## Pulo ########## //
+    // ######################## //
 
     // se o player está pulando (jump é o momento que aperto o pulo, isJump é enquanto o pulo está acontecendo)
     public boolean jump = false, isJump = false;
     // atributos de jump
     public int jumpTimeSound = 0, jumpHeigth = 64, jumpSpeed = 4, jumpFrames = 0;
 
-    // ######## Attack ####### //
+    // ######################## //
+    // ####### Ataque ######### //
+    // ######################## //
     public boolean attack = false;
-
     public static String selectedWeapon;
     public int attackTimeSound = 0;
-
     public int timerDamageControllPlayer = 0;
     public int timerDamageControllResetPlayer = 0;
-
     // quantidade de tiros iniciais do player
     public static int qtdTiro = 50;
 
@@ -147,7 +146,9 @@ public class Player extends Entity {
     // controlador de efeitos (TEM QUE REVISAR)
     public int timeEfectsParam = 0;
 
-
+    // ######################## //
+    // ###### Particulas ###### //
+    // ######################## //
     // particulas geradas para mortes de inimigos
     public List<Particula> particulas = new ArrayList<>();
 
@@ -298,6 +299,7 @@ public class Player extends Entity {
             if (emEscada && !colisao((int) x, (int) (y))) {
                 jump = false;
                 isJump = false;
+                attack = false;
                 if (down) {
                     y += speed;
                     y = (int) y;
@@ -310,6 +312,7 @@ public class Player extends Entity {
             } else if (emEscada && colisao((int) x, (int) (y))) {
                 jump = false;
                 isJump = false;
+                attack = false;
                 // no caso estou em uma escada e colidindo com algo
                 Rectangle playerRect = new Rectangle((int) x + maskx, (int) y + masky, maskw, maskh);
 
@@ -373,12 +376,13 @@ public class Player extends Entity {
         if (jump) {
             if (colisao(this.getX(), this.getY() + 1)) {
                 isJump = true;
+                attack = false;
             }
         }
 
         // durante a execução do pulo (comportamento)
         if (isJump) {
-
+            attack = false;
             if (jumpTimeSound == 0) {
                 PlayerAudio.tocaAudio("jump");
             }
@@ -569,8 +573,10 @@ public class Player extends Entity {
     //              Basico              //
     // -------------------------------- //
     //colisão (gravidade)
+    // ------------------------- //
+    // ---------REVISÃO--------- //
+    // ------------------------- //
     public boolean colisao(int nextx, int nexty) {
-
 
         Rectangle playerRectangle = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
 
@@ -817,6 +823,9 @@ public class Player extends Entity {
     // -------------------------------- //
 
     // colisão com escadas
+    // ------------------------- //
+    // ---------REVISÃO--------- //
+    // ------------------------- //
     public boolean colisaoEscada(int nextx, int nexty) {
         Rectangle retanguloPlayer = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
         for (int i = 0; i < Game.escada.size(); i++) {
@@ -843,9 +852,8 @@ public class Player extends Entity {
     // renderiza tudão
     public void render(Graphics g) {
 
-         //g.fillRect((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y,  32,32);
-
-        //Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y , 30, 2, null, "tiro", "Direita"));
+        // Auxiliar (remover depois)
+        // g.fillRect((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y,  32,32);
 
         // quando anda para a direita (e pula para a direita)
         if (direcaoAtual == direita && movimentacao && !attack && !emEscada) {
