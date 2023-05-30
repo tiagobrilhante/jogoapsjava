@@ -1,5 +1,6 @@
 # APS CC3P34 <br>
 <h1>ScrAPS Worls</h1>
+<img src="src/res/concept/telaInicialCaptura.png">
 O Jogo ScrAPS World foi desenvolvido com a finalidade de atender ao pedido proposto pela UNIP na APS do terceiro período<br>
 do curso de Ciência da Computação.<br>
 O Jogo foi desenvolvido na linguagem JAVA, e utilizando o mínimo de bibliotecas não nativas da mesma (sem uso de engines).<br>
