@@ -32,3 +32,6 @@ Para tanto, foi criada a equipe "Notorious Team", que vai buscar a adequação d
 <br>
 Seja feliz, é obrigatório<br>
 Todo poder emana do código<br>
+
+<br>
+<img src="src/res/concept/jogoTela.png">
