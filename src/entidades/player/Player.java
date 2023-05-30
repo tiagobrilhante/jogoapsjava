@@ -47,9 +47,8 @@ public class Player extends Entity {
     public boolean right, left, down, up;
     // posição atual
     public static double atualX, atualY;
-    // localização
-    public static int posx;
-    public static int posy;
+    // localização com relação ao save
+    public static int posx, posy;
     public static int direita = 1;
     public static int esquerda = 0;
     // o player começa a fase virado para a direita
@@ -272,6 +271,7 @@ public class Player extends Entity {
 
         // testa se estou em uma escada
         emEscada = colisaoEscada(this.getX(), this.getY());
+
         if (emEscada) {
             attack = false;
             jump = false;
@@ -295,6 +295,8 @@ public class Player extends Entity {
             // - estou pulando ou não
             // - estou em escada ou não
             if (emEscada && !colisao((int) x, (int) (y))) {
+                jump = false;
+                isJump = false;
                 if (down) {
                     y += speed;
                     y = (int) y;
@@ -305,7 +307,8 @@ public class Player extends Entity {
                 }
                 movimentacao = true;
             } else if (emEscada && colisao((int) x, (int) (y))) {
-
+                jump = false;
+                isJump = false;
                 // no caso estou em uma escada e colidindo com algo
                 Rectangle playerRect = new Rectangle((int) x + maskx, (int) y + masky, maskw, maskh);
 
@@ -367,7 +370,7 @@ public class Player extends Entity {
 
         // momento do pulo (habilita a condição de estar pulando)
         if (jump) {
-            if (colisao(this.getX(), this.getY() + 2)) {
+            if (colisao(this.getX(), this.getY() + 1)) {
                 isJump = true;
             }
         }
@@ -543,14 +546,10 @@ public class Player extends Entity {
 
         // quaando a energia acaba
         if (life <= 0) {
-
             tentativas--;
-
             setX(posx);
             setY(posy);
-
             life = 100;
-
             if (tentativas == 0) {
                 GameOver.gameoverTimer = 0;
                 Game.gameState = "GAMEOVER";
@@ -580,7 +579,7 @@ public class Player extends Entity {
 
                 Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (playerRectangle.intersects(solido)) {
-
+                    Player.atualY = entidade.getY() + masky;
                     return true;
                 }
             }
@@ -732,7 +731,6 @@ public class Player extends Entity {
     // checkpoint (player toca o checkpoint)
     public boolean checkPoint(int nextx, int nexty) {
         Rectangle player = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
-
         for (int i = 0; i < Game.checkPoints.size(); i++) {
             Entity checkPoint = Game.checkPoints.get(i);
             if (checkPoint != null) {
@@ -824,6 +822,8 @@ public class Player extends Entity {
             Escada escada = Game.escada.get(i);
             Rectangle retanguloEscada = new Rectangle(escada.getX() + maskx, escada.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
             if (retanguloPlayer.intersects(retanguloEscada)) {
+                jump = false;
+                isJump = false;
                 if (escada.tipoEscada == 3) {
                     posTopoEscada = true;
                     yTopoEscada = escada.getY();

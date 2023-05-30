@@ -34,7 +34,6 @@ public class Game extends Canvas implements Runnable, KeyListener {
     @Serial
     private static final long serialVersionUID = 1L;
 
-
     // Usa o JFRAME para criar a área do jogo
     public static JFrame jFrame;
     // tamanho da tela, tem que ser ajustado
