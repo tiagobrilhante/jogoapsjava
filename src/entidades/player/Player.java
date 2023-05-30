@@ -483,7 +483,7 @@ public class Player extends Entity {
             } else {
 
                 // comportamento em idle
-                if ((int)tempoParado/60 > 4) {
+                if (tempoParado /60 > 4) {
                     frames++;
                     if (frames == maxFrames) {
                         index++;
@@ -614,7 +614,7 @@ public class Player extends Entity {
                 Rectangle espinhoRetangulo = new Rectangle(espinho.getX() + maskx, espinho.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (player.intersects(espinhoRetangulo)) {
                     timerDamageControllPlayer = 0;
-                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer % 30 == 0) {
+                    if (timerDamageControllResetPlayer % 30 == 0) {
                         PlayerAudio.tocaAudio("dano");
                     }
                     return true;
@@ -635,7 +635,7 @@ public class Player extends Entity {
                 if (player.intersects(solido)) {
                     timerDamageControllPlayer = 0;
                     enemy = entidade;
-                    if (timerDamageControllPlayer == 0 && timerDamageControllResetPlayer % 30 == 0) {
+                    if (timerDamageControllResetPlayer % 30 == 0) {
                        PlayerAudio.tocaAudio("dano");
                     }
                     return true;
@@ -889,9 +889,9 @@ public class Player extends Entity {
             if (isJump) {
                 // executa a animação do pulo
                 g.drawImage(playerJumpRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if ((int)tempoParado/60 <= 4) {
+            } else if (tempoParado /60 <= 4) {
                 g.drawImage(playerIdleRigth[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if ((int)tempoParado/60 > 4) {
+            } else if (tempoParado /60 > 4) {
                 g.drawImage(playerIdleRigth[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
                 g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -905,9 +905,9 @@ public class Player extends Entity {
             if (isJump) {
                 // executa a animação do pulo
                 g.drawImage(playerJumpLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if ((int)tempoParado/60 <= 4) {
+            } else if (tempoParado /60 <= 4) {
                 g.drawImage(playerIdleLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else if ((int)tempoParado/60 > 4) {
+            } else if (tempoParado /60 > 4) {
                 g.drawImage(playerIdleLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
                 g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -930,11 +930,8 @@ public class Player extends Entity {
             particula.render(g);
         }
 
-        // ataque (em testes)
+        // ataque
         if (attack) {
-
-            //g.fillRect(this.getX() - Camera.x - Player.SIZEPLAYERX, this.getY() - Camera.y, 50,50);
-            //g.fillRect((int)atualX - Camera.x, (int)atualY - Camera.y, 50,50);
 
             if (attackTimeSound == 0) {
                 if (Objects.equals(selectedWeapon, "Cano")) {
