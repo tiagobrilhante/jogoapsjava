@@ -2,7 +2,7 @@ package main;
 
 import Mundo.Mundo;
 import entidades.Entity;
-import entidades.Grama;
+import entidades.naoSolidos.Grama;
 import entidades.interativos.*;
 import entidades.naoSolidos.*;
 import entidades.player.Player;
@@ -327,13 +327,13 @@ public class Game extends Canvas implements Runnable {
 
             for (int i = 0; i < tirosPLayer.size(); i++) {
                 TiroPlayer myShot = tirosPLayer.get(i);
-                if (myShot.colisaoInimigo((int) myShot.x, (int) myShot.y) != null) {
-                    Entity inimigo = myShot.colisaoInimigo((int) myShot.x, (int) myShot.y);
+                if (myShot.colisaoInimigo() != null) {
+                    Entity inimigo = myShot.colisaoInimigo();
                     player.causaDanoInimigo(0, inimigo);
                     Game.tirosPLayer.remove(myShot);
                 } else {
                     // if (myShot.x >= Mundo.WIDTH * 32 || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
-                    if (myShot.x >= GameSettings.getGAME_WIDTH() || myShot.x < 0 || myShot.colisao((int) myShot.x, (int) myShot.y)) {
+                    if (myShot.x >= GameSettings.getGAME_WIDTH() || myShot.x < 0 || myShot.colisao()) {
 
                         Game.tirosPLayer.remove(myShot);
                     }

@@ -3,7 +3,7 @@ package entidades.naoSolidos;
 import java.awt.*;
 import java.util.Random;
 
-public class Star extends Rectangle {
+public class Dust extends Rectangle {
 
     // objeto estrela
 
@@ -14,7 +14,7 @@ public class Star extends Rectangle {
 
     public int speed;
 
-    public Star(int x, int y, int width, int height) {
+    public Dust(int x, int y, int width, int height) {
 
         super(x, y, width, height);
         color = Color.yellow;

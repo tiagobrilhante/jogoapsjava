@@ -1,7 +1,7 @@
 package Mundo;
 
 import entidades.Entity;
-import entidades.Grama;
+import entidades.naoSolidos.Grama;
 import entidades.interativos.*;
 import entidades.naoSolidos.*;
 import entidades.player.Player;
@@ -290,7 +290,7 @@ public class Mundo {
                         Game.vidasExtras.add(vidaExtra);
                     }
                     else if (pixelAtual == corAmmuBox) {
-                        AmmunitionExtra ammunitionExtra = new AmmunitionExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.ammunitionExtra, "ExtraAmmo");
+                        AmmunitionExtra ammunitionExtra = new AmmunitionExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.ammunitionExtra, "ExtraAmmo", 5);
                         Game.ammunitionExtras.add(ammunitionExtra);
                     }
                     else if (pixelAtual == corGrama) {
@@ -304,14 +304,13 @@ public class Mundo {
                         Game.entidades.add(galho);
                     } else if (pixelAtual == corInimigo1 || pixelAtual == corInimigo2) {
 
-                        int tipoInimigo = 0;
+                        // isso vai ser alterado a medida que novos inimigos aparecem no jogo
+                        int tipoInimigo;
                         if (pixelAtual == corInimigo1) {
                             tipoInimigo = 1;
-                        } else if (pixelAtual == corInimigo2) {
+                        } else {
                             tipoInimigo = 2;
                         }
-
-
                         // aqui é im incremento para por o inimigo no lugar correto
                         // tem que reajustar quando os inimigos passarem a ocupar 32 pixeis ao invés de 16
                         int incremento = 1;

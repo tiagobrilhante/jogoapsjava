@@ -6,7 +6,7 @@ import entidades.player.Player;
 
 import java.awt.image.BufferedImage;
 
-// ceu
+// paralax para a montanha de fundo
 public class MountainsParalax extends Entity {
     public MountainsParalax(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
         super(x, y, width, height, sprite, tipo);

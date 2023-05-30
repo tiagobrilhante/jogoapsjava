@@ -3,7 +3,6 @@ package entidades.interativos;
 
 import Mundo.Camera;
 import entidades.Entity;
-import entidades.player.Player;
 import entidades.solidos.Solido;
 import main.Game;
 
@@ -15,7 +14,7 @@ import java.util.Objects;
 public class TiroPlayer extends Entity {
 
     // velocidade de deslocamento do tiro(teste)
-    public double speed = 2.5;
+    public double speed;
 
     public int[] dimensoesTiro = {30, 2};
 
@@ -59,7 +58,7 @@ public class TiroPlayer extends Entity {
 
     }
 
-    public boolean colisao(int nextx, int nexty) {
+    public boolean colisao() {
 
         Rectangle tiroRetangle;
         tiroRetangle = new Rectangle((int)x, (int)y , dimensoesTiro[0], dimensoesTiro[1]);
@@ -77,7 +76,7 @@ public class TiroPlayer extends Entity {
     }
 
 
-    public Entity colisaoInimigo(int nextx, int nexty) {
+    public Entity colisaoInimigo() {
         Rectangle tiroRetangle;
         tiroRetangle = new Rectangle((int)x, (int)y , dimensoesTiro[0], dimensoesTiro[1]);
         for (int i = 0; i < Game.inimigo.size(); i++) {

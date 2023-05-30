@@ -12,6 +12,7 @@ public class Audio {
         if (soundPath != null) {
             try {
                 URL url = getClass().getResource(soundPath);
+                assert url != null;
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(url);
                 clip = AudioSystem.getClip();
                 clip.open(audioInputStream);

@@ -4,7 +4,7 @@ import entidades.Entity;
 
 import java.awt.image.BufferedImage;
 
-// espinho (não solido)
+// darkBrick (deverá sofrer updates para incorporar a classe cenário não implementada)
 public class FundoDarkBrick extends Entity {
     public FundoDarkBrick(int x, int y, int width, int height, BufferedImage sprite, String tipo) {
         super(x, y, width, height, sprite, tipo);

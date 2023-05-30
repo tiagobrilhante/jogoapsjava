@@ -3,6 +3,7 @@ package entidades.naoSolidos;
 import java.awt.*;
 import java.util.Random;
 
+// particulas usadas quando um inimigo explode e morre
 public class Particula extends Rectangle {
 
     // objeto particula
