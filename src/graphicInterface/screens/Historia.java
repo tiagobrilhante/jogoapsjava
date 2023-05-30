@@ -1,7 +1,10 @@
-package main;
+package graphicInterface.screens;
 
 import Mundo.Audio;
 import graficos.Spritsheet;
+import main.Game;
+import settings.GameSettings;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -41,7 +44,7 @@ public class Historia {
             if (currentOption == 0) {
                 //inicia o jogo
                 audio.stop();
-                audio = new Audio("/res/sounds/soundtracks/fase"+Game.level+".wav", true);
+                audio = new Audio("/res/sounds/soundtracks/fase"+ Game.level+".wav", true);
                 Game.gameState = "NORMAL";
                 audio.start();
 
@@ -67,7 +70,7 @@ public class Historia {
 
     public void render(Graphics g) {
 
-        g.fillRect(0, 0, Game.WIDTH * Game.SCALE, Game.HEIGTH * Game.SCALE);
+        g.fillRect(0, 0, GameSettings.getGAME_WIDTH() * GameSettings.getGAME_SCALE(), GameSettings.getGAME_HEIGHT() * GameSettings.getGAME_SCALE());
         g.setColor(new Color(255, 255, 255));
 
         g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);

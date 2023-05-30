@@ -7,7 +7,8 @@ import entidades.interativos.*;
 import entidades.naoSolidos.Particula;
 import entidades.solidos.Solido;
 import main.Game;
-import main.GameOver;
+import graphicInterface.screens.GameOver;
+import settings.GameSettings;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -90,7 +91,7 @@ public class Player extends Entity {
     public int timerDamageControllResetPlayer = 0;
 
     // quantidade de tiros iniciais do player
-    public static int qtdTiro = 5;
+    public static int qtdTiro = 50;
 
     // ------------------------------------------- //
     // --------Atributos de Pontuação ------------ //
@@ -426,9 +427,9 @@ public class Player extends Entity {
                         PlayerAudio.tocaAudio("tiro");
                         // aqui começa o problema de ajuste de tiro
                         if (direcaoAtual == 1) {
-                            Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y , 30, 2, null, "tiro", "Direita"));
+                            Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX-Camera.x, (int)Player.atualY - 32-Camera.y , 30, 2, null, "tiro", "Direita"));
                         } else {
-                            Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX- Camera.x , (int)Player.atualY + 16- Camera.y,  30, 2, null, "tiro", "Esquerda"));
+                            Game.tirosPLayer.add(new TiroPlayer((int)Player.atualX- Camera.x , (int)Player.atualY - 32- Camera.y,  30, 2, null, "tiro", "Esquerda"));
                         }
                     }
 
@@ -557,8 +558,8 @@ public class Player extends Entity {
         }
 
         // posicionamento da camera, sempre em relaçao ao player
-        Camera.x = Camera.Clamp(this.getX() - (Game.WIDTH / 2), 0, (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX);
-        Camera.y = Camera.Clamp(this.getY() - (Game.HEIGTH / 2), 0, (Mundo.HEIGHT * Entity.SIZEENTITYY) - SIZEPLAYERY);
+        Camera.x = Camera.Clamp(this.getX() - (GameSettings.getGAME_WIDTH() / 2), 0, (Mundo.WIDTH * Entity.SIZEENTITYX) - SIZEPLAYERX);
+        Camera.y = Camera.Clamp(this.getY() - (GameSettings.getGAME_HEIGHT() / 2), 0, (Mundo.HEIGHT * Entity.SIZEENTITYY) - SIZEPLAYERY);
 
     }
 

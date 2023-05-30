@@ -1,4 +1,4 @@
-package main;
+package graphicInterface.screens;
 
 import graficos.Spritsheet;
 
@@ -8,8 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import Mundo.Audio;
+import main.Game;
+import settings.GameSettings;
 
-public class Menu {
+public class GameMenu {
     public String[] options = {"Jogar", "Leaderboards", "Controles","Sobre", "Sair"};
 
     public int currentOption = 0;
@@ -30,7 +32,7 @@ public class Menu {
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
-    public Menu() {
+    public GameMenu() {
 
         animaMenu = new Spritsheet(menuAnimaPath);
         fundoMenu = new Spritsheet(fundoMenuPath);
@@ -119,7 +121,7 @@ public class Menu {
 
     public void render(Graphics g) {
 
-        g.fillRect(0, 0, Game.WIDTH * Game.SCALE, Game.HEIGTH * Game.SCALE);
+        g.fillRect(0, 0, GameSettings.getGAME_WIDTH() * GameSettings.getGAME_SCALE(), GameSettings.getGAME_HEIGHT() * GameSettings.getGAME_SCALE());
         g.setColor(new Color(255, 255, 255));
 
         g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);

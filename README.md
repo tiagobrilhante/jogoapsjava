@@ -6,7 +6,7 @@ O Jogo foi desenvolvido na linguagem JAVA, e utilizando o mínimo de bibliotecas
 <br>
 Trata-se de um jogo de plataforma 2D, que utiliza todos os conceitos de Programação Orientada a Objetos (POO).<br>
 As músicas e artes do projeto são proprietárias (desenvolvidas pelos membros do grupo).<br>
-O trabalho escrito pode ser encontrado dentro da pasta src/docs, juntamente com o mapping tiles.<br>
+O trabalho escrito pode ser encontrado dentro da pasta src/diversos.docs, juntamente com o mapping tiles.<br>
 <br>
 O escopo do jogo está reduzido devido ao pouco tempo que o projeto recebeu, mas ainda assim é passivel de testes.<br>
 <br>
@@ -21,7 +21,7 @@ O escopo do jogo está reduzido devido ao pouco tempo que o projeto recebeu, mas
 </ol>
 
 <br>
-Também será disponibilizado o artefato Java (jar) na pasta src/artefatos<br>
+Também será disponibilizado o artefato Java (jar) na pasta src/diversos.artefatos<br>
 O artefado jar pode ser rodado sem a necessidade de IDE.
 <br>
 <br>

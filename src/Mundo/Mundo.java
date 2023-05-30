@@ -8,6 +8,8 @@ import entidades.player.Player;
 import entidades.solidos.Solido;
 import graficos.Spritsheet;
 import main.Game;
+import settings.GameSettings;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -370,8 +372,8 @@ public class Mundo {
         // poupa memória
         int xi = Camera.x / Player.SIZEPLAYERX;
         int yi = Camera.y / Player.SIZEPLAYERY;
-        int xf = xi + (Game.WIDTH / Player.SIZEPLAYERX);
-        int yf = yi + (Game.HEIGTH / Player.SIZEPLAYERY);
+        int xf = xi + (GameSettings.getGAME_WIDTH() / Player.SIZEPLAYERX);
+        int yf = yi + (GameSettings.getGAME_HEIGHT() / Player.SIZEPLAYERY);
         for (int x = xi; x <= xf; x++) {
             for (int y = yi; y <= yf; y++) {
                 if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)

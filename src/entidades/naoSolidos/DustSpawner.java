@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class StarSpawner {
+public class DustSpawner {
 
     // realiza o spawn das estrelas na tela
 

@@ -1,6 +1,8 @@
-package main;
+package graphicInterface.screens;
 
 import graficos.Spritsheet;
+import main.Game;
+import settings.GameSettings;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -58,7 +60,7 @@ public class Sobre {
 
     public void render(Graphics g) {
 
-        g.fillRect(0, 0, Game.WIDTH * Game.SCALE, Game.HEIGTH * Game.SCALE);
+        g.fillRect(0, 0, GameSettings.getGAME_WIDTH() * GameSettings.getGAME_SCALE(), GameSettings.getGAME_HEIGHT() * GameSettings.getGAME_SCALE());
         g.setColor(new Color(255, 255, 255));
 
         g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);
