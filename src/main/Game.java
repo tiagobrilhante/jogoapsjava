@@ -179,7 +179,7 @@ public class Game extends Canvas implements Runnable {
         tirosPLayer = new ArrayList<>();
 
         // chama o player (de acordo com a posição inicial no sprite)
-        player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY), "Player");
+        player = new Player(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer(), spritePlayer.getSprite(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         // adiciona o player em entidades (só pode haver 1)
         entidades.add(player);
 
@@ -249,7 +249,7 @@ public class Game extends Canvas implements Runnable {
 
         // reinicia o mundo e o jogador
         mundo = new Mundo(levelPath);
-        player = new Player(64, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, spritePlayer.getSprite(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY), "Player");
+        player = new Player(64, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer(), spritePlayer.getSprite(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Player.pontos = 0;
         Player.tentativas = 3;
         Player.qtdTiro = 5;

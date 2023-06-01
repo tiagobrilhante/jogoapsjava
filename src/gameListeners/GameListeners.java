@@ -49,14 +49,12 @@ public class GameListeners implements KeyListener {
                 // tecla C faz o plauer atacar
                 Game.player.attack = true;
             }
-
             if (e.getKeyCode() == KeyEvent.VK_P) {
                 // tecla P faz o jogo pausar
                 if (e.getKeyCode() == KeyEvent.VK_P) {
                     game.togglePause();
                 }
             }
-
             if (e.getKeyCode() == KeyEvent.VK_B) {
                 // tecla B muda a arma
                 Game.player.toggleWeapon();

@@ -343,8 +343,8 @@ public class Mundo {
                     }
 
                     else if (pixelAtual == corPlayer) {
-                        Game.player.setX(x * Player.SIZEPLAYERX);
-                        Game.player.setY(y * Player.SIZEPLAYERY);
+                        Game.player.setX(x * Player.getLarguraPlayer());
+                        Game.player.setY(y * Player.getAlturaPlayer());
                     }
 
                 }
@@ -369,10 +369,10 @@ public class Mundo {
         // posicionamento da camera em relação aos itens renderizados
         // evita a renderização do que não aparece na tela...
         // poupa memória
-        int xi = Camera.x / Player.SIZEPLAYERX;
-        int yi = Camera.y / Player.SIZEPLAYERY;
-        int xf = xi + (GameSettings.getGAME_WIDTH() / Player.SIZEPLAYERX);
-        int yf = yi + (GameSettings.getGAME_HEIGHT() / Player.SIZEPLAYERY);
+        int xi = Camera.x / Player.getLarguraPlayer();
+        int yi = Camera.y / Player.getAlturaPlayer();
+        int xf = xi + (GameSettings.getGAME_WIDTH() / Player.getLarguraPlayer());
+        int yf = yi + (GameSettings.getGAME_HEIGHT() / Player.getAlturaPlayer());
         for (int x = xi; x <= xf; x++) {
             for (int y = yi; y <= yf; y++) {
                 if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
@@ -413,7 +413,7 @@ public class Mundo {
         Game.sprite = new Spritsheet(gameSpritePath);
         Game.mundo = new Mundo(levelPath + level);
 
-        Game.player = new Player(0, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY, Game.sprite.getSprite(32, 0, Player.SIZEPLAYERX, Player.SIZEPLAYERY), "Player");
+        Game.player = new Player(0, 0, Player.getLarguraPlayer(), Player.getLarguraPlayer(), Game.sprite.getSprite(32, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Game.entidades.add(Game.player);
     }
 

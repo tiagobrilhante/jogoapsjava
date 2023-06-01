@@ -16,7 +16,7 @@ public class MountainsParalax extends Entity {
         // velocidade de deslocamento da montanha
 
         if (Camera.x - (Player.atualX / 8) > 0) {
-            this.x = (int) (Camera.x - (Player.atualX / 8));
+            this.x = Camera.x - (Player.atualX / 8);
         } else {
             this.x = 0;
         }

@@ -13,7 +13,18 @@ public class Escada extends Entity {
         this.tipoEscada = tipoEscada;
     }
 
-
+    @Override
+    public String toString() {
+        return "Escada{" +
+                "tipoEscada=" + tipoEscada +
+                ", x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                ", sprite=" + sprite +
+                ", tipo='" + tipo + '\'' +
+                '}';
+    }
 }
 
 
