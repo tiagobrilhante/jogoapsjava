@@ -14,13 +14,7 @@ public class MountainsParalax extends Entity {
 
     public void tick() {
         // velocidade de deslocamento da montanha
-
-        if (Camera.x - (Player.atualX / 8) > 0) {
-            this.x = Camera.x - (Player.atualX / 8);
-        } else {
-            this.x = 0;
-        }
-
+        this.x = Math.max(Camera.x - (Player.atualX / 8), 0);
         //reseta a montanha
         if (this.x <= -(this.sprite.getWidth())) {
             this.x = this.sprite.getWidth();
