@@ -94,11 +94,15 @@ public class Game extends Canvas implements Runnable {
 
 
     // objetos base (PATHS)
-    public String spriteTerrenoPath = "/res/spritesheets/terrain/spritesheet32.png", spritePlayerPath = "/res/spritesheets/player/spritesheetPlayer3.png",
-            spriteEnemyPath = "/res/spritesheets/enemy/spritesheetEnemy.png", spriteCeuPath = "/res/spritesheets/ceusprite.png",
-            spriteMountainPath = "/res/spritesheets/mountain1lvlsprite.png", spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png",
-            spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png", spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png",
-            levelPath = "/res/fases/level1.png";
+    public static String spriteTerrenoPath = "/res/spritesheets/terrain/spritesheet32.png";
+    public String spritePlayerPath = "/res/spritesheets/player/spritesheetPlayer3.png";
+    public String spriteEnemyPath = "/res/spritesheets/enemy/spritesheetEnemy.png";
+    public static String spriteCeuPath = "/res/spritesheets/ceusprite.png";
+    public String spriteMountainPath = "/res/spritesheets/mountain1lvlsprite.png";
+    public String spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png";
+    public String spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png";
+    public static String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
+    public static String levelPath = "/res/fases/";
 
 
     // se o jogo está rodando... começa em verdadeiro
@@ -187,7 +191,7 @@ public class Game extends Canvas implements Runnable {
         dustSpawner = new DustSpawner();
 
         // por fim carrega o mundo....
-        mundo = new Mundo(levelPath);
+        mundo = new Mundo(levelPath+"level"+level+".png");
 
         new GameContainer(this);
         addKeyListener(new GameListeners(this));
@@ -248,7 +252,7 @@ public class Game extends Canvas implements Runnable {
         tirosPLayer = new ArrayList<>();
 
         // reinicia o mundo e o jogador
-        mundo = new Mundo(levelPath);
+        mundo = new Mundo(levelPath+"level"+level+".png");
         player = new Player(64, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer(), spritePlayer.getSprite(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Player.pontos = 0;
         Player.tentativas = 3;

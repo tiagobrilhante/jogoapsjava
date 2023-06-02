@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import Mundo.Audio;
+import audioInterface.Audio;
 import main.Game;
 import settings.GameSettings;
 

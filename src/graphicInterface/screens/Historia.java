@@ -1,6 +1,6 @@
 package graphicInterface.screens;
 
-import Mundo.Audio;
+import audioInterface.Audio;
 import graficos.Spritsheet;
 import main.Game;
 import settings.GameSettings;

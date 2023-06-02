@@ -68,7 +68,9 @@ public class Player extends Entity {
     public int yTopoEscada;
 
     // frames e indexes de movimentação do sprite do player
-    public int frames = 0, maxFrames = 5, index = 0, maxIndex = 3, indexAtack = 0;
+    public int frames = 0, maxFrames = 5,
+            index = 0,
+            maxIndex = 3, indexAtack = 0;
 
     // buffer de geração de imagem do player em movimento
     public BufferedImage[] playerRight, playerLeft, playerIdleLeft, playerIdleRigth, playerJumpLeft, playerJumpRight, playerEscada, playerAttackEsquerda, playerAttackEsquerdaArma, playerAttackDireita, playerAttackDireitaArma;
@@ -333,8 +335,9 @@ public class Player extends Entity {
                 // nesse caso eu estou no topo de uma escada
                 // não faz sentido tentar subir
                 // mas eu posso descer---
-                System.out.println("estou no topo");
+                System.out.println("estou no topo da escada - fazer ajustes");
             }
+
 
         }
 
@@ -448,7 +451,7 @@ public class Player extends Entity {
         }
 
         // movimentação do player
-        if (emMovimento && !attack) {
+        if (emMovimento && !attack || emEscada) {
             frames++;
             if (frames == maxFrames) {
                 index++;

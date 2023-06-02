@@ -1,4 +1,4 @@
-package Mundo;
+package audioInterface;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;

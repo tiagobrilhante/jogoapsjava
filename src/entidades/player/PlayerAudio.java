@@ -1,6 +1,6 @@
 package entidades.player;
 
-import Mundo.Audio;
+import audioInterface.Audio;
 
 import java.util.Objects;
 
