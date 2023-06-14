@@ -45,12 +45,15 @@ public class Inimigo extends Entity {
     // maxLife = vida máxima (poderá ser removido)
     public int life = 5;
 
+    public boolean emMovimento;
+
     // repassa a imagem carregada do inimigo
-    public BufferedImage[] inimigo;
     public BufferedImage[] inimigoFrenteEsquerda;
     public BufferedImage[] inimigoFrenteDireita;
 
     public int identificadorUnico;
+
+     public double atualX;
 
     // construtor de inimigo
     // passa a posicao inicial (x,Y)
@@ -103,6 +106,19 @@ public class Inimigo extends Entity {
         // geralmenet pode começar parado
         // movimentacao = 0;
 
+
+
+        if (this.tipoInimigo == 2){
+        System.out.println(this.tipoInimigo);
+        System.out.println(atualX);}
+
+        emMovimento = atualX != x;
+
+        atualX = x;
+
+        if (this.tipoInimigo == 2){
+        System.out.println(emMovimento);}
+
         // inicia a colisão com objetos solidos
         if (!colisao((int) x, (int) (y + 1))) {
             y += 2;
@@ -141,12 +157,21 @@ public class Inimigo extends Entity {
     public void render(Graphics g) {
 
         if (Objects.equals(frenteIni, "Esquerda")) {
-            g.drawImage(inimigoFrenteEsquerda[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            if (emMovimento) {
+                g.drawImage(inimigoFrenteEsquerda[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else {
+                g.drawImage(inimigoFrenteEsquerda[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            }
         } else {
-            g.drawImage(inimigoFrenteDireita[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            if (emMovimento) {
+                g.drawImage(inimigoFrenteDireita[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else {
+                g.drawImage(inimigoFrenteDireita[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            }
         }
 
     }
+
 
     // função para colisão do inimigo
     public boolean colisao(int nextx, int nexty) {
