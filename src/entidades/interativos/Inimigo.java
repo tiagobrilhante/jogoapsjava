@@ -25,7 +25,7 @@ public class Inimigo extends Entity {
     public String frenteIni = "Esquerda";
 
     // ajusta o tipo de inimigo
-    public int tipoInimigo;
+    private final int tipoInimigo;
 
     // tamanho base dos inimigos
     public static int SIZEENEMYX = 32, SIZEENEMYY = 32;
@@ -118,18 +118,23 @@ public class Inimigo extends Entity {
         } else if (tipoInimigo == 3) {
             inimigoFrenteEsquerda = new BufferedImage[5];
             inimigoEsperaFrenteEsquerda = new BufferedImage[4];
+            inimigoAtaqueFrenteEsquerda = new BufferedImage[2];
             inimigoFrenteDireita = new BufferedImage[5];
             inimigoEsperaFrenteDireita = new BufferedImage[4];
+            inimigoAtaqueFrenteDireita = new BufferedImage[2];
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
                 inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 272, SIZEENEMYX2, SIZEENEMYY2);
                 inimigoEsperaFrenteEsquerda[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX2)), 176, SIZEENEMYX2, SIZEENEMYY2);
-            }
-
-            for (int i = 0; i < 4; i++) {
                 inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 224, SIZEENEMYX2, SIZEENEMYY2);
                 inimigoEsperaFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 128, SIZEENEMYX2, SIZEENEMYY2);
+
+            }
+
+            for (int i = 0; i < 2; i++) {
+                inimigoAtaqueFrenteEsquerda[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX)), 272, SIZEENEMYX, SIZEENEMYY);
+                inimigoAtaqueFrenteDireita[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX)), 224, SIZEENEMYX, SIZEENEMYY);
             }
         }
     }
