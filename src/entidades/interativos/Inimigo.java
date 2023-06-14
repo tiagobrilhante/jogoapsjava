@@ -29,16 +29,13 @@ public class Inimigo extends Entity {
 
     // tamanho base dos inimigos
     public static int SIZEENEMYX = 32, SIZEENEMYY = 32;
+    public static int SIZEENEMYX2 = 32, SIZEENEMYY2 = 48;
 
     // frames = momento inicial dos frames do inimigo (para loop)
     // maxFrames = numero máximo de frames para reinicio do loop
     // index = index inicial na array de frames
     // maxIndex, informa o numero máximo de posicoes da array de animacao
     public int frames = 0, maxFrames = 7, index = 0, maxIndex = 3;
-
-    // mascara de posicionamento do inimigo
-    // nesse spritesheet inicial, o sprite está em 16 x 16 (vai mudar pra 64 x 128)
-    public int maskx = 0, masky = 0, maskw = SIZEENEMYX, maskh = SIZEENEMYY;
 
     // vida do inimigo
     // life = vida inicial
@@ -55,7 +52,7 @@ public class Inimigo extends Entity {
 
     public int identificadorUnico;
 
-     public double atualX;
+    public double atualX;
 
     // construtor de inimigo
     // passa a posicao inicial (x,Y)
@@ -107,6 +104,22 @@ public class Inimigo extends Entity {
                 inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 96, SIZEENEMYX, SIZEENEMYY);
                 inimigoEsperaFrenteDireita[i] = Game.spriteEnemy.getSprite(160 + (i * SIZEENEMYX), 96, SIZEENEMYX, SIZEENEMYY);
             }
+        } else if (tipoInimigo == 3) {
+            inimigoFrenteEsquerda = new BufferedImage[5];
+            inimigoEsperaFrenteEsquerda = new BufferedImage[4];
+            inimigoFrenteDireita = new BufferedImage[5];
+            inimigoEsperaFrenteDireita = new BufferedImage[4];
+
+            // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
+            for (int i = 0; i < 4; i++) {
+                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 272, SIZEENEMYX2, SIZEENEMYY2);
+                inimigoEsperaFrenteEsquerda[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX2)), 176, SIZEENEMYX2, SIZEENEMYY2);
+            }
+
+            for (int i = 0; i < 4; i++) {
+                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 224, SIZEENEMYX2, SIZEENEMYY2);
+                inimigoEsperaFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 128, SIZEENEMYX2, SIZEENEMYY2);
+            }
         }
     }
 
@@ -116,19 +129,19 @@ public class Inimigo extends Entity {
         atualX = x;
 
         // inicia a colisão com objetos solidos
-        if (!colisao((int) x, (int) (y + 1))) {
+        if (!colisao((int) x, (int) (y + 1), this.getTipoInimigo())) {
             y += 2;
         }
 
         // tenta se movimentar para a posição onde está o player... pode ser melhorado
         // nesse caso movimenta para a ESQUERDA
-        if (Game.player.getX() < this.getX() && !colisao((int) (x - speed), this.getY())) {
+        if (Game.player.getX() < this.getX() && !colisao((int) (x - speed), this.getY(), this.getTipoInimigo())) {
             frenteIni = "Esquerda";
             x -= speed;
         }
 
         // nesse caso movimenta o inimigo para a DIREITA
-        if (Game.player.getX() > this.getX() && !colisao((int) (x + speed), this.getY())) {
+        if (Game.player.getX() > this.getX() && !colisao((int) (x + speed), this.getY(), this.getTipoInimigo())) {
             x += speed;
             frenteIni = "Direita";
         }
@@ -168,15 +181,21 @@ public class Inimigo extends Entity {
 
 
     // função para colisão do inimigo
-    public boolean colisao(int nextx, int nexty) {
+    public boolean colisao(int nextx, int nexty, int tipo) {
         // prepara um retângulo da entidade inimigo
-        Rectangle inimigo = new Rectangle(nextx + maskx, nexty + masky, maskw, maskh);
+
+        Rectangle inimigo;
+        if (tipo == 1 || tipo == 2) {
+            inimigo = new Rectangle(nextx , nexty, SIZEENEMYX, SIZEENEMYY);
+        } else {
+            inimigo = new Rectangle(nextx , nexty, SIZEENEMYX2, SIZEENEMYY2);
+        }
 
         // para cada entidade, checar se tem intersect com solido e puxa o inimigo em direção ao chão (solido)
         for (int i = 0; i < Game.entidades.size(); i++) {
             Entity entidade = Game.entidades.get(i);
             if (entidade instanceof Solido) {
-                Rectangle solido = new Rectangle(entidade.getX() + maskx, entidade.getY() + masky, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+                Rectangle solido = new Rectangle(entidade.getX(), entidade.getY(), Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (inimigo.intersects(solido)) {
                     return true;
                 }
@@ -185,6 +204,9 @@ public class Inimigo extends Entity {
         return false;
     }
 
+    public int getTipoInimigo() {
+        return tipoInimigo;
+    }
 
     @Override
     public String toString() {
@@ -200,10 +222,6 @@ public class Inimigo extends Entity {
                 ", maxFrames=" + maxFrames +
                 ", index=" + index +
                 ", maxIndex=" + maxIndex +
-                ", maskx=" + maskx +
-                ", masky=" + masky +
-                ", maskw=" + maskw +
-                ", maskh=" + maskh +
                 '}';
     }
 }

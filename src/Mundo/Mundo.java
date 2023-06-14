@@ -41,7 +41,7 @@ public class Mundo {
             corNucleoConverteEsquerdaChaoIsoladoTopo = 0xFFd55555, corNucleoConverteEsquerdaChaoIsoladoFundo = 0xFF392420,
             corJuncaoBuEsquerdaBaixo = 0xFF585392, corJuncaoBuDireitaBaixo = 0xFF666663, corBuSimples = 0xFF666248,
             corTijoloDeserto = 0xFFee8529, corKitHealth = 0xFFf6efef, corGrama = 0xFF38385d, corEspinhos = 0xFF4d8080,
-            corGalhoSeco = 0xFF4d4d80, corPlacaSave = 0xFF808033, corInimigo1 = 0xFF494900, corInimigo2 = 0xFF606000,
+            corGalhoSeco = 0xFF4d4d80, corPlacaSave = 0xFF808033, corInimigo1 = 0xFF494900, corInimigo2 = 0xFF606000, corInimigo3 = 0xFF20140C,
             corCeu = 0xFF639bff, corPlayer = 0xFFffff00, corChaoIsoladoTopo = 0xFF7845ac, corChaoIsoladoFundo = 0xFFaad5c0,
             corNucleoBifurcaChaoIsoladoTopo = 0xFF45acac, corNucleoBifurcaChaoIsoladoFundo = 0xFFd57d29,
             corTrashBag = 0xFFf600F6, corChaoIsoladoEsquerda = 0xFF355240, corChaoIsoladoDireita = 0xFF793b34,
@@ -234,14 +234,16 @@ public class Mundo {
                     } else if (pixelAtual == corGalhoSeco) {
                         GalhosSecos galho = new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.galhoSeco, "GalhoSeco");
                         Game.entidades.add(galho);
-                    } else if (pixelAtual == corInimigo1 || pixelAtual == corInimigo2) {
+                    } else if (pixelAtual == corInimigo1 || pixelAtual == corInimigo2 || pixelAtual == corInimigo3) {
 
                         // isso vai ser alterado a medida que novos inimigos aparecem no jogo
                         int tipoInimigo;
                         if (pixelAtual == corInimigo1) {
                             tipoInimigo = 1;
-                        } else {
+                        } else if (pixelAtual == corInimigo2){
                             tipoInimigo = 2;
+                        } else {
+                            tipoInimigo = 3;
                         }
                         // aqui é im incremento para por o inimigo no lugar correto
                         // tem que reajustar quando os inimigos passarem a ocupar 32 pixeis ao invés de 16
@@ -363,6 +365,7 @@ public class Mundo {
                 corPlacaSave = "808033",
                 corInimigo1 = "494900",
                 corInimigo2 = "606000",
+                corInimigo3 = "20140C",
                 corCeu = "639bff",
                 corPlayer = "ffff00",
                 corChaoIsoladoTopo = "7845ac",

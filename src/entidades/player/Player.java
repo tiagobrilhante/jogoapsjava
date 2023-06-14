@@ -687,7 +687,7 @@ public class Player extends Entity {
         if (Objects.equals(direcaoAtual, "direita")) {
             // executo o loop por 19 ticks (índice de afastamento)
             for (int j = 0; j < 19; j++) {
-                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                if (!enemy.colisao(enemy.getX(), enemy.getY(), enemy.getTipoInimigo())) {
                     // se não houver objeto para colidir, movimento o inimigo para a direita
                     enemy.setX(enemy.getX() + 1);
 
@@ -699,7 +699,7 @@ public class Player extends Entity {
             }
         } else {
             for (int j = 0; j < 19; j++) {
-                if (!enemy.colisao(enemy.getX(), enemy.getY())) {
+                if (!enemy.colisao(enemy.getX(), enemy.getY(), enemy.getTipoInimigo())) {
                     // se não houver objeto para colidir, movimento o inimigo para a direita
                     enemy.setX(enemy.getX() - 1);
                 } else {
