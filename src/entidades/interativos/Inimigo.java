@@ -78,11 +78,11 @@ public class Inimigo extends Entity {
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
-                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 48, SIZEENEMYX, SIZEENEMYY);
+                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 0, SIZEENEMYX, SIZEENEMYY);
             }
 
             for (int i = 0; i < 4; i++) {
-                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 80, SIZEENEMYX, SIZEENEMYY);
+                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 32, SIZEENEMYX, SIZEENEMYY);
             }
 
         } else if (tipoInimigo == 2) {
@@ -91,33 +91,19 @@ public class Inimigo extends Entity {
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
-                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 112, SIZEENEMYX, SIZEENEMYY);
+                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 64, SIZEENEMYX, SIZEENEMYY);
             }
 
             for (int i = 0; i < 4; i++) {
-                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 144, SIZEENEMYX, SIZEENEMYY);
+                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 96, SIZEENEMYX, SIZEENEMYY);
             }
         }
     }
 
     // relatico a cada atualização de tela
     public void tick() {
-
-        // geralmenet pode começar parado
-        // movimentacao = 0;
-
-
-
-        if (this.tipoInimigo == 2){
-        System.out.println(this.tipoInimigo);
-        System.out.println(atualX);}
-
         emMovimento = atualX != x;
-
         atualX = x;
-
-        if (this.tipoInimigo == 2){
-        System.out.println(emMovimento);}
 
         // inicia a colisão com objetos solidos
         if (!colisao((int) x, (int) (y + 1))) {
@@ -129,14 +115,12 @@ public class Inimigo extends Entity {
         if (Game.player.getX() < this.getX() && !colisao((int) (x - speed), this.getY())) {
             frenteIni = "Esquerda";
             x -= speed;
-            // movimentacao =1;
         }
 
         // nesse caso movimenta o inimigo para a DIREITA
         if (Game.player.getX() > this.getX() && !colisao((int) (x + speed), this.getY())) {
             x += speed;
             frenteIni = "Direita";
-            // movimentacao =1;
         }
 
         // ativa a funcionalidade de loop de imagens quando o inimigo está se movimentando
