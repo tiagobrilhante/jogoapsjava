@@ -35,7 +35,7 @@ public class Inimigo extends Entity {
     // maxFrames = numero máximo de frames para reinicio do loop
     // index = index inicial na array de frames
     // maxIndex, informa o numero máximo de posicoes da array de animacao
-    public int frames = 0, maxFrames = 7, index = 0, maxIndex = 3;
+    public int frames = 0, maxFrames = 7, index = 0, maxIndex = 3, indexAttack = 0, maxIndexAttack = 1;
 
     // vida do inimigo
     // life = vida inicial
@@ -47,8 +47,10 @@ public class Inimigo extends Entity {
     // repassa a imagem carregada do inimigo
     public BufferedImage[] inimigoFrenteEsquerda;
     public BufferedImage[] inimigoEsperaFrenteEsquerda;
+    public BufferedImage[] inimigoAtaqueFrenteEsquerda;
     public BufferedImage[] inimigoFrenteDireita;
     public BufferedImage[] inimigoEsperaFrenteDireita;
+    public BufferedImage[] inimigoAtaqueFrenteDireita;
 
     public int identificadorUnico;
 
@@ -74,35 +76,44 @@ public class Inimigo extends Entity {
 
             inimigoFrenteEsquerda = new BufferedImage[4];
             inimigoEsperaFrenteEsquerda = new BufferedImage[4];
+            inimigoAtaqueFrenteEsquerda = new BufferedImage[2];
             inimigoFrenteDireita = new BufferedImage[4];
             inimigoEsperaFrenteDireita = new BufferedImage[4];
+            inimigoAtaqueFrenteDireita = new BufferedImage[2];
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
                 inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 0, SIZEENEMYX, SIZEENEMYY);
                 inimigoEsperaFrenteEsquerda[i] = Game.spriteEnemy.getSprite((160 + (i * SIZEENEMYX)), 0, SIZEENEMYX, SIZEENEMYY);
-            }
-
-            for (int i = 0; i < 4; i++) {
                 inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 32, SIZEENEMYX, SIZEENEMYY);
                 inimigoEsperaFrenteDireita[i] = Game.spriteEnemy.getSprite(160 + (i * SIZEENEMYX), 32, SIZEENEMYX, SIZEENEMYY);
             }
 
+            for (int i = 0; i < 2; i++) {
+                inimigoAtaqueFrenteEsquerda[i] = Game.spriteEnemy.getSprite((320 + (i * SIZEENEMYX)), 0, SIZEENEMYX, SIZEENEMYY);
+                inimigoAtaqueFrenteDireita[i] = Game.spriteEnemy.getSprite((320 + (i * SIZEENEMYX)), 32, SIZEENEMYX, SIZEENEMYY);
+            }
+
+
         } else if (tipoInimigo == 2) {
             inimigoFrenteEsquerda = new BufferedImage[4];
             inimigoEsperaFrenteEsquerda = new BufferedImage[4];
+            inimigoAtaqueFrenteEsquerda = new BufferedImage[2];
             inimigoFrenteDireita = new BufferedImage[4];
             inimigoEsperaFrenteDireita = new BufferedImage[4];
+            inimigoAtaqueFrenteDireita = new BufferedImage[2];
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
                 inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 64, SIZEENEMYX, SIZEENEMYY);
                 inimigoEsperaFrenteEsquerda[i] = Game.spriteEnemy.getSprite((160 + (i * SIZEENEMYX)), 64, SIZEENEMYX, SIZEENEMYY);
-            }
-
-            for (int i = 0; i < 4; i++) {
                 inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX), 96, SIZEENEMYX, SIZEENEMYY);
                 inimigoEsperaFrenteDireita[i] = Game.spriteEnemy.getSprite(160 + (i * SIZEENEMYX), 96, SIZEENEMYX, SIZEENEMYY);
+            }
+
+            for (int i = 0; i < 2; i++) {
+                inimigoAtaqueFrenteEsquerda[i] = Game.spriteEnemy.getSprite((320 + (i * SIZEENEMYX)), 64, SIZEENEMYX, SIZEENEMYY);
+                inimigoAtaqueFrenteDireita[i] = Game.spriteEnemy.getSprite((320 + (i * SIZEENEMYX)), 96, SIZEENEMYX, SIZEENEMYY);
             }
         } else if (tipoInimigo == 3) {
             inimigoFrenteEsquerda = new BufferedImage[5];
@@ -149,11 +160,27 @@ public class Inimigo extends Entity {
         // ativa a funcionalidade de loop de imagens quando o inimigo está se movimentando
         if (movimentacao == 1) {
             frames++;
+            if (this.getTipoInimigo() == 1 || this.getTipoInimigo() == 2) {
+                maxFrames = 7;
+            } else {
+                maxFrames = 10;
+            }
             if (frames == maxFrames) {
                 index++;
                 frames = 0;
                 if (index > maxIndex) {
                     index = 0;
+                }
+            }
+        }
+
+        if (ataque(getX(), getY(), this.getTipoInimigo())){
+            frames++;
+            if (frames == maxFrames) {
+                indexAttack++;
+                frames = 0;
+                if (indexAttack > maxIndexAttack) {
+                    indexAttack = 0;
                 }
             }
         }
@@ -177,6 +204,15 @@ public class Inimigo extends Entity {
             }
         }
 
+        if (ataque(getX(), getY(), this.getTipoInimigo())){
+            if (Objects.equals(frenteIni, "Esquerda")) {
+                g.drawImage(inimigoAtaqueFrenteEsquerda[indexAttack], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            } else {
+                g.drawImage(inimigoAtaqueFrenteDireita[indexAttack], this.getX() - Camera.x, this.getY() - Camera.y, null);
+            }
+        }
+
+
     }
 
 
@@ -186,9 +222,9 @@ public class Inimigo extends Entity {
 
         Rectangle inimigo;
         if (tipo == 1 || tipo == 2) {
-            inimigo = new Rectangle(nextx , nexty, SIZEENEMYX, SIZEENEMYY);
+            inimigo = new Rectangle(nextx, nexty, SIZEENEMYX, SIZEENEMYY);
         } else {
-            inimigo = new Rectangle(nextx , nexty, SIZEENEMYX2, SIZEENEMYY2);
+            inimigo = new Rectangle(nextx, nexty, SIZEENEMYX2, SIZEENEMYY2);
         }
 
         // para cada entidade, checar se tem intersect com solido e puxa o inimigo em direção ao chão (solido)
@@ -202,6 +238,22 @@ public class Inimigo extends Entity {
             }
         }
         return false;
+    }
+
+    public boolean ataque(int nextx, int nexty, int tipo) {
+        // prepara um retângulo da entidade inimigo
+
+        Rectangle inimigo;
+        if (tipo == 1 || tipo == 2) {
+            inimigo = new Rectangle(nextx, nexty, SIZEENEMYX, SIZEENEMYY);
+        } else {
+            inimigo = new Rectangle(nextx, nexty, SIZEENEMYX2, SIZEENEMYY2);
+        }
+
+        // faço o retangulo de player
+
+        Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), Game.player.getWidth(), Game.player.getHeight());
+        return inimigo.intersects(player);
     }
 
     public int getTipoInimigo() {
