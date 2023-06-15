@@ -144,6 +144,8 @@ public class Player extends Entity {
     // timer de para Idle
     public int tempoParado;
 
+    public Entity escadaEmColisao;
+
     // ######################## //
     // ###### Particulas ###### //
     // ######################## //
@@ -175,57 +177,22 @@ public class Player extends Entity {
         playerAttackEsquerdaArma = new BufferedImage[4];
         playerAttackDireitaArma = new BufferedImage[4];
 
-        // loop para montar o array para a direita
+        // loop para montar o array para a direita e esquerda
         for (int i = 0; i < 5; i++) {
             playerRight[i] = Game.spritePlayer.getSprite((i * getLarguraPlayer()), 96, getLarguraPlayer(), getAlturaPlayer());
-        }
-
-        // loop para montar o array para a esquerda
-        for (int i = 0; i < 5; i++) {
             playerLeft[i] = Game.spritePlayer.getSprite((getLarguraPlayer() * 4) - (i * getLarguraPlayer()), 144, getLarguraPlayer(), getAlturaPlayer());
         }
 
-        // loop para montar o array para a idle direita
+        // loop para montar o array para a idle direita e esquerda, pulo, escada, ataque
         for (int i = 0; i < 4; i++) {
             playerIdleRigth[i] = Game.spritePlayer.getSprite((i * getLarguraPlayer()), 0, getLarguraPlayer(), getAlturaPlayer());
-        }
-
-        // loop para montar o array para a idle esquerda
-        for (int i = 0; i < 4; i++) {
             playerIdleLeft[i] = Game.spritePlayer.getSprite((getLarguraPlayer() * 3) - (i * getLarguraPlayer()), 48, getLarguraPlayer(), getAlturaPlayer());
-        }
-
-        // loop para montar o array para a jump direita
-        for (int i = 0; i < 4; i++) {
             playerJumpRight[i] = Game.spritePlayer.getSprite((i * getLarguraPlayer()), 192, getLarguraPlayer(), getAlturaPlayer());
-        }
-
-        // loop para montar o array para a jump esquerda
-        for (int i = 0; i < 4; i++) {
             playerJumpLeft[i] = Game.spritePlayer.getSprite((getLarguraPlayer() * 4) - (i * getLarguraPlayer()), 240, getLarguraPlayer(), getAlturaPlayer());
-        }
-
-        // loop para montar o array para escada
-        for (int i = 0; i < 4; i++) {
             playerEscada[i] = Game.spritePlayer.getSprite(192 + (i * getLarguraPlayer()), 192, getLarguraPlayer(), getAlturaPlayer());
-        }
-
-        // loop para montar o array para ataque
-        for (int i = 0; i < 4; i++) {
             playerAttackEsquerda[i] = Game.spritePlayer.getSprite(192, 48, getLarguraPlayer() * 2, getAlturaPlayer());
-        }
-
-        for (int i = 0; i < 4; i++) {
             playerAttackEsquerdaArma[i] = Game.spritePlayer.getSprite(192, 144, getLarguraPlayer() * 2, getAlturaPlayer());
-        }
-
-        // loop para montar o array para ataque
-        for (int i = 0; i < 4; i++) {
             playerAttackDireita[i] = Game.spritePlayer.getSprite(320, 0, getLarguraPlayer() * 2, getAlturaPlayer());
-        }
-
-        // loop para montar o array para ataque
-        for (int i = 0; i < 4; i++) {
             playerAttackDireitaArma[i] = Game.spritePlayer.getSprite(192, 96, getLarguraPlayer() * 2, getAlturaPlayer());
         }
 
@@ -307,11 +274,11 @@ public class Player extends Entity {
                 // - tentar subir e bater em algo
 
                 if (up) {
-                    y = atualY + Entity.SIZEENTITYY + 1;
+                    y = atualY + getAlturaPlayer() - Entity.SIZEENTITYY - 13;
                     up = false;
                 }
                 if (down) {
-                    y = atualY - getAlturaPlayer() - 1;
+                    y = atualY - 1;
                     down = false;
                 }
 
@@ -327,7 +294,7 @@ public class Player extends Entity {
                 }
 
                 if (down) {
-                    y = atualY - getAlturaPlayer() - 1;
+                    y = atualY - 1;
                     down = false;
                 }
 
@@ -336,6 +303,15 @@ public class Player extends Entity {
                 // não faz sentido tentar subir
                 // mas eu posso descer---
                 System.out.println("estou no topo da escada - fazer ajustes");
+
+                if (up) {
+                    y -= speed;
+                    y = (int) y;
+                }
+                if (down) {
+                    x = escadaEmColisao.getX();
+                    up = false;
+                }
             }
 
 
@@ -450,7 +426,7 @@ public class Player extends Entity {
             }
         }
 
-        // movimentação do player
+        // movimentação do player (CONTROLE DE FRAMES)
         if (emMovimento && !attack || emEscada) {
             frames++;
             if (frames == maxFrames) {
@@ -565,24 +541,99 @@ public class Player extends Entity {
     // ---------REVISÃO--------- //
     // ------------------------- //
     public boolean colisao(int nextx, int nexty) {
-
         Rectangle playerRectangle = new Rectangle(nextx, nexty, getLarguraPlayer(), getAlturaPlayer());
-
         for (int i = 0; i < Game.entidades.size(); i++) {
             Entity entidade = Game.entidades.get(i);
             if (entidade instanceof Solido) {
-
                 Rectangle solido = new Rectangle(entidade.getX(), entidade.getY(), Entity.SIZEENTITYX, Entity.SIZEENTITYY);
                 if (playerRectangle.intersects(solido)) {
 
-                    Player.atualY = entidade.getY() - 1;
+                    // Determinar direção da colisão
+                    boolean colisaoTopoBloco = playerRectangle.getMaxY()-1 <= solido.getMinY();
+                    boolean colisaoFundoBloco = playerRectangle.getMinY()+1 >= solido.getMaxY();
+                    boolean colisaoEsquerdaBloco = playerRectangle.getMaxX()-3 <= solido.getMinX();
+                    boolean colisaoDireitaBloco = playerRectangle.getMinX()+3 >= solido.getMaxX();
+/*
+                    System.out.println("----------------------------------");
+                    System.out.println("----------------------------------");
+                    System.out.println("Player: " + playerRectangle);
+                    System.out.println("Solido: " + solido);
+                    System.out.println("player max Y: " + playerRectangle.getMaxY());
+                    System.out.println("player min Y: " + playerRectangle.getMinY());
+                    System.out.println("player max X: " + playerRectangle.getMaxX());
+                    System.out.println("player min X: " + playerRectangle.getMinX());
+                    System.out.println("solido max Y: " + solido.getMaxY());
+                    System.out.println("solido min Y: " + solido.getMinY());
+                    System.out.println("solido max X: " + solido.getMaxX());
+                    System.out.println("solido min X: " + solido.getMinX());
+                    System.out.println("topoBloco: " + colisaoTopoBloco);
+                    System.out.println("fundoBloco: " + colisaoFundoBloco);
+                    System.out.println("EsquerdaBloco: " + colisaoEsquerdaBloco);
+                    System.out.println("DireitaBloco: " + colisaoDireitaBloco);
 
+                    if (colisaoTopoBloco) {
+                        System.out.println("topo");
+                    }
+                    if (colisaoFundoBloco) {
+                        System.out.println("fundo");
+                    }
+                    if (colisaoEsquerdaBloco) {
+                        System.out.println("esquerda");
+                    }
+                    if (colisaoDireitaBloco) {
+                        System.out.println("direita");
+                    }
+
+                    System.out.println("----------------------------------");
+*/
+                    // Retorne true para indicar que houve colisão
                     return true;
                 }
             }
         }
+        // Retorne false se não houver colisão
         return false;
     }
+
+    // colisão com escadas
+    // ------------------------- //
+    // ---------REVISÃO--------- //
+    // ------------------------- //
+    public boolean colisaoEscada(int nextx, int nexty) {
+        Rectangle retanguloPlayer = new Rectangle(nextx, nexty, getLarguraPlayer() - (Entity.SIZEENTITYX / 2), getAlturaPlayer() - (getAlturaPlayer() - Entity.SIZEENTITYY));
+
+        for (int i = 0; i < Game.escada.size(); i++) {
+            Escada escada = Game.escada.get(i);
+
+            Rectangle retanguloEscada = new Rectangle(escada.getX()-10,
+                    escada.getY() - Entity.SIZEENTITYY + (getLarguraPlayer() - (Entity.SIZEENTITYX / 2)) - 2, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+
+            if (retanguloPlayer.intersects(retanguloEscada)) {
+                escadaEmColisao = escada;
+
+                jump = false;
+                isJump = false;
+                attack = false;
+                emMovimento = true;
+                if (escada.tipoEscada == 3) {
+                    posTopoEscada = true;
+                    posBottomEscada = false;
+                    yTopoEscada = escada.getY();
+                } else if (escada.tipoEscada == 1) {
+                    posTopoEscada = false;
+                    posBottomEscada = true;
+                } else {
+                    posTopoEscada = false;
+                    posBottomEscada = false;
+                }
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
 
     // troca de armas
     public synchronized void toggleWeapon() {
@@ -824,48 +875,6 @@ public class Player extends Entity {
                 }
             }
         }
-        return false;
-    }
-
-    // -------------------------------- //
-    //          Movimentacao            //
-    // -------------------------------- //
-
-    // colisão com escadas
-    // ------------------------- //
-    // ---------REVISÃO--------- //
-    // ------------------------- //
-    public boolean colisaoEscada(int nextx, int nexty) {
-        Rectangle retanguloPlayer = new Rectangle(nextx, nexty, getLarguraPlayer() - (Entity.SIZEENTITYX / 2), getAlturaPlayer() - (getAlturaPlayer() - Entity.SIZEENTITYY));
-
-        for (int i = 0; i < Game.escada.size(); i++) {
-            Escada escada = Game.escada.get(i);
-
-            Rectangle retanguloEscada = new Rectangle(escada.getX(),
-                    escada.getY() - Entity.SIZEENTITYY + (getLarguraPlayer() - (Entity.SIZEENTITYX / 2)) - 2, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
-
-            if (retanguloPlayer.intersects(retanguloEscada)) {
-
-                jump = false;
-                isJump = false;
-                attack = false;
-                emMovimento = true;
-                if (escada.tipoEscada == 3) {
-                    posTopoEscada = true;
-                    posBottomEscada = false;
-                    yTopoEscada = escada.getY();
-                } else if (escada.tipoEscada == 1) {
-                    posTopoEscada = false;
-                    posBottomEscada = true;
-                } else {
-                    posTopoEscada = false;
-                    posBottomEscada = false;
-                }
-                return true;
-            }
-
-        }
-
         return false;
     }
 
