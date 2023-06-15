@@ -30,28 +30,26 @@ public class Mundo {
     public static double posX = 0, posY = 0;
 
     // cores das entidades mapeadas
-
-    public int corEscadaTopo = 0xFFee8fbe, corEscada = 0xFFc4759d, corEscadaBase = 0xFF9b5d7c, corChaoNucleo = 0xFF086910,
-            corChaoEsquerdo = 0xFFac4839, corChaoEsquerdoTopo = 0xFF18b229, corChaoEsquerdoFundo = 0xFF946d4a,
-            corJuncaoTopoEsquerda = 0xFFff9d52, corJuncaoFundoEsquerda = 0xFFff713d, corJuncaoTopoDireita = 0xFFff4551,
-            corJuncaoFundoDireita = 0xFFff73f8, corJuncaoDupla1 = 0xFF61ff88, corJuncaoDupla2 = 0xFFc8ff52,
-            corChaoDireito = 0xFFac6920, corChaoDireitoTopo = 0xFFCD3420, corChaoDireitoFundo = 0xFF6722ac,
-            corChaoBaseTopo = 0xFF6a91a4, corChaoBaseFundo = 0xFF4a2420, corJuncaoSimplesLateralTopoDireita = 0xFF496372,
-            corNucleoConverteDireitaChaoIsoladoTopo = 0xFF55d595, corNucleoConverteDireitaChaoIsoladoFundo = 0xFFd5d580,
-            corNucleoConverteEsquerdaChaoIsoladoTopo = 0xFFd55555, corNucleoConverteEsquerdaChaoIsoladoFundo = 0xFF392420,
-            corJuncaoBuEsquerdaBaixo = 0xFF585392, corJuncaoBuDireitaBaixo = 0xFF666663, corBuSimples = 0xFF666248,
-            corTijoloDeserto = 0xFFee8529, corKitHealth = 0xFFf6efef, corGrama = 0xFF38385d, corEspinhos = 0xFF4d8080,
-            corGalhoSeco = 0xFF4d4d80, corPlacaSave = 0xFF808033, corInimigo1 = 0xFF494900, corInimigo2 = 0xFF606000, corInimigo3 = 0xFF20140C,
-            corCeu = 0xFF639bff, corPlayer = 0xFFffff00, corChaoIsoladoTopo = 0xFF7845ac, corChaoIsoladoFundo = 0xFFaad5c0,
-            corNucleoBifurcaChaoIsoladoTopo = 0xFF45acac, corNucleoBifurcaChaoIsoladoFundo = 0xFFd57d29,
-            corTrashBag = 0xFFf600F6, corChaoIsoladoEsquerda = 0xFF355240, corChaoIsoladoDireita = 0xFF793b34,
-            corJuncaoSimplesFundoDireita = 0xFFf22778, corFundoDarkBrickBase = 0xFF0e5050,
-            corFundoDarkBrickEsquerdo = 0xFF646464, corFundoDarkBrickDireito = 0xFF494949,
-            corFundoDarkBrickBrokenBase1 = 0xFF0e1052, corWallFundo1 = 0xFF2d3425, corPredioFundo1 = 0xFF157920,
-            corChaoIsoladoMeioVertical = 0xFF2d2c7a, corPedra1 = 0xFF1a3917, corVidaExtra = 0xFF97df67, corAmmuBox = 0xFF827719,
-            corMountainParalax = 0xFF3e7682, corJuncaoUmBlocoDireita = 0xFF203766, corJuncaoUmBlocoEsquerda = 0xFF364366,
-            corJuncaoSimplesUmBlocoDuploDireita = 0xFF72ccf2, corJuncaoSimplesUmBlocoDuploEsquerda = 0xFFf294cb;
-
+    public String corFundoDarkBrickBase = "0E5050", corEscadaTopo = "EE8FBE", corFundoDarkBrickBrokenBase1 = "0E1052",
+            corEscada = "C4759D", corEscadaBase = "9B5D7C", corChaoNucleo = "086910", corChaoEsquerdo = "AC4839",
+            corChaoEsquerdoTopo = "18B229",  corChaoEsquerdoFundo = "946d4A", corJuncaoTopoEsquerda = "FF9D52",
+            corJuncaoFundoEsquerda = "FF713D", corJuncaoTopoDireita = "FF4551",  corJuncaoFundoDireita = "FF73F8",
+            corJuncaoDupla1 = "61FF88", corJuncaoDupla2 = "C8FF52", corChaoDireito = "AC6920", corChaoDireitoTopo = "CD3420",
+            corChaoDireitoFundo = "6722AC", corChaoBaseTopo = "6A91A4", corChaoBaseFundo = "4A2420",
+            corJuncaoSimplesLateralTopoDireita = "496372", corNucleoConverteDireitaChaoIsoladoTopo = "55D595",
+            corNucleoConverteDireitaChaoIsoladoFundo = "D5D580", corNucleoConverteEsquerdaChaoIsoladoTopo = "D55555",
+            corNucleoConverteEsquerdaChaoIsoladoFundo = "392420", corJuncaoBuEsquerdaBaixo = "585392",
+            corJuncaoBuDireitaBaixo = "666663", corBuSimples = "666248", corTijoloDeserto = "EE8529",
+            corKitHealth = "F6EFEF", corGrama = "38385D", corEspinhos = "4D8080", corGalhoSeco = "4D4D80",
+            corPlacaSave = "808033", corInimigo1 = "494900", corInimigo2 = "606000", corInimigo3 = "20140C",
+            corCeu = "639BFF", corPlayer = "FFFF00", corChaoIsoladoTopo = "7845AC", corChaoIsoladoFundo = "AAD5C0" ,
+            corNucleoBifurcaChaoIsoladoTopo = "45ACAC", corNucleoBifurcaChaoIsoladoFundo = "D57D29",
+            corTrashBag = "F600F6", corChaoIsoladoEsquerda = "355240", corChaoIsoladoDireita = "793B34",
+            corJuncaoSimplesFundoDireita = "F22778", corFundoDarkBrickEsquerdo = "646464", corFundoDarkBrickDireito = "494949",
+            corWallFundo1 = "2D3425", corPredioFundo1 = "157920", corChaoIsoladoMeioVertical = "2D2C7A",
+            corPedra1 = "1A3917", corVidaExtra = "97DF67", corAmmuBox = "827719", corMountainParalax = "3E7682",
+            corJuncaoUmBlocoDireita = "203766", corJuncaoUmBlocoEsquerda = "364366", corJuncaoSimplesUmBlocoDuploDireita = "72CCF2",
+            corJuncaoSimplesUmBlocoDuploEsquerda = "F294CB";
 
     // método construtor
     public Mundo(String path) {
@@ -78,169 +76,172 @@ public class Mundo {
                     int pixelAtual = pixels[x + (y * level.getWidth())];
                     // popula os tiles vazios
                     tiles[x + (y * WIDTH)] = new Empty(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.empty);
-                    if (pixelAtual == corFundoDarkBrickBase) {
+
+
+
+                    if (pixelAtual == montaCor(corFundoDarkBrickBase)) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickBase, "CenarioDarkBrick");
                         Game.darkBricksFundo.add(fundoDarkBrick);
-                    } else if (pixelAtual == corFundoDarkBrickBrokenBase1) {
+                    } else if (pixelAtual == montaCor(corFundoDarkBrickBrokenBase1)) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickBrokenBase1, "CenarioDarkBrick");
                         Game.darkBricksFundo.add(fundoDarkBrick);
-                    } else if (pixelAtual == corFundoDarkBrickEsquerdo) {
+                    } else if (pixelAtual == montaCor(corFundoDarkBrickEsquerdo)) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickEsquerdo, "CenarioDarkBrick");
                         Game.darkBricksFundo.add(fundoDarkBrick);
-                    } else if (pixelAtual == corFundoDarkBrickDireito) {
+                    } else if (pixelAtual == montaCor(corFundoDarkBrickDireito)) {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.fundoDarkBrickDireito, "CenarioDarkBrick");
                         Game.darkBricksFundo.add(fundoDarkBrick);
-                    } else if (pixelAtual == corPlacaSave) {
+                    } else if (pixelAtual ==  montaCor(corPlacaSave)) {
                         CheckPoint checkPoint = new CheckPoint(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.save, "savePoint");
                         Game.checkPoints.add(checkPoint);
-                    } else if (pixelAtual == corEscadaTopo) {
+                    } else if (pixelAtual == montaCor(corEscadaTopo)) {
                         Escada escada = new Escada(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, 3, Entity.escadaTopo, "escada");
                         Game.escada.add(escada);
-                    } else if (pixelAtual == corEscada) {
+                    } else if (pixelAtual == montaCor(corEscada)) {
                         Escada escada = new Escada(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, 2, Entity.escada, "escada");
                         Game.escada.add(escada);
-                    } else if (pixelAtual == corEscadaBase) {
+                    } else if (pixelAtual == montaCor(corEscadaBase)) {
                         Escada escada = new Escada(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, 1, Entity.escadaBase, "escada");
                         Game.escada.add(escada);
-                    } else if (pixelAtual == corChaoIsoladoTopo) {
+                    } else if (pixelAtual == montaCor(corChaoIsoladoTopo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoIsoladoTopo, "chaoIsoladoTopo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoIsoladoEsquerda) {
+                    } else if (pixelAtual == montaCor(corChaoIsoladoEsquerda)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoIsoladoEsquerda, "chaoIsoladoEsquerda");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoIsoladoDireita) {
+                    } else if (pixelAtual == montaCor(corChaoIsoladoDireita)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoIsoladoDireita, "chaoIsoladoDireita");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoSimplesUmBlocoDuploDireita) {
+                    } else if (pixelAtual == montaCor(corJuncaoSimplesUmBlocoDuploDireita)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoSimplesUmBlocoDuploDireita, "juncaoSimplesUmBlocoDuploDireita");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoSimplesUmBlocoDuploEsquerda) {
+                    } else if (pixelAtual == montaCor(corJuncaoSimplesUmBlocoDuploEsquerda)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoSimplesUmBlocoDuploEsquerda, "juncaoSimplesUmBlocoDuploEsquerda");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoIsoladoMeioVertical) {
+                    } else if (pixelAtual == montaCor(corChaoIsoladoMeioVertical)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoIsoladoMeioVertical, "chaoIsoladoMeioVertical");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corPedra1) {
+                    } else if (pixelAtual == montaCor(corPedra1)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.pedra1, "pedra1");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoIsoladoFundo) {
+                    } else if (pixelAtual == montaCor(corChaoIsoladoFundo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoIsoladoFundo, "chaoIsoladoFundo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoEsquerdo) {
+                    } else if (pixelAtual == montaCor(corChaoEsquerdo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoEsquerdo, "chaoEsquerdo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoDireito) {
+                    } else if (pixelAtual == montaCor(corChaoDireito)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoDireito, "chaoDireito");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoEsquerdoTopo) {
+                    } else if (pixelAtual == montaCor(corChaoEsquerdoTopo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoEsquerdoTopo, "chaoEsquerdoTopo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoEsquerdoFundo) {
+                    } else if (pixelAtual == montaCor(corChaoEsquerdoFundo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoEsquerdoFundo, "chaoEsquerdoFundo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoBuEsquerdaBaixo) {
+                    } else if (pixelAtual == montaCor(corJuncaoBuEsquerdaBaixo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoBuEsquerdaBaixo, "juncaoBuEsquerdaBaixo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoBuDireitaBaixo) {
+                    } else if (pixelAtual == montaCor(corJuncaoBuDireitaBaixo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoBuDireitaBaixo, "juncaoBuDireitaBaixo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corBuSimples) {
+                    } else if (pixelAtual == montaCor(corBuSimples)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.buSimples, "buSimples");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoTopoEsquerda) {
+                    } else if (pixelAtual == montaCor(corJuncaoTopoEsquerda)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoTopoEsquerda, "juncaoTopoEsquerda");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoFundoEsquerda) {
+                    } else if (pixelAtual == montaCor(corJuncaoFundoEsquerda)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoFundoEsquerda, "juncaoFundoEsquerda");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoTopoDireita) {
+                    } else if (pixelAtual == montaCor(corJuncaoTopoDireita)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoTopoDireita, "juncaoTopoDireita");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoUmBlocoDireita) {
+                    } else if (pixelAtual == montaCor(corJuncaoUmBlocoDireita)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoUmBlocoDireita, "juncaoUmBlocoDireita");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoUmBlocoEsquerda) {
+                    } else if (pixelAtual == montaCor(corJuncaoUmBlocoEsquerda)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoUmBlocoEsquerda, "juncaoUmBlocoEsquerda");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoFundoDireita) {
+                    } else if (pixelAtual == montaCor(corJuncaoFundoDireita)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoFundoDireita, "juncaoFundoDireita");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoDupla1) {
+                    } else if (pixelAtual == montaCor(corJuncaoDupla1)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoDupla1, "juncaoDupla1");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoDupla2) {
+                    } else if (pixelAtual == montaCor(corJuncaoDupla2)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoDupla2, "juncaoDupla2");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoSimplesLateralTopoDireita) {
+                    } else if (pixelAtual == montaCor(corJuncaoSimplesLateralTopoDireita)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoSimplesLateralTopoDireita, "juncaoSimplesLateralTopoDireita");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corJuncaoSimplesFundoDireita) {
+                    } else if (pixelAtual == montaCor(corJuncaoSimplesFundoDireita)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.juncaoSimplesFundoDireita, "juncaoSimplesFundoDireita");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoDireitoTopo) {
+                    } else if (pixelAtual == montaCor(corChaoDireitoTopo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoDireitoTopo, "chaoDireitoTopo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoDireitoFundo) {
+                    } else if (pixelAtual == montaCor(corChaoDireitoFundo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoDireitoFundo, "chaoDireitoFundo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoNucleo) {
+                    } else if (pixelAtual == montaCor(corChaoNucleo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoNucleo, "chaoNucleo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoBaseTopo) {
+                    } else if (pixelAtual == montaCor(corChaoBaseTopo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoNormalTopo, "chaoNormalTopo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corChaoBaseFundo) {
+                    } else if (pixelAtual == montaCor(corChaoBaseFundo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.chaoNormalFundo, "chaoNormalFundo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corNucleoConverteDireitaChaoIsoladoTopo) {
+                    } else if (pixelAtual == montaCor(corNucleoConverteDireitaChaoIsoladoTopo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.nucleoConverteDireitaChaoIsoladoTopo, "nucleoConverteDireitaChaoIsoladoTopo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corNucleoConverteDireitaChaoIsoladoFundo) {
+                    } else if (pixelAtual == montaCor(corNucleoConverteDireitaChaoIsoladoFundo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.nucleoConverteDireitaChaoIsoladoFundo, "nucleoConverteDireitaChaoIsoladoFundo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corNucleoConverteEsquerdaChaoIsoladoTopo) {
+                    } else if (pixelAtual == montaCor(corNucleoConverteEsquerdaChaoIsoladoTopo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.nucleoConverteEsquerdaChaoIsoladoTopo, "nucleoConverteEsquerdaChaoIsoladoTopo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corNucleoConverteEsquerdaChaoIsoladoFundo) {
+                    } else if (pixelAtual == montaCor(corNucleoConverteEsquerdaChaoIsoladoFundo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.nucleoConverteEsquerdaChaoIsoladoFundo, "nucleoConverteEsquerdaChaoIsoladoFundo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corNucleoBifurcaChaoIsoladoTopo) {
+                    } else if (pixelAtual == montaCor(corNucleoBifurcaChaoIsoladoTopo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.nucleoBifurcaChaoIsoladoTopo, "nucleoBifurcaChaoIsoladoTopo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corNucleoBifurcaChaoIsoladoFundo) {
+                    } else if (pixelAtual == montaCor(corNucleoBifurcaChaoIsoladoFundo)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.nucleoBifurcaChaoIsoladoFundo, "nucleoBifurcaChaoIsoladoFundo");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corTijoloDeserto) {
+                    } else if (pixelAtual == montaCor(corTijoloDeserto)) {
                         Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.tijoloDeserto, "tijoloDeserto");
                         Game.entidades.add(solido);
-                    } else if (pixelAtual == corKitHealth) {
+                    } else if (pixelAtual == montaCor(corKitHealth)) {
                         KitHealth kitHealth = new KitHealth(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.kitHealth, "kitHealth");
                         Game.kitHealth.add(kitHealth);
-                    } else if (pixelAtual == corTrashBag) {
+                    } else if (pixelAtual == montaCor(corTrashBag)) {
                         TrashBag trashBag = new TrashBag(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.trashBag, "TrashBag");
                         Game.trashBags.add(trashBag);
-                    } else if (pixelAtual == corVidaExtra) {
+                    } else if (pixelAtual == montaCor(corVidaExtra)) {
                         VidaExtra vidaExtra = new VidaExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.vidaExtra, "VidaExtra");
                         Game.vidasExtras.add(vidaExtra);
-                    } else if (pixelAtual == corAmmuBox) {
+                    } else if (pixelAtual == montaCor(corAmmuBox)) {
                         AmmunitionExtra ammunitionExtra = new AmmunitionExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.ammunitionExtra, "ExtraAmmo", 5);
                         Game.ammunitionExtras.add(ammunitionExtra);
-                    } else if (pixelAtual == corGrama) {
+                    } else if (pixelAtual == montaCor(corGrama)) {
                         Grama grama = new Grama(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.grama, "Grama");
                         Game.entidades.add(grama);
-                    } else if (pixelAtual == corEspinhos) {
+                    } else if (pixelAtual == montaCor(corEspinhos)) {
                         Espinho espinho = new Espinho(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.espinho, "espinho");
                         Game.espinhos.add(espinho);
-                    } else if (pixelAtual == corGalhoSeco) {
+                    } else if (pixelAtual == montaCor(corGalhoSeco)) {
                         GalhosSecos galho = new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.galhoSeco, "GalhoSeco");
                         Game.entidades.add(galho);
-                    } else if (pixelAtual == corInimigo1 || pixelAtual == corInimigo2 || pixelAtual == corInimigo3) {
+                    } else if (pixelAtual == montaCor(corInimigo1) || pixelAtual == montaCor(corInimigo2) || pixelAtual == montaCor(corInimigo3)) {
 
                         // isso vai ser alterado a medida que novos inimigos aparecem no jogo
                         int tipoInimigo;
-                        if (pixelAtual == corInimigo1) {
+                        if (pixelAtual == montaCor(corInimigo1)) {
                             tipoInimigo = 1;
-                        } else if (pixelAtual == corInimigo2){
+                        } else if (pixelAtual == montaCor(corInimigo2)){
                             tipoInimigo = 2;
                         } else {
                             tipoInimigo = 3;
@@ -254,19 +255,19 @@ public class Mundo {
                         Inimigo inimigo = new Inimigo(identificadorUnicoInimigo, x * Inimigo.SIZEENEMYX * incremento, y * Inimigo.SIZEENEMYY * incremento, Inimigo.SIZEENEMYX, Inimigo.SIZEENEMYY, tipoInimigo, Entity.inimigo, "Inimigo");
                         identificadorUnicoInimigo++;
                         Game.inimigo.add(inimigo);
-                    } else if (pixelAtual == corCeu) {
+                    } else if (pixelAtual == montaCor(corCeu)) {
                         Ceu ceu = new Ceu(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.ceu, "ceu");
                         Game.ceuVetor.add(ceu);
-                    } else if (pixelAtual == corMountainParalax) {
+                    } else if (pixelAtual == montaCor(corMountainParalax)) {
                         MountainsParalax mountainsParalax = new MountainsParalax(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.mountainParalax, "mountain");
                         Game.mountainVetor.add(mountainsParalax);
-                    } else if (pixelAtual == corWallFundo1) {
+                    } else if (pixelAtual == montaCor(corWallFundo1)) {
                         WallFundo1 wallFundo1 = new WallFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.wallFundo1, "CenarioWallFundo");
                         Game.wallFundo1Vetor.add(wallFundo1);
-                    } else if (pixelAtual == corPredioFundo1) {
+                    } else if (pixelAtual == montaCor(corPredioFundo1)) {
                         PredioFundo1 predioFundo1 = new PredioFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.predioFundo1, "CenarioPredio");
                         Game.predioFundo1Vetor.add(predioFundo1);
-                    } else if (pixelAtual == corPlayer) {
+                    } else if (pixelAtual == montaCor(corPlayer)) {
                         Game.player.setX(x * Player.getLarguraPlayer());
                         Game.player.setY(y * Player.getAlturaPlayer());
                     }
@@ -329,7 +330,7 @@ public class Mundo {
     }
 
     // em desenvolvimento
-    public int obterCor() {
+    public int obterCor(int pixelAtual) {
         int prefixCor = 0xFF;
         String corEscadaTopo = "ee8fbe",
                 corEscada = "c4759d",
@@ -391,7 +392,19 @@ public class Mundo {
                 corJuncaoUmBlocoEsquerda = "364366",
                 corJuncaoSimplesUmBlocoDuploDireita = "72ccf2",
                 corJuncaoSimplesUmBlocoDuploEsquerda = "f294cb";
-        return prefixCor << 24 | Integer.parseInt(corEscada, 16);
+
+        if (pixelAtual == (prefixCor << 24 | Integer.parseInt(corEscada, 16))){
+            // return
+            return 101010101;
+        }
+
+        //return prefixCor << 24 | Integer.parseInt(corEscada, 16);
+        return 999999;
+    }
+
+    public int montaCor(String corHexaDecimal){
+        int prefixCor = 0xFF;
+        return prefixCor << 24 | Integer.parseInt(String.valueOf(corHexaDecimal), 16);
     }
 
 }

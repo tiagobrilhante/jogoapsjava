@@ -14,7 +14,7 @@ public class Inimigo extends Entity {
 
     // velocidade de deslocamento do inimigo
     // pode mudar de acordo com o inimigo
-    public double speed = 0.5;
+    public double speed;
 
     // se o inimigo está ou não se movimentando
     // 1 = movimento
@@ -39,8 +39,7 @@ public class Inimigo extends Entity {
 
     // vida do inimigo
     // life = vida inicial
-    // maxLife = vida máxima (poderá ser removido)
-    public int life = 5;
+    public int life;
 
     public boolean emMovimento;
 
@@ -80,6 +79,8 @@ public class Inimigo extends Entity {
             inimigoFrenteDireita = new BufferedImage[4];
             inimigoEsperaFrenteDireita = new BufferedImage[4];
             inimigoAtaqueFrenteDireita = new BufferedImage[2];
+            this.life = 5;
+            this.speed = 0.5;
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
@@ -102,6 +103,8 @@ public class Inimigo extends Entity {
             inimigoFrenteDireita = new BufferedImage[4];
             inimigoEsperaFrenteDireita = new BufferedImage[4];
             inimigoAtaqueFrenteDireita = new BufferedImage[2];
+            this.life = 5;
+            this.speed = 0.5;
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
@@ -122,6 +125,9 @@ public class Inimigo extends Entity {
             inimigoFrenteDireita = new BufferedImage[5];
             inimigoEsperaFrenteDireita = new BufferedImage[4];
             inimigoAtaqueFrenteDireita = new BufferedImage[2];
+
+            this.life = 8;
+            this.speed = 0.8;
 
             // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
             for (int i = 0; i < 4; i++) {
