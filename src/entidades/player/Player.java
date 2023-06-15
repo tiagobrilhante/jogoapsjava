@@ -145,6 +145,7 @@ public class Player extends Entity {
     public int tempoParado;
 
     public Entity escadaEmColisao;
+    public boolean colisaoTopoBloco, colisaoFundoBloco, colisaoEsquerdaBloco, colisaoDireitaBloco;
 
     // ######################## //
     // ###### Particulas ###### //
@@ -283,7 +284,6 @@ public class Player extends Entity {
                 }
 
             } else if (posBottomEscada) {
-
                 // nesse caso estou na base de uma escada, colidindo com mo chão provavelmente
                 // eu posso:
                 // - voltar a subir
@@ -300,10 +300,6 @@ public class Player extends Entity {
 
             } else {
                 // nesse caso eu estou no topo de uma escada
-                // não faz sentido tentar subir
-                // mas eu posso descer---
-                System.out.println("estou no topo da escada - fazer ajustes");
-
                 if (up) {
                     y -= speed;
                     y = (int) y;
@@ -465,6 +461,10 @@ public class Player extends Entity {
             }
         }
 
+        if (colisaoDireitaBloco || colisaoEsquerdaBloco){
+            emMovimento = false;
+        }
+
         // dano contra o player (deverá levar em consideração a ameaça)
         if (damage((int) (x + speed), this.getY())) {
             life -= damageFactor;
@@ -549,43 +549,11 @@ public class Player extends Entity {
                 if (playerRectangle.intersects(solido)) {
 
                     // Determinar direção da colisão
-                    boolean colisaoTopoBloco = playerRectangle.getMaxY()-1 <= solido.getMinY();
-                    boolean colisaoFundoBloco = playerRectangle.getMinY()+1 >= solido.getMaxY();
-                    boolean colisaoEsquerdaBloco = playerRectangle.getMaxX()-3 <= solido.getMinX();
-                    boolean colisaoDireitaBloco = playerRectangle.getMinX()+3 >= solido.getMaxX();
-/*
-                    System.out.println("----------------------------------");
-                    System.out.println("----------------------------------");
-                    System.out.println("Player: " + playerRectangle);
-                    System.out.println("Solido: " + solido);
-                    System.out.println("player max Y: " + playerRectangle.getMaxY());
-                    System.out.println("player min Y: " + playerRectangle.getMinY());
-                    System.out.println("player max X: " + playerRectangle.getMaxX());
-                    System.out.println("player min X: " + playerRectangle.getMinX());
-                    System.out.println("solido max Y: " + solido.getMaxY());
-                    System.out.println("solido min Y: " + solido.getMinY());
-                    System.out.println("solido max X: " + solido.getMaxX());
-                    System.out.println("solido min X: " + solido.getMinX());
-                    System.out.println("topoBloco: " + colisaoTopoBloco);
-                    System.out.println("fundoBloco: " + colisaoFundoBloco);
-                    System.out.println("EsquerdaBloco: " + colisaoEsquerdaBloco);
-                    System.out.println("DireitaBloco: " + colisaoDireitaBloco);
+                    colisaoTopoBloco = playerRectangle.getMaxY()-1 <= solido.getMinY();
+                    colisaoFundoBloco = playerRectangle.getMinY()+1 >= solido.getMaxY();
+                    colisaoEsquerdaBloco = playerRectangle.getMaxX()-3 <= solido.getMinX();
+                    colisaoDireitaBloco = playerRectangle.getMinX()+3 >= solido.getMaxX();
 
-                    if (colisaoTopoBloco) {
-                        System.out.println("topo");
-                    }
-                    if (colisaoFundoBloco) {
-                        System.out.println("fundo");
-                    }
-                    if (colisaoEsquerdaBloco) {
-                        System.out.println("esquerda");
-                    }
-                    if (colisaoDireitaBloco) {
-                        System.out.println("direita");
-                    }
-
-                    System.out.println("----------------------------------");
-*/
                     // Retorne true para indicar que houve colisão
                     return true;
                 }
