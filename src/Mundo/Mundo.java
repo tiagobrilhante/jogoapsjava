@@ -27,6 +27,10 @@ public class Mundo {
 
     public static double posX = 0, posY = 0;
 
+    public Mundo() {
+        // Lógica do construtor padrão, se necessário
+    }
+
     // método construtor
     public Mundo(String path) {
 
@@ -87,6 +91,7 @@ public class Mundo {
     }
 
     // inicia o level 1
+    @SuppressWarnings("InstantiationOfUtilityClass")
     public static void newlevel(String level) {
         // recarga de listas
         Game.entidades = new ArrayList<>();
