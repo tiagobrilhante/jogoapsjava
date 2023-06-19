@@ -142,6 +142,30 @@ public class Inimigo extends Entity {
                 inimigoAtaqueFrenteEsquerda[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX)), 272, SIZEENEMYX, SIZEENEMYY);
                 inimigoAtaqueFrenteDireita[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX)), 224, SIZEENEMYX, SIZEENEMYY);
             }
+        } else if (tipoInimigo == 4) {
+            inimigoFrenteEsquerda = new BufferedImage[5];
+            inimigoEsperaFrenteEsquerda = new BufferedImage[4];
+            inimigoAtaqueFrenteEsquerda = new BufferedImage[2];
+            inimigoFrenteDireita = new BufferedImage[5];
+            inimigoEsperaFrenteDireita = new BufferedImage[4];
+            inimigoAtaqueFrenteDireita = new BufferedImage[2];
+
+            this.life = 8;
+            this.speed = 0.8;
+
+            // populo array por loop, passando a posição dele e tamanho de acordo com o sprite
+            for (int i = 0; i < 4; i++) {
+                inimigoFrenteEsquerda[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 464, SIZEENEMYX2, SIZEENEMYY2);
+                inimigoEsperaFrenteEsquerda[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX2)), 368, SIZEENEMYX2, SIZEENEMYY2);
+                inimigoFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 416, SIZEENEMYX2, SIZEENEMYY2);
+                inimigoEsperaFrenteDireita[i] = Game.spriteEnemy.getSprite((i * SIZEENEMYX2), 320, SIZEENEMYX2, SIZEENEMYY2);
+
+            }
+
+            for (int i = 0; i < 2; i++) {
+                inimigoAtaqueFrenteEsquerda[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX)), 464, SIZEENEMYX, SIZEENEMYY);
+                inimigoAtaqueFrenteDireita[i] = Game.spriteEnemy.getSprite(((i * SIZEENEMYX)), 416, SIZEENEMYX, SIZEENEMYY);
+            }
         }
     }
 

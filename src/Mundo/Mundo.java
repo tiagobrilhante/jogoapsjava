@@ -41,7 +41,7 @@ public class Mundo {
             corNucleoConverteEsquerdaChaoIsoladoFundo = "392420", corJuncaoBuEsquerdaBaixo = "585392",
             corJuncaoBuDireitaBaixo = "666663", corBuSimples = "666248", corTijoloDeserto = "EE8529",
             corKitHealth = "F6EFEF", corGrama = "38385D", corEspinhos = "4D8080", corGalhoSeco = "4D4D80",
-            corPlacaSave = "808033", corInimigo1 = "494900", corInimigo2 = "606000", corInimigo3 = "20140C",
+            corPlacaSave = "808033", corInimigo1 = "494900", corInimigo2 = "606000", corInimigo3 = "20140C", corInimigo4 = "A88F39",
             corCeu = "639BFF", corPlayer = "FFFF00", corChaoIsoladoTopo = "7845AC", corChaoIsoladoFundo = "AAD5C0" ,
             corNucleoBifurcaChaoIsoladoTopo = "45ACAC", corNucleoBifurcaChaoIsoladoFundo = "D57D29",
             corTrashBag = "F600F6", corChaoIsoladoEsquerda = "355240", corChaoIsoladoDireita = "793B34",
@@ -235,7 +235,7 @@ public class Mundo {
                     } else if (pixelAtual == montaCor(corGalhoSeco)) {
                         GalhosSecos galho = new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.galhoSeco, "GalhoSeco");
                         Game.entidades.add(galho);
-                    } else if (pixelAtual == montaCor(corInimigo1) || pixelAtual == montaCor(corInimigo2) || pixelAtual == montaCor(corInimigo3)) {
+                    } else if (pixelAtual == montaCor(corInimigo1) || pixelAtual == montaCor(corInimigo2) || pixelAtual == montaCor(corInimigo3) || pixelAtual == montaCor(corInimigo4)) {
 
                         // isso vai ser alterado a medida que novos inimigos aparecem no jogo
                         int tipoInimigo;
@@ -243,8 +243,11 @@ public class Mundo {
                             tipoInimigo = 1;
                         } else if (pixelAtual == montaCor(corInimigo2)){
                             tipoInimigo = 2;
-                        } else {
+                        } else if (pixelAtual == montaCor(corInimigo3)){
                             tipoInimigo = 3;
+                        }
+                        else {
+                            tipoInimigo = 4;
                         }
                         // aqui é im incremento para por o inimigo no lugar correto
                         // tem que reajustar quando os inimigos passarem a ocupar 32 pixeis ao invés de 16
