@@ -39,7 +39,7 @@ public class Entity {
     // buffer de todas as entidades e seus posicionamentos no sprite)
     public static BufferedImage chaoNucleo = Game.sprite.getSprite(posChaoNucleo[0], posChaoNucleo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoTopo = Game.sprite.getSprite(posChaoIsoladoTopo[0], posChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY);
-    public static BufferedImage save = Game.sprite.getSprite(posSavePoint[0], posSavePoint[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage checkPoint = Game.sprite.getSprite(posSavePoint[0], posSavePoint[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoEsquerda = Game.sprite.getSprite(posChaoIsoladoEsquerda[0], posChaoIsoladoEsquerda[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage chaoIsoladoDireita = Game.sprite.getSprite(posChaoIsoladoDireita[0], posChaoIsoladoDireita[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage juncaoSimplesUmBlocoDuploDireita = Game.sprite.getSprite(posJuncaoSimplesUmBlocoDuploDireita[0], posJuncaoSimplesUmBlocoDuploDireita[1], SIZEENTITYX, SIZEENTITYY);

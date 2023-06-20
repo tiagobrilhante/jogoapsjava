@@ -35,7 +35,6 @@ public class Mundo {
     public Mundo(String path) {
 
         try {
-
             // mapeamento do mundo (de acordo com os pixel da base da fase)
             BufferedImage level = ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
             int[] pixels = new int[level.getWidth() * level.getHeight()];
@@ -57,7 +56,8 @@ public class Mundo {
                     // popula os tiles vazios
                     tiles[x + (y * WIDTH)] = new Empty(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.empty);
                     // injeta os tiles
-                    MundoGenerator.geraEntidades(x, y, pixelAtual);
+                    // MundoGenerator.geraEntidades(x, y, pixelAtual);
+                    MundoGenerator.injetorEntidades(x,y,pixelAtual);
 
                 }
             }
