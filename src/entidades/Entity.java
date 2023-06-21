@@ -21,7 +21,7 @@ public class Entity {
             posChaoDireito = {64, 64}, posChaoNormalTopo = {32, 32}, posChaoNormalFundo = {32, 96},
             posJuncaoBuEsquerdaBaixo = {224, 96},posJuncaoBuDireitaBaixo = {288, 96},posBuSimples = {256, 96},
             posChaoEsquerdoFundo = {0, 96}, posChaoDireitoFundo = {64, 96}, posTijoloDeserto = {32, 0},
-            posEmpty = {0, 0}, posGrama = {0, 160}, posEscadaTopo = {0, 192}, posEscada = {32, 192},
+            posEmpty = {0, 0}, posGrama = {96, 192}, posEscadaTopo = {0, 192}, posEscada = {32, 192},
             posEscadaBase = {64, 192}, posEspinho = {0, 128}, posGalhoSeco = {32, 160}, posKitHealth = {64, 160},
             posSavePoint = {64, 128}, posTrashBag = {32,128}, posJuncaoTopoEsquerda = {192,32},
             posJuncaoFundoEsquerda = {192,64}, posJuncaoTopoDireita = {224,32}, posJuncaoFundoDireita = {224,64},
