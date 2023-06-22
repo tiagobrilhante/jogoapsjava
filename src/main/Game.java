@@ -37,16 +37,12 @@ public class Game extends Canvas implements Runnable {
 
     public static Game game;
     public GameMenu gameMenu;
-
-
     public GameOver gameOver;
     //Historia
     public Historia historia;
     public Controles controles;
     public LeaderBoard leaderBoard;
     public Sobre sobre;
-
-
 
     // thread para buferização
     private Thread thread;
@@ -58,15 +54,10 @@ public class Game extends Canvas implements Runnable {
     // instancia o player
     public static Player player;
     // MENU
-
-
-
-
     // instancia a interface do usuário
     public UserInterface ui;
     // poeira na tela
     public DustSpawner dustSpawner;
-
 
     //  ----------- LISTAS  -----------  //
     // lista de entidades empregada no game
@@ -90,11 +81,12 @@ public class Game extends Canvas implements Runnable {
     public static List<TiroPlayer> tirosPLayer;
 
     // instancia sprites
-    public static Spritsheet sprite, spritePlayer, spriteEnemy, ceu, mountain, wallFundo1, predioFundo1, nuvens;
-
+    public static Spritsheet spriteSolid, spriteDecoration, spriteInterative, spritePlayer, spriteEnemy, ceu, mountain, wallFundo1, predioFundo1, nuvens;
 
     // objetos base (PATHS)
-    public static String spriteTerrenoPath = "/res/spritesheets/terrain/spritesheet32new.png";
+    public static String spriteSolidPath = "/res/spritesheets/terrain/spritesheet32solid.png";
+    public static String spriteDecorationPath = "/res/spritesheets/terrain/spritesheet32decoration.png";
+    public static String spriteInterativePath = "/res/spritesheets/terrain/spritesheet32interativo.png";
     public String spritePlayerPath = "/res/spritesheets/player/spritesheetPlayer3.png";
     public String spriteEnemyPath = "/res/spritesheets/enemy/spritesheetEnemy.png";
     public static String spriteCeuPath = "/res/spritesheets/ceusprite2.png";
@@ -103,7 +95,6 @@ public class Game extends Canvas implements Runnable {
     public String spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png";
     public static String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
     public static String levelPath = "/res/fases/";
-
 
     // se o jogo está rodando... começa em verdadeiro
     private boolean isRunning = true;
@@ -116,9 +107,7 @@ public class Game extends Canvas implements Runnable {
     public static int level = 1;
     public int levelMaximo = 2;
     public static String gameState = "MENU";
-
     public int temp = 0;
-
 
     // método construtor
     public Game() {
@@ -139,7 +128,9 @@ public class Game extends Canvas implements Runnable {
         // chama as entidades (classe abstrata)
         // define o sprite a ser usado pelas entidades
         //sprites para as entidades base
-        sprite = new Spritsheet(spriteTerrenoPath);
+        spriteSolid = new Spritsheet(spriteSolidPath);
+        spriteDecoration = new Spritsheet(spriteDecorationPath);
+        spriteInterative = new Spritsheet(spriteInterativePath);
         //sprite para jogador
         spritePlayer = new Spritsheet(spritePlayerPath);
         // sprite para inimigos
@@ -421,7 +412,7 @@ public class Game extends Canvas implements Runnable {
         // seta o fundo do jogo quando não há elementos gráficos carregados
         Graphics g = fundoBase.getGraphics();
 
-        g.setColor(new Color(26, 122, 62));
+        g.setColor(new Color(18, 32, 32));
         g.fillRect(0, 0, GameSettings.getGAME_WIDTH() , GameSettings.getGAME_HEIGHT());
 
         // renderiza as entidades
@@ -593,11 +584,5 @@ public class Game extends Canvas implements Runnable {
         }
         stop();
     }
-
-
-
-
-
-
 
 }

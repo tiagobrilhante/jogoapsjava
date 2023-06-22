@@ -56,7 +56,6 @@ public class Mundo {
                     // popula os tiles vazios
                     tiles[x + (y * WIDTH)] = new Empty(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.empty);
                     // injeta os tiles
-                    // MundoGenerator.geraEntidades(x, y, pixelAtual);
                     MundoGenerator.injetorEntidades(x,y,pixelAtual);
 
                 }
@@ -112,9 +111,11 @@ public class Mundo {
         Game.escada = new ArrayList<>();
         Game.ceu = new Spritsheet(Game.spriteCeuPath);
         Game.nuvens = new Spritsheet(Game.spriteNuvemPath);
-        Game.sprite = new Spritsheet(Game.spriteTerrenoPath);
+        Game.spriteSolid = new Spritsheet(Game.spriteSolidPath);
+        Game.spriteDecoration = new Spritsheet(Game.spriteDecorationPath);
+        Game.spriteInterative = new Spritsheet(Game.spriteInterativePath);
         Game.mundo = new Mundo(Game.levelPath + level);
-        Game.player = new Player(0, 0, Player.getLarguraPlayer(), Player.getLarguraPlayer(), Game.sprite.getSprite(32, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
+        Game.player = new Player(0, 0, Player.getLarguraPlayer(), Player.getLarguraPlayer(), Game.spritePlayer.getSprite(32, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Game.entidades.add(Game.player);
     }
 

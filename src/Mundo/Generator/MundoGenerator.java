@@ -27,6 +27,9 @@ public class MundoGenerator {
                 corEspinho = {"4D8080", "Espinho"},
                 corGalhoSeco = {"4D4D80", "GalhosSecos"},
                 corWallFundo1 = {"2D3425", "WallFundo1"},
+                corFundoCaverna1 = {"1D3B32", "fundoCaverna1"},
+                corFundoCavernaEntradaEsquerda = {"236351", "fundoCavernaEntradaEsquerda"},
+                corFundoCavernaEntradaDireita = {"634425", "fundoCavernaEntradaDireita"},
                 corPredioFundo1 = {"157920", "PredioFundo1"},
                 corCeu = {"639BFF", "Ceu"},
                 corMountainParalax = {"3E7682", "MountainParalax"},
@@ -51,8 +54,11 @@ public class MundoGenerator {
         // -------------//
         corChaoNucleo = {"086910", "Solido"},
                 corChaoEsquerdo = {"AC4839", "Solido"},
+                corChaoEsquerdoCaverna = {"F279E0", "Solido"},
                 corChaoEsquerdoTopo = {"18B229", "Solido"},
+                corChaoEsquerdoCavernaTopo = {"A9F2E7", "Solido"},
                 corChaoEsquerdoFundo = {"946d4A", "Solido"},
+                corChaoEsquerdoCavernaFundo = {"F24138", "Solido"},
                 corJuncaoTopoEsquerda = {"FF9D52", "Solido"},
                 corJuncaoFundoEsquerda = {"FF713D", "Solido"},
                 corJuncaoTopoDireita = {"FF4551", "Solido"},
@@ -60,10 +66,15 @@ public class MundoGenerator {
                 corJuncaoDupla1 = {"61FF88", "Solido"},
                 corJuncaoDupla2 = {"C8FF52", "Solido"},
                 corChaoDireito = {"AC6920", "Solido"},
+                corChaoDireitoCaverna = {"4C678F", "Solido"},
                 corChaoDireitoTopo = {"CD3420", "Solido"},
+                corChaoDireitoCavernaTopo = {"F2AD35", "Solido"},
                 corChaoDireitoFundo = {"6722AC", "Solido"},
+                corChaoDireitoCavernaFundo = {"1E2415", "Solido"},
                 corChaoNormalTopo = {"6A91A4", "Solido"},
+                corChaoNormalMontanhaTopo = {"5A6EF2", "Solido"},
                 corChaoNormalFundo = {"4A2420", "Solido"},
+                corChaoNormalMontanhaFundo = {"F24D95", "Solido"},
                 corJuncaoSimplesLateralTopoDireita = {"496372", "Solido"},
                 corNucleoConverteDireitaChaoIsoladoTopo = {"55D595", "Solido"},
                 corNucleoConverteDireitaChaoIsoladoFundo = {"D5D580", "Solido"},
@@ -80,12 +91,15 @@ public class MundoGenerator {
                 corChaoIsoladoEsquerda = {"355240", "Solido"},
                 corChaoIsoladoDireita = {"793B34", "Solido"},
                 corJuncaoSimplesFundoDireita = {"F22778", "Solido"},
+                corJuncaoSimplesFundoDireitaCaverna = {"1C2F42", "Solido"},
                 corChaoIsoladoMeioVertical = {"2D2C7A", "Solido"},
                 corPedra1 = {"1A3917", "Solido"},
                 corJuncaoUmBlocoDireita = {"203766", "Solido"},
                 corJuncaoUmBlocoEsquerda = {"364366", "Solido"},
                 corJuncaoSimplesUmBlocoDuploDireita = {"72CCF2", "Solido"},
-                corJuncaoSimplesUmBlocoDuploEsquerda = {"F294CB", "Solido"};
+                corJuncaoSimplesUmBlocoDuploDireitaCaverna = {"6D1857", "Solido"},
+                corJuncaoSimplesUmBlocoDuploEsquerda = {"F294CB", "Solido"},
+                corJuncaoSimplesUmBlocoDuploEsquerdaCaverna = {"6B6D4F", "Solido"};
 
     }
 
@@ -113,11 +127,14 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "fundoDarkBrickBase") || Objects.equals(valor[1], "fundoDarkBrickBrokenBase1") || Objects.equals(valor[1], "fundoDarkBrickDireito") || Objects.equals(valor[1], "fundoDarkBrickEsquerdo")) {
+                } else if (Objects.equals(valor[1], "fundoDarkBrickBase") || Objects.equals(valor[1], "fundoDarkBrickBrokenBase1") || Objects.equals(valor[1], "fundoDarkBrickDireito") || Objects.equals(valor[1], "fundoDarkBrickEsquerdo") || Objects.equals(valor[1], "fundoCaverna1") || Objects.equals(valor[1], "fundoCavernaEntradaEsquerda") || Objects.equals(valor[1], "fundoCavernaEntradaDireita")) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String valorOpcao = valor[1];
                         BufferedImage fundoDarkBrickValue = switch (valorOpcao) {
                             case "fundoDarkBrickBase" -> Entity.fundoDarkBrickBase;
+                            case "fundoCaverna1" -> Entity.fundoCaverna1;
+                            case "fundoCavernaEntradaEsquerda" -> Entity.fundoCavernaEntradaEsquerda;
+                            case "fundoCavernaEntradaDireita" -> Entity.fundoCavernaEntradaDireita;
                             case "fundoDarkBrickBrokenBase1" -> Entity.fundoDarkBrickBrokenBase1;
                             case "fundoDarkBrickDireito" -> Entity.fundoDarkBrickDireito;
                             case "fundoDarkBrickEsquerdo" -> Entity.fundoDarkBrickEsquerdo;
