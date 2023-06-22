@@ -104,6 +104,7 @@ public class Mundo {
         Game.nuvemVetor = new ArrayList<>();
         Game.predioFundo1Vetor = new ArrayList<>();
         Game.wallFundo1Vetor = new ArrayList<>();
+        Game.luzWallFundo1Vetor = new ArrayList<>();
         Game.checkPoints = new ArrayList<>();
         Game.espinhos = new ArrayList<>();
         Game.darkBricksFundo = new ArrayList<>();

@@ -3,6 +3,7 @@ package entidades.interativos;
 
 import Mundo.Camera;
 import entidades.Entity;
+import entidades.player.Player;
 import entidades.solidos.Solido;
 import main.Game;
 
@@ -53,8 +54,14 @@ public class TiroPlayer extends Entity {
     // responsável por renderizar a imagem
     public void render(Graphics g) {
 
+
+        g.setColor(Color.GREEN);
+        g.fillRect((int) (x), (int) (y), dimensoesTiro[0] , dimensoesTiro[1] );
+
         g.setColor(Color.BLACK);
-        g.fillRect((int) (x), (int) (y), dimensoesTiro[0], dimensoesTiro[1]);
+        g.fillRect((int) (x)+2, (int) (y)-1, dimensoesTiro[0]-1, dimensoesTiro[1]-1);
+
+
 
     }
 

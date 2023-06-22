@@ -393,9 +393,9 @@ public class Player extends Entity {
                         PlayerAudio.tocaAudio("tiro");
                         // aqui começa o problema de ajuste de tiro
                         if (Objects.equals(direcaoAtual, "direita")) {
-                            Game.tirosPLayer.add(new TiroPlayer(Player.atualX - Camera.x, Player.atualY - 32 - Camera.y, 30, 2, null, "tiro", "Direita"));
+                            Game.tirosPLayer.add(new TiroPlayer(Player.atualX - Camera.x, Player.atualY +16 - Camera.y, 30, 3, null, "tiro", "Direita"));
                         } else {
-                            Game.tirosPLayer.add(new TiroPlayer(Player.atualX - Camera.x, Player.atualY - 32 - Camera.y, 30, 2, null, "tiro", "Esquerda"));
+                            Game.tirosPLayer.add(new TiroPlayer(Player.atualX - Camera.x, Player.atualY + 16 - Camera.y, 30, 3, null, "tiro", "Esquerda"));
                         }
                     }
 

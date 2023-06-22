@@ -66,6 +66,7 @@ public class Game extends Canvas implements Runnable {
     public static List<Ceu> ceuVetor;
     public static List<MountainsParalax> mountainVetor;
     public static List<WallFundo1> wallFundo1Vetor;
+    public static List<LuzWallFundo1> luzWallFundo1Vetor;
     public static List<PredioFundo1> predioFundo1Vetor;
     public static List<CheckPoint> checkPoints;
     public static List<Nuvens> nuvemVetor;
@@ -146,6 +147,7 @@ public class Game extends Canvas implements Runnable {
         mountainVetor = new ArrayList<>();
         // lista de vetor de fundo
         wallFundo1Vetor = new ArrayList<>();
+        luzWallFundo1Vetor = new ArrayList<>();
         predioFundo1Vetor = new ArrayList<>();
         // lista de nuvens
         nuvemVetor = new ArrayList<>();
@@ -223,6 +225,7 @@ public class Game extends Canvas implements Runnable {
         ceuVetor = new ArrayList<>();
         mountainVetor = new ArrayList<>();
         wallFundo1Vetor = new ArrayList<>();
+        luzWallFundo1Vetor = new ArrayList<>();
         predioFundo1Vetor = new ArrayList<>();
         checkPoints = new ArrayList<>();
         nuvemVetor = new ArrayList<>();
@@ -351,6 +354,11 @@ public class Game extends Canvas implements Runnable {
             }
 
             // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
+            for (LuzWallFundo1 entidade : luzWallFundo1Vetor) {
+                entidade.tick();
+            }
+
+            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (PredioFundo1 entidade : predioFundo1Vetor) {
                 entidade.tick();
             }
@@ -420,9 +428,12 @@ public class Game extends Canvas implements Runnable {
             mountain.render(g);
         }
 
-        // popula o mundo com o vetor do céu (de acordo com a fase)
         for (WallFundo1 wallFundo1 : wallFundo1Vetor) {
             wallFundo1.render(g);
+        }
+
+        for (LuzWallFundo1 luzWallFundo1 : luzWallFundo1Vetor) {
+            luzWallFundo1.render(g);
         }
 
         // popula o mundo com o vetor do céu (de acordo com a fase)

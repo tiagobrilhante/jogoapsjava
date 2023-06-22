@@ -27,6 +27,7 @@ public class MundoGenerator {
                 corEspinho = {"4D8080", "Espinho"},
                 corGalhoSeco = {"4D4D80", "GalhosSecos"},
                 corWallFundo1 = {"2D3425", "WallFundo1"},
+                corLuzWallFundo1 = {"604FFE", "LuzWallFundo1"},
                 corFundoCaverna1 = {"1D3B32", "fundoCaverna1"},
                 corFundoCavernaEntradaEsquerda = {"236351", "fundoCavernaEntradaEsquerda"},
                 corFundoCavernaEntradaDireita = {"634425", "fundoCavernaEntradaDireita"},
@@ -199,7 +200,21 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "PredioFundo1")) {
+                } else if (Objects.equals(valor[1], "LuzWallFundo1")) {
+
+                    if (pixelAtual == montaCor(valor[0])) {
+                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
+                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
+                        try {
+                            Field field = Entity.class.getDeclaredField(nomeAtributo);
+                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
+                            LuzWallFundo1 luzWallFundo1 = new LuzWallFundo1(x* Entity.SIZEENTITYX-16 , y* Entity.SIZEENTITYY , 64, 64, imagem, nomeAtributo);
+                            Game.luzWallFundo1Vetor.add(luzWallFundo1);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }else if (Objects.equals(valor[1], "PredioFundo1")) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -212,7 +227,9 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "Ceu")) {
+                }
+
+                else if (Objects.equals(valor[1], "Ceu")) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
