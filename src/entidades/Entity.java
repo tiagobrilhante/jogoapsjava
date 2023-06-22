@@ -71,7 +71,7 @@ public class Entity {
     //        DECORATION        //
     //--------------------------//
     posGrama = {0, 64},
-            posGalhoSeco = {32, 160},
+            posGalhoSeco = {0, 96},
             posFundoDarkBrickEsquerdo = {0, 0},
             posFundoDarkBrickDireito = {64, 0},
             posFundoDarkBrickBase = {32, 0},
@@ -156,12 +156,13 @@ public class Entity {
     //      DECORATIVOS      //
     //-----------------------//
 
-    public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 3200, 800);
+    public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 32, 800);
     public static BufferedImage mountainParalax = Game.mountain.getSprite(0, 0, 3200, 800);
     public static BufferedImage wallFundo1 = Game.wallFundo1.getSprite(0, 0, 224, 128);
     public static BufferedImage predioFundo1 = Game.predioFundo1.getSprite(0, 0, 224, 300);
     public static BufferedImage nuvens = Game.nuvens.getSprite(0, 0, 1471, 700);
     public static BufferedImage grama = Game.spriteDecoration.getSprite(posGrama[0], posGrama[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage galhoSeco = Game.spriteDecoration.getSprite(posGalhoSeco[0], posGalhoSeco[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage fundoDarkBrickBrokenBase1 = Game.spriteDecoration.getSprite(posFundoDarkBrickBrokenBase1[0], posFundoDarkBrickBrokenBase1[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage fundoDarkBrickEsquerdo = Game.spriteDecoration.getSprite(posFundoDarkBrickEsquerdo[0], posFundoDarkBrickEsquerdo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage fundoDarkBrickDireito = Game.spriteDecoration.getSprite(posFundoDarkBrickDireito[0], posFundoDarkBrickDireito[1], SIZEENTITYX, SIZEENTITYY);
@@ -174,12 +175,13 @@ public class Entity {
     //      INTERATIVOS      //
     //-----------------------//
 
+    // INIMIGO
     public static BufferedImage inimigo = Game.spriteEnemy.getSprite(0, 48, SIZEENTITYX, SIZEENTITYY);
+    //OUTROS
     public static BufferedImage escadaTopo = Game.spriteInterative.getSprite(posEscadaTopo[0], posEscadaTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escada = Game.spriteInterative.getSprite(posEscada[0], posEscada[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escadaBase = Game.spriteInterative.getSprite(posEscadaBase[0], posEscadaBase[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage espinho = Game.spriteInterative.getSprite(posEspinho[0], posEspinho[1], SIZEENTITYX, SIZEENTITYY);
-    public static BufferedImage galhoSeco = Game.spriteInterative.getSprite(posGalhoSeco[0], posGalhoSeco[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage kitHealth = Game.spriteInterative.getSprite(posKitHealth[0], posKitHealth[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage trashBag = Game.spriteInterative.getSprite(posTrashBag[0], posTrashBag[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage vidaExtra = Game.spriteInterative.getSprite(posVidaExtra[0], posVidaExtra[1], SIZEENTITYX, SIZEENTITYY);

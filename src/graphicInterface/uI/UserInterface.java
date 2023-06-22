@@ -75,11 +75,11 @@ public class UserInterface {
 
         // Arma Selecionada
         if (Objects.equals(Player.selectedWeapon, "Cano")) {
-            pathArma = "res/spritesheets/canoUi.png";
+            pathArma = "res/ui/canoUi.png";
             // cor para o cano
             g.setColor(Color.BLACK);
         } else {
-            pathArma = "res/spritesheets/armaUi.png";
+            pathArma = "res/ui/armaUi.png";
             // cor para a arma de fogo
             g.setColor(Color.YELLOW);
         }

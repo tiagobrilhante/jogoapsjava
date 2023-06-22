@@ -29,7 +29,7 @@ public class GameOver {
         gameoverTimer = 0;
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            InputStream inputStream = classLoader.getResourceAsStream("res/spaceship1small.png");
+            InputStream inputStream = classLoader.getResourceAsStream("res/ui/spaceship1small.png");
             assert inputStream != null;
             imagem = ImageIO.read(inputStream);
 

@@ -2,7 +2,8 @@ package Mundo;
 
 import Mundo.Generator.MundoGenerator;
 import entidades.Entity;
-import entidades.naoSolidos.*;
+import entidades.naoSolidos.Ceu;
+import entidades.naoSolidos.Nuvens;
 import entidades.player.Player;
 import graficos.Spritsheet;
 import main.Game;
@@ -50,13 +51,17 @@ public class Mundo {
             // passa pelo exito x e y do arquivo de fase
             for (int x = 0; x < level.getWidth(); x++) {
                 posX = x;
+
+                Ceu ceu = new Ceu(x * Entity.SIZEENTITYX - 32, 0, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.ceu, "Ceu");
+                Game.ceuVetor.add(ceu);
+
                 for (int y = 0; y < level.getHeight(); y++) {
                     posY = y;
                     int pixelAtual = pixels[x + (y * level.getWidth())];
                     // popula os tiles vazios
                     tiles[x + (y * WIDTH)] = new Empty(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.empty);
                     // injeta os tiles
-                    MundoGenerator.injetorEntidades(x,y,pixelAtual);
+                    MundoGenerator.injetorEntidades(x, y, pixelAtual);
 
                 }
             }
@@ -118,7 +123,6 @@ public class Mundo {
         Game.player = new Player(0, 0, Player.getLarguraPlayer(), Player.getLarguraPlayer(), Game.spritePlayer.getSprite(32, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Game.entidades.add(Game.player);
     }
-
 
 
 }

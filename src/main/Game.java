@@ -84,16 +84,16 @@ public class Game extends Canvas implements Runnable {
     public static Spritsheet spriteSolid, spriteDecoration, spriteInterative, spritePlayer, spriteEnemy, ceu, mountain, wallFundo1, predioFundo1, nuvens;
 
     // objetos base (PATHS)
-    public static String spriteSolidPath = "/res/spritesheets/terrain/spritesheet32solid.png";
-    public static String spriteDecorationPath = "/res/spritesheets/terrain/spritesheet32decoration.png";
-    public static String spriteInterativePath = "/res/spritesheets/terrain/spritesheet32interativo.png";
+    public static String spriteSolidPath = "/res/spritesheets/terrain/solid/spritesheet32solid.png";
+    public static String spriteDecorationPath = "/res/spritesheets/terrain/decoration/spritesheet32decoration.png";
+    public static String spriteInterativePath = "/res/spritesheets/terrain/interative/spritesheet32interativo.png";
     public String spritePlayerPath = "/res/spritesheets/player/spritesheetPlayer3.png";
     public String spriteEnemyPath = "/res/spritesheets/enemy/spritesheetEnemy.png";
-    public static String spriteCeuPath = "/res/spritesheets/ceusprite2.png";
-    public String spriteMountainPath = "/res/spritesheets/mountain1lvlsprite2.png";
-    public String spriteFundo1Path = "/res/spritesheets/spritesheetfundo1.png";
-    public String spriteFundoPredio1Path = "/res/spritesheets/spritepredio.png";
-    public static String spriteNuvemPath = "/res/spritesheets/ceuspriteClouds.png";
+    public static String spriteCeuPath = "/res/spritesheets/terrain/decoration/ceusprite3.png";
+    public String spriteMountainPath = "/res/spritesheets/terrain/decoration/mountain1lvlsprite2.png";
+    public String spriteFundo1Path = "/res/spritesheets/terrain/decoration/spritesheetfundo1.png";
+    public String spriteFundoPredio1Path = "/res/spritesheets/terrain/decoration/spritepredio.png";
+    public static String spriteNuvemPath = "/res/spritesheets/terrain/decoration/ceuspriteClouds.png";
     public static String levelPath = "/res/fases/";
 
     // se o jogo está rodando... começa em verdadeiro
