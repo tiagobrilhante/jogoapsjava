@@ -81,7 +81,7 @@ public class Game extends Canvas implements Runnable {
     public static List<TiroPlayer> tirosPLayer;
 
     // instancia sprites
-    public static Spritsheet spriteSolid, spriteDecoration, spriteInterative, spritePlayer, spriteEnemy, ceu, mountain, wallFundo1, nuvens;
+    public static Spritsheet spriteSolid, spriteDecoration, spriteInterative, spritePlayer, spriteEnemy, ceu, mountain, nuvens;
 
     // objetos base (PATHS)
     public static String spriteSolidPath = "/res/spritesheets/terrain/solid/spritesheet32solid.png";
@@ -91,7 +91,6 @@ public class Game extends Canvas implements Runnable {
     public String spriteEnemyPath = "/res/spritesheets/enemy/spritesheetEnemy.png";
     public static String spriteCeuPath = "/res/spritesheets/terrain/decoration/ceusprite3.png";
     public String spriteMountainPath = "/res/spritesheets/terrain/decoration/mountain1lvlsprite2.png";
-    public String spriteFundo1Path = "/res/spritesheets/terrain/decoration/spritesheetfundo1.png";
     public static String spriteNuvemPath = "/res/spritesheets/terrain/decoration/ceuspriteClouds.png";
     public static String levelPath = "/res/fases/";
 
@@ -137,8 +136,6 @@ public class Game extends Canvas implements Runnable {
         // sprite para ceu
         ceu = new Spritsheet(spriteCeuPath);
         mountain = new Spritsheet(spriteMountainPath);
-        // Sprite de fundo
-        wallFundo1 = new Spritsheet(spriteFundo1Path);
         //sprite de nuvem
         nuvens = new Spritsheet(spriteNuvemPath);
 
