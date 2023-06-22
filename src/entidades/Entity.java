@@ -159,7 +159,7 @@ public class Entity {
     public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 32, 800);
     public static BufferedImage mountainParalax = Game.mountain.getSprite(0, 0, 3200, 800);
     public static BufferedImage wallFundo1 = Game.wallFundo1.getSprite(0, 0, 224, 128);
-    public static BufferedImage predioFundo1 = Game.predioFundo1.getSprite(0, 0, 224, 300);
+    public static BufferedImage predioFundo1 = Game.spriteDecoration.getSprite(0, 128, 224, 300);
     public static BufferedImage nuvens = Game.nuvens.getSprite(0, 0, 1471, 700);
     public static BufferedImage grama = Game.spriteDecoration.getSprite(posGrama[0], posGrama[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage galhoSeco = Game.spriteDecoration.getSprite(posGalhoSeco[0], posGalhoSeco[1], SIZEENTITYX, SIZEENTITYY);
