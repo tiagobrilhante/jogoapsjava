@@ -169,6 +169,7 @@ public class Inimigo extends Entity {
         }
     }
 
+
     // relatico a cada atualização de tela
     public void tick() {
         emMovimento = atualX != x;

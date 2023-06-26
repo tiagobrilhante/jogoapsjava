@@ -1,7 +1,5 @@
 package settings;
 
-import java.util.Objects;
-
 public abstract class GameSettings {
     //-------------//
     //  GAME NAME  //
@@ -19,7 +17,7 @@ public abstract class GameSettings {
     //-------------//
     //  GAME ICON  //
     //-------------//
-    private final static String gameIconPath ="/res/icons/scrapsicon.png";
+    private final static String gameIconPath = "/res/icons/scrapsicon.png";
 
     //----------------//
     //  GAME SPRITES  //
@@ -63,7 +61,7 @@ public abstract class GameSettings {
         //  INTERATIVOS  //
         // --------------//
         corVidaExtra = {"97DF67", "VidaExtra"},
-                corAmmunitionExtra= {"827719", "AmmunitionExtra"},
+                corAmmunitionExtra = {"827719", "AmmunitionExtra"},
                 corEscadaTopo = {"EE8FBE", "EscadaTopo"},
                 corEscadaFPTopo = {"822D37", "EscadaFPTopo"},
                 corEscada = {"C4759D", "Escada"},
@@ -211,7 +209,18 @@ public abstract class GameSettings {
             posSavePoint = {0, 64},
             posTrashBag = {0, 32},
             posVidaExtra = {64, 32},
-            posAmmunitionExtra = {96, 32};
+            posAmmunitionExtra = {96, 32},
+
+    //------------------------------------//
+    //        ELEMENTOS DE CENÁRIO        //
+    //------------------------------------//
+
+    attrCeu = {0, 0, 32, 800},
+            attrMountainParalax = {0, 0, 3200, 800},
+            attrWallFundo1 = {240, 128, 224, 128},
+            attrLuzWallFundo1 = {320, 64, 64, 64},
+            attrPredioFundo1 = {0, 128, 224, 300},
+            attrNuvens = {0, 0, 1471, 700};
 
 
     // array de conjuntos de entidades basicas:
@@ -255,18 +264,8 @@ public abstract class GameSettings {
     public static String[] arrayCheckPoint = {"CheckPoint"};
 
 
-
-
-
-
-
-
-
-
-
-
     // WIDTH, HEIGHT, SCALE
-    private final static int[] gameDimensions = {520, 300,2};
+    private final static int[] gameDimensions = {520, 300, 2};
 
     public static String getGameName() {
         return gameName;
@@ -287,8 +286,6 @@ public abstract class GameSettings {
     public static int getGAME_SCALE() {
         return gameDimensions[2];
     }
-
-
 
 
 }

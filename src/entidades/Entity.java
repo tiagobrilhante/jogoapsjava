@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
+    // tamanho básico de entidades
     public static int SIZEENTITYX = 32, SIZEENTITYY = 32;
 
     // buffer de todas as entidades e seus posicionamentos no sprite)
@@ -76,12 +77,12 @@ public class Entity {
     //      DECORATIVOS      //
     //-----------------------//
 
-    public static BufferedImage ceu = Game.ceu.getSprite(0, 0, 32, 800);
-    public static BufferedImage mountainParalax = Game.mountain.getSprite(0, 0, 3200, 800);
-    public static BufferedImage wallFundo1 = Game.spriteDecoration.getSprite(240, 128, 224, 128);
-    public static BufferedImage luzWallFundo1 = Game.spriteDecoration.getSprite(320, 64, 64, 64);
-    public static BufferedImage predioFundo1 = Game.spriteDecoration.getSprite(0, 128, 224, 300);
-    public static BufferedImage nuvens = Game.nuvens.getSprite(0, 0, 1471, 700);
+    public static BufferedImage ceu = Game.ceu.getSprite( GameSettings.attrCeu[0], GameSettings.attrCeu[1], GameSettings.attrCeu[2], GameSettings.attrCeu[3]);
+    public static BufferedImage mountainParalax = Game.mountain.getSprite(GameSettings.attrMountainParalax[0], GameSettings.attrMountainParalax[1], GameSettings.attrMountainParalax[2], GameSettings.attrMountainParalax[3]);
+    public static BufferedImage wallFundo1 = Game.spriteDecoration.getSprite(GameSettings.attrWallFundo1[0], GameSettings.attrWallFundo1[1], GameSettings.attrWallFundo1[2], GameSettings.attrWallFundo1[3]);
+    public static BufferedImage luzWallFundo1 = Game.spriteDecoration.getSprite(GameSettings.attrLuzWallFundo1[0], GameSettings.attrLuzWallFundo1[1], GameSettings.attrLuzWallFundo1[2], GameSettings.attrLuzWallFundo1[3]);
+    public static BufferedImage predioFundo1 = Game.spriteDecoration.getSprite(GameSettings.attrPredioFundo1[0], GameSettings.attrPredioFundo1[1], GameSettings.attrPredioFundo1[2], GameSettings.attrPredioFundo1[3]);
+    public static BufferedImage nuvens = Game.nuvens.getSprite(GameSettings.attrNuvens[0], GameSettings.attrNuvens[1], GameSettings.attrNuvens[2], GameSettings.attrNuvens[3]);
 
 
 
@@ -101,8 +102,7 @@ public class Entity {
     //-----------------------//
 
     // INIMIGO
-    public static BufferedImage inimigo = Game.spriteEnemy.getSprite(0, 48, SIZEENTITYX, SIZEENTITYY);
-
+    public static BufferedImage inimigo;
 
     //OUTROS
     public static BufferedImage escadaTopo = Game.spriteInterative.getSprite(GameSettings.posEscadaTopo[0], GameSettings.posEscadaTopo[1], SIZEENTITYX, SIZEENTITYY);
