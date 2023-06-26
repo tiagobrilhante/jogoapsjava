@@ -414,14 +414,15 @@ public class Game extends Canvas implements Runnable {
             entidade.render(g);
         }
 
-        //-----------------//
-        //      TIROS      //
-        //-----------------//
-        for (TiroPlayer entidade : tirosPLayer) {
+        for (Escada entidade : escada) {
             entidade.render(g);
         }
 
-        for (Escada entidade : escada) {
+        //-----------------//
+        //      TIROS      //
+        //-----------------//
+
+        for (TiroPlayer entidade : tirosPLayer) {
             entidade.render(g);
         }
 

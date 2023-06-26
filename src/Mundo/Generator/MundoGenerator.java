@@ -6,111 +6,21 @@ import entidades.naoSolidos.*;
 import entidades.player.Player;
 import entidades.solidos.Solido;
 import main.Game;
+import settings.GameSettings;
 
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class MundoGenerator {
     static int identificadorUnicoInimigo = 1;
 
-    public static class Objetos {
-        final String[]
-                // -----------------//
-                //  DECORATIVOS     //
-                // -----------------//
-                corFundoDarkBrickBase = {"0E5050", "fundoDarkBrickBase"},
-                corFundoDarkBrickBrokenBase1 = {"0E1052", "fundoDarkBrickBrokenBase1"},
-                corFundoDarkBrickDireito = {"494949", "fundoDarkBrickDireito"},
-                corFundoDarkBrickEsquerdo = {"646464", "fundoDarkBrickEsquerdo"},
-                corGrama = {"38385D", "Grama"},
-                corEspinho = {"4D8080", "Espinho"},
-                corGalhoSeco = {"4D4D80", "GalhosSecos"},
-                corWallFundo1 = {"2D3425", "WallFundo1"},
-                corLuzWallFundo1 = {"604FFE", "LuzWallFundo1"},
-                corFundoCaverna1 = {"1D3B32", "fundoCaverna1"},
-                corFundoCavernaEntradaEsquerda = {"236351", "fundoCavernaEntradaEsquerda"},
-                corFundoCavernaEntradaDireita = {"634425", "fundoCavernaEntradaDireita"},
-                corPredioFundo1 = {"157920", "PredioFundo1"},
-                corCeu = {"639BFF", "Ceu"},
-                corMountainParalax = {"3E7682", "MountainParalax"},
-        // --------------//
-        //  INTERATIVOS  //
-        // --------------//
-        corVidaExtra = {"97DF67", "VidaExtra"},
-                corAmmunitionExtra= {"827719", "AmmunitionExtra"},
-                corEscadaTopo = {"EE8FBE", "EscadaTopo"},
-                corEscadaFPTopo = {"822D37", "EscadaFPTopo"},
-                corEscada = {"C4759D", "Escada"},
-                corFPEscada = {"827869", "FPEscada"},
-                corEscadaBase = {"9B5D7C", "EscadaBase"},
-                corEscadaFPBase = {"3A8082", "EscadaFPBase"},
-                corTrashBag = {"F600F6", "TrashBag"},
-                corKitHealth = {"F6EFEF", "KitHealth"},
-                corCheckPoint = {"808033", "CheckPoint"},
-                corInimigo1 = {"494900", "Inimigo1"},
-                corInimigo2 = {"606000", "Inimigo2"},
-                corInimigo3 = {"20140C", "Inimigo3"},
-                corInimigo4 = {"A88F39", "Inimigo4"},
-                corPlayer = {"FFFF00", "Player"},
-        // -------------//
-        //   SOLIDOS    //
-        // -------------//
-        corChaoNucleo = {"086910", "Solido"},
-                corChaoEsquerdo = {"AC4839", "Solido"},
-                corChaoEsquerdoCaverna = {"F279E0", "Solido"},
-                corChaoEsquerdoTopo = {"18B229", "Solido"},
-                corChaoEsquerdoCavernaTopo = {"A9F2E7", "Solido"},
-                corChaoEsquerdoFundo = {"946d4A", "Solido"},
-                corChaoEsquerdoCavernaFundo = {"F24138", "Solido"},
-                corJuncaoTopoEsquerda = {"FF9D52", "Solido"},
-                corJuncaoFundoEsquerda = {"FF713D", "Solido"},
-                corJuncaoTopoDireita = {"FF4551", "Solido"},
-                corJuncaoFundoDireita = {"FF73F8", "Solido"},
-                corJuncaoDupla1 = {"61FF88", "Solido"},
-                corJuncaoDupla2 = {"C8FF52", "Solido"},
-                corChaoDireito = {"AC6920", "Solido"},
-                corChaoDireitoCaverna = {"4C678F", "Solido"},
-                corChaoDireitoTopo = {"CD3420", "Solido"},
-                corChaoDireitoCavernaTopo = {"F2AD35", "Solido"},
-                corChaoDireitoFundo = {"6722AC", "Solido"},
-                corChaoDireitoCavernaFundo = {"1E2415", "Solido"},
-                corChaoNormalTopo = {"6A91A4", "Solido"},
-                corChaoNormalMontanhaTopo = {"5A6EF2", "Solido"},
-                corChaoNormalFundo = {"4A2420", "Solido"},
-                corChaoNormalMontanhaFundo = {"F24D95", "Solido"},
-                corJuncaoSimplesLateralTopoDireita = {"496372", "Solido"},
-                corNucleoConverteDireitaChaoIsoladoTopo = {"55D595", "Solido"},
-                corNucleoConverteDireitaChaoIsoladoFundo = {"D5D580", "Solido"},
-                corNucleoConverteEsquerdaChaoIsoladoTopo = {"D55555", "Solido"},
-                corNucleoConverteEsquerdaChaoIsoladoFundo = {"392420", "Solido"},
-                corJuncaoBuEsquerdaBaixo = {"585392", "Solido"},
-                corJuncaoBuDireitaBaixo = {"666663", "Solido"},
-                corBuSimples = {"666248", "Solido"},
-                corTijoloDeserto = {"EE8529", "Solido"},
-                corChaoIsoladoTopo = {"7845AC", "Solido"},
-                corChaoIsoladoFundo = {"AAD5C0", "Solido"},
-                corNucleoBifurcaChaoIsoladoTopo = {"45ACAC", "Solido"},
-                corNucleoBifurcaChaoIsoladoFundo = {"D57D29", "Solido"},
-                corChaoIsoladoEsquerda = {"355240", "Solido"},
-                corChaoIsoladoDireita = {"793B34", "Solido"},
-                corJuncaoSimplesFundoDireita = {"F22778", "Solido"},
-                corJuncaoSimplesFundoDireitaCaverna = {"1C2F42", "Solido"},
-                corChaoIsoladoMeioVertical = {"2D2C7A", "Solido"},
-                corPedra1 = {"1A3917", "Solido"},
-                corJuncaoUmBlocoDireita = {"203766", "Solido"},
-                corJuncaoUmBlocoEsquerda = {"364366", "Solido"},
-                corJuncaoSimplesUmBlocoDuploDireita = {"72CCF2", "Solido"},
-                corJuncaoSimplesUmBlocoDuploDireitaCaverna = {"6D1857", "Solido"},
-                corJuncaoSimplesUmBlocoDuploEsquerda = {"F294CB", "Solido"},
-                corJuncaoSimplesUmBlocoDuploEsquerdaCaverna = {"6B6D4F", "Solido"};
-
-    }
-
     public static void injetorEntidades(int x, int y, int pixelAtual) {
-        Objetos objetos = new Objetos();
+        GameSettings.Objetos objetos = new GameSettings.Objetos();
         Class<?> classe = objetos.getClass();
         Field[] campos = classe.getDeclaredFields();
+
         for (Field campo : campos) {
             campo.setAccessible(true);
             try {
@@ -118,7 +28,7 @@ public class MundoGenerator {
 
                 String[] valor = (String[]) campoValor;
 
-                if (Objects.equals(valor[1], "Solido")) {
+                if (Arrays.asList(GameSettings.arraySolido).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -131,7 +41,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "fundoDarkBrickBase") || Objects.equals(valor[1], "fundoDarkBrickBrokenBase1") || Objects.equals(valor[1], "fundoDarkBrickDireito") || Objects.equals(valor[1], "fundoDarkBrickEsquerdo") || Objects.equals(valor[1], "fundoCaverna1") || Objects.equals(valor[1], "fundoCavernaEntradaEsquerda") || Objects.equals(valor[1], "fundoCavernaEntradaDireita")) {
+                } else if (Arrays.asList(GameSettings.arrayFundoDarkBrickBase).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String valorOpcao = valor[1];
                         BufferedImage fundoDarkBrickValue = switch (valorOpcao) {
@@ -149,7 +59,7 @@ public class MundoGenerator {
                         FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, fundoDarkBrickValue, "CenarioDarkBrick");
                         Game.darkBricksFundo.add(fundoDarkBrick);
                     }
-                } else if (Objects.equals(valor[1], "Grama")) {
+                } else if (Arrays.asList(GameSettings.arrayGrama).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -163,7 +73,7 @@ public class MundoGenerator {
                         }
                     }
 
-                } else if (Objects.equals(valor[1], "Espinho")) {
+                } else if (Arrays.asList(GameSettings.arrayEspinho).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -176,7 +86,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "GalhosSecos")) {
+                } else if (Arrays.asList(GameSettings.arrayGalhosSecos).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -189,7 +99,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "WallFundo1")) {
+                } else if (Arrays.asList(GameSettings.arrayWallFundo1).contains(valor[1])) {
 
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
@@ -203,7 +113,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "LuzWallFundo1")) {
+                } else if (Arrays.asList(GameSettings.arrayLuzWallFundo1).contains(valor[1])) {
 
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
@@ -217,7 +127,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                }else if (Objects.equals(valor[1], "PredioFundo1")) {
+                }else if (Arrays.asList(GameSettings.arrayPredioFundo1).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -232,7 +142,7 @@ public class MundoGenerator {
                     }
                 }
 
-                else if (Objects.equals(valor[1], "Ceu")) {
+                else if (Arrays.asList(GameSettings.arrayCeu).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -245,7 +155,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "MountainParalax")) {
+                } else if (Arrays.asList(GameSettings.arrayMountainParalax).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -258,7 +168,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "VidaExtra")) {
+                } else if (Arrays.asList(GameSettings.arrayVidaExtra).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -271,7 +181,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "AmmunitionExtra")) {
+                } else if (Arrays.asList(GameSettings.arrayAmmunitionExtra).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -284,7 +194,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "TrashBag")) {
+                } else if (Arrays.asList(GameSettings.arrayTrashBag).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -297,7 +207,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "KitHealth")) {
+                } else if (Arrays.asList(GameSettings.arrayKitHealth).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -310,7 +220,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "CheckPoint")) {
+                } else if (Arrays.asList(GameSettings.arrayCheckPoint).contains(valor[1])){
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
@@ -323,7 +233,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "EscadaTopo") || Objects.equals(valor[1], "Escada") || Objects.equals(valor[1], "EscadaBase") || Objects.equals(valor[1], "EscadaFPTopo") || Objects.equals(valor[1], "FPEscada") || Objects.equals(valor[1], "EscadaFPBase")) {
+                } else if (Arrays.asList(GameSettings.arrayEscadas).contains(valor[1])) {
                     int tipo;
                     if (Objects.equals(valor[1], "EscadaTopo") || Objects.equals(valor[1], "EscadaFPTopo")) {
                         tipo = 3;
@@ -344,7 +254,7 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "Inimigo1") || Objects.equals(valor[1], "Inimigo2") || Objects.equals(valor[1], "Inimigo3") || Objects.equals(valor[1], "Inimigo4")) {
+                } else if (Arrays.asList(GameSettings.arrayInimigos).contains(valor[1])) {
 
                     int tipoInimigo = switch (valor[1]) {
                         case "Inimigo1" -> 1;
