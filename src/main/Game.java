@@ -481,24 +481,25 @@ public class Game extends Canvas implements Runnable {
             entidade.render(g);
         }
 
-        // renderiza escadas
-        for (Escada entidade : escada) {
-            entidade.render(g);
-        }
-
         // renderiza darkBrickFundo
         for (FundoDarkBrick entidade : darkBricksFundo) {
             entidade.render(g);
         }
 
-        // renderiza darkBrickFundo
         for (TiroPlayer entidade : tirosPLayer) {
+            entidade.render(g);
+        }
+
+        // renderiza escadas
+        for (Escada entidade : escada) {
             entidade.render(g);
         }
 
         for (Entity entidade : entidades) {
             entidade.render(g);
         }
+
+
 
         // renderiza os inimigos
         for (Inimigo entidade : inimigo) {
