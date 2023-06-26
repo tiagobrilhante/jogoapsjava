@@ -83,8 +83,11 @@ public class Entity {
     //        INTERATIVE        //
     //--------------------------//
     posEscadaTopo = {0, 0},
+    posEscadaFPTopo = {96, 0},
             posEscada = {32, 0},
+            posFPEscada = {128, 0},
             posEscadaBase = {64, 0},
+            posEscadaFPBase = {160, 0},
             posEspinho = {0, 96},
             posKitHealth = {32, 32},
             posSavePoint = {0, 64},
@@ -180,8 +183,11 @@ public class Entity {
     public static BufferedImage inimigo = Game.spriteEnemy.getSprite(0, 48, SIZEENTITYX, SIZEENTITYY);
     //OUTROS
     public static BufferedImage escadaTopo = Game.spriteInterative.getSprite(posEscadaTopo[0], posEscadaTopo[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage escadaFPTopo = Game.spriteInterative.getSprite(posEscadaFPTopo[0], posEscadaFPTopo[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escada = Game.spriteInterative.getSprite(posEscada[0], posEscada[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage fPEscada = Game.spriteInterative.getSprite(posFPEscada[0], posFPEscada[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage escadaBase = Game.spriteInterative.getSprite(posEscadaBase[0], posEscadaBase[1], SIZEENTITYX, SIZEENTITYY);
+    public static BufferedImage escadaFPBase = Game.spriteInterative.getSprite(posEscadaFPBase[0], posEscadaFPBase[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage espinho = Game.spriteInterative.getSprite(posEspinho[0], posEspinho[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage kitHealth = Game.spriteInterative.getSprite(posKitHealth[0], posKitHealth[1], SIZEENTITYX, SIZEENTITYY);
     public static BufferedImage trashBag = Game.spriteInterative.getSprite(posTrashBag[0], posTrashBag[1], SIZEENTITYX, SIZEENTITYY);

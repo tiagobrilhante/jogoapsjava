@@ -115,12 +115,12 @@ public class Mundo {
         Game.kitHealth = new ArrayList<>();
         Game.inimigo = new ArrayList<>();
         Game.escada = new ArrayList<>();
-        Game.ceu = new Spritsheet(Game.spriteCeuPath);
-        Game.nuvens = new Spritsheet(Game.spriteNuvemPath);
-        Game.spriteSolid = new Spritsheet(Game.spriteSolidPath);
-        Game.spriteDecoration = new Spritsheet(Game.spriteDecorationPath);
-        Game.spriteInterative = new Spritsheet(Game.spriteInterativePath);
-        Game.mundo = new Mundo(Game.levelPath + level);
+        Game.ceu = new Spritsheet(GameSettings.spriteCeuPath);
+        Game.nuvens = new Spritsheet(GameSettings.spriteNuvemPath);
+        Game.spriteSolid = new Spritsheet(GameSettings.spriteSolidPath);
+        Game.spriteDecoration = new Spritsheet(GameSettings.spriteDecorationPath);
+        Game.spriteInterative = new Spritsheet(GameSettings.spriteInterativePath);
+        Game.mundo = new Mundo(GameSettings.levelPath + level);
         Game.player = new Player(0, 0, Player.getLarguraPlayer(), Player.getLarguraPlayer(), Game.spritePlayer.getSprite(32, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Game.entidades.add(Game.player);
     }

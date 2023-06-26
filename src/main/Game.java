@@ -77,23 +77,12 @@ public class Game extends Canvas implements Runnable {
     public static List<Inimigo> inimigo;
     public static List<Grama> grama;
     public static List<Espinho> espinhos;
-    public static List<Escada> escada;
     public static List<FundoDarkBrick> darkBricksFundo;
+    public static List<Escada> escada;
     public static List<TiroPlayer> tirosPLayer;
 
     // instancia sprites
     public static Spritsheet spriteSolid, spriteDecoration, spriteInterative, spritePlayer, spriteEnemy, ceu, mountain, nuvens;
-
-    // objetos base (PATHS)
-    public static String spriteSolidPath = "/res/spritesheets/terrain/solid/spritesheet32solid.png";
-    public static String spriteDecorationPath = "/res/spritesheets/terrain/decoration/spritesheet32decoration.png";
-    public static String spriteInterativePath = "/res/spritesheets/terrain/interative/spritesheet32interativo.png";
-    public String spritePlayerPath = "/res/spritesheets/player/spritesheetPlayer3.png";
-    public String spriteEnemyPath = "/res/spritesheets/enemy/spritesheetEnemy.png";
-    public static String spriteCeuPath = "/res/spritesheets/terrain/decoration/ceusprite3.png";
-    public String spriteMountainPath = "/res/spritesheets/terrain/decoration/mountain1lvlsprite2.png";
-    public static String spriteNuvemPath = "/res/spritesheets/terrain/decoration/ceuspriteClouds.png";
-    public static String levelPath = "/res/fases/";
 
     // se o jogo está rodando... começa em verdadeiro
     private boolean isRunning = true;
@@ -124,62 +113,39 @@ public class Game extends Canvas implements Runnable {
         // chama o fundo (para o container)
         fundoBase = new BufferedImage(GameSettings.getGAME_WIDTH(), GameSettings.getGAME_HEIGHT(), BufferedImage.TYPE_INT_RGB);
 
-        // chama as entidades (classe abstrata)
-        // define o sprite a ser usado pelas entidades
-        //sprites para as entidades base
-        spriteSolid = new Spritsheet(spriteSolidPath);
-        spriteDecoration = new Spritsheet(spriteDecorationPath);
-        spriteInterative = new Spritsheet(spriteInterativePath);
-        //sprite para jogador
-        spritePlayer = new Spritsheet(spritePlayerPath);
-        // sprite para inimigos
-        spriteEnemy = new Spritsheet(spriteEnemyPath);
-        // sprite para ceu
-        ceu = new Spritsheet(spriteCeuPath);
-        mountain = new Spritsheet(spriteMountainPath);
-        //sprite de nuvem
-        nuvens = new Spritsheet(spriteNuvemPath);
+        spriteSolid = new Spritsheet(GameSettings.spriteSolidPath);
+        spriteDecoration = new Spritsheet(GameSettings.spriteDecorationPath);
+        spriteInterative = new Spritsheet(GameSettings.spriteInterativePath);
+        spritePlayer = new Spritsheet(GameSettings.spritePlayerPath);
+        spriteEnemy = new Spritsheet(GameSettings.spriteEnemyPath);
+        ceu = new Spritsheet(GameSettings.spriteCeuPath);
+        mountain = new Spritsheet(GameSettings.spriteMountainPath);
+        nuvens = new Spritsheet(GameSettings.spriteNuvemPath);
 
-        // lista de entidades
         entidades = new ArrayList<>();
-        // lista de ceu
         ceuVetor = new ArrayList<>();
         mountainVetor = new ArrayList<>();
-        // lista de vetor de fundo
         wallFundo1Vetor = new ArrayList<>();
         luzWallFundo1Vetor = new ArrayList<>();
         predioFundo1Vetor = new ArrayList<>();
-        // lista de nuvens
         nuvemVetor = new ArrayList<>();
-        // lista de health kit
         kitHealth = new ArrayList<>();
-        // lista de trash bags
         trashBags = new ArrayList<>();
         vidasExtras = new ArrayList<>();
         ammunitionExtras = new ArrayList<>();
-        // lista de savepoints
         checkPoints = new ArrayList<>();
-        // lista de inimigos
         inimigo = new ArrayList<>();
-        // lista de grama
         grama = new ArrayList<>();
         espinhos = new ArrayList<>();
-        // lista de escadas
-        escada = new ArrayList<>();
-        // lista de darkBrick
         darkBricksFundo = new ArrayList<>();
+        escada = new ArrayList<>();
         tirosPLayer = new ArrayList<>();
-
-        // chama o player (de acordo com a posição inicial no sprite)
         player = new Player(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer(), spritePlayer.getSprite(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
-        // adiciona o player em entidades (só pode haver 1)
         entidades.add(player);
 
-        // spawner de poeira
         dustSpawner = new DustSpawner();
 
-        // por fim carrega o mundo....
-        mundo = new Mundo(levelPath+"level"+level+".png");
+        mundo = new Mundo(GameSettings.levelPath+"level"+level+".png");
 
         new GameContainer(this);
         addKeyListener(new GameListeners(this));
@@ -241,7 +207,7 @@ public class Game extends Canvas implements Runnable {
         tirosPLayer = new ArrayList<>();
 
         // reinicia o mundo e o jogador
-        mundo = new Mundo(levelPath+"level"+level+".png");
+        mundo = new Mundo(GameSettings.levelPath+"level"+level+".png");
         player = new Player(64, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer(), spritePlayer.getSprite(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Player.pontos = 0;
         Player.tentativas = 3;
@@ -259,7 +225,6 @@ public class Game extends Canvas implements Runnable {
 
     // método que realiza ações a cada ciclo de tick do jogo
     public void tick() {
-
 
         if (Objects.equals(gameState, "MENU")) {
             gameMenu.choose();
@@ -383,13 +348,13 @@ public class Game extends Canvas implements Runnable {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para escadas, que é uma entidade não colisora, realize os seus ticks
-            for (Escada entidade : escada) {
+            // atribuo a responsabilidade para darkBricks, que é uma entidade não colisora, realize os seus ticks
+            for (FundoDarkBrick entidade : darkBricksFundo) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para darkBricks, que é uma entidade não colisora, realize os seus ticks
-            for (FundoDarkBrick entidade : darkBricksFundo) {
+            // atribuo a responsabilidade para escadas, que é uma entidade não colisora, realize os seus ticks
+            for (Escada entidade : escada) {
                 entidade.tick();
             }
 
@@ -445,52 +410,52 @@ public class Game extends Canvas implements Runnable {
         for (Nuvens nuvem : nuvemVetor) {
             nuvem.render(g);
         }
-
-        // renderiza os kits de vida
+        //-----------------//
+        //   INTERATIVOS   //
+        //-----------------//
         for (KitHealth entidade : kitHealth) {
             entidade.render(g);
         }
 
-        // renderiza os trashBags
         for (TrashBag entidade : trashBags) {
             entidade.render(g);
         }
 
-        // renderiza vidas extras
         for (VidaExtra entidade : vidasExtras) {
             entidade.render(g);
         }
 
-        // renderiza os ammuBox
         for (AmmunitionExtra entidade : ammunitionExtras) {
             entidade.render(g);
         }
 
-        // renderiza os savepoints
         for (CheckPoint entidade : checkPoints) {
             entidade.render(g);
         }
 
-        // renderiza a grama
-        for (Grama entidade : grama) {
-            entidade.render(g);
-        }
-
-        // renderiza espinhos
         for (Espinho entidade : espinhos) {
             entidade.render(g);
         }
 
-        // renderiza darkBrickFundo
+        //-----------------//
+        //   DECORATIVOS   //
+        //-----------------//
+
+        for (Grama entidade : grama) {
+            entidade.render(g);
+        }
+
         for (FundoDarkBrick entidade : darkBricksFundo) {
             entidade.render(g);
         }
 
+        //-----------------//
+        //      TIROS      //
+        //-----------------//
         for (TiroPlayer entidade : tirosPLayer) {
             entidade.render(g);
         }
 
-        // renderiza escadas
         for (Escada entidade : escada) {
             entidade.render(g);
         }
@@ -499,20 +464,29 @@ public class Game extends Canvas implements Runnable {
             entidade.render(g);
         }
 
-
-
-        // renderiza os inimigos
+        //-----------------//
+        //    INIMIGOS     //
+        //-----------------//
         for (Inimigo entidade : inimigo) {
             entidade.render(g);
         }
 
-        // renderiza estrelas / poeira / particulas
+        //-----------------//
+        //      DUST       //
+        //-----------------//
+
         dustSpawner.render(g);
 
-        // renderiza a interface do usuário
+        //-----------------//
+        //       UI        //
+        //-----------------//
+
         ui.render(g);
 
-        // ajusta o buffer do fundo
+        //-----------------//
+        //     BUFFER      //
+        //-----------------//
+
         g = buffer.getDrawGraphics();
         g.drawImage(fundoBase, 0, 0, GameSettings.getGAME_WIDTH() * GameSettings.getGAME_SCALE(), GameSettings.getGAME_HEIGHT() * GameSettings.getGAME_SCALE(), null);
 

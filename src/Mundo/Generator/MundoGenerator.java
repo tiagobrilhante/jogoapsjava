@@ -40,8 +40,11 @@ public class MundoGenerator {
         corVidaExtra = {"97DF67", "VidaExtra"},
                 corAmmunitionExtra= {"827719", "AmmunitionExtra"},
                 corEscadaTopo = {"EE8FBE", "EscadaTopo"},
+                corEscadaFPTopo = {"822D37", "EscadaFPTopo"},
                 corEscada = {"C4759D", "Escada"},
+                corFPEscada = {"827869", "FPEscada"},
                 corEscadaBase = {"9B5D7C", "EscadaBase"},
+                corEscadaFPBase = {"3A8082", "EscadaFPBase"},
                 corTrashBag = {"F600F6", "TrashBag"},
                 corKitHealth = {"F6EFEF", "KitHealth"},
                 corCheckPoint = {"808033", "CheckPoint"},
@@ -320,11 +323,11 @@ public class MundoGenerator {
                             e.printStackTrace();
                         }
                     }
-                } else if (Objects.equals(valor[1], "EscadaTopo") || Objects.equals(valor[1], "Escada") || Objects.equals(valor[1], "EscadaBase")) {
+                } else if (Objects.equals(valor[1], "EscadaTopo") || Objects.equals(valor[1], "Escada") || Objects.equals(valor[1], "EscadaBase") || Objects.equals(valor[1], "EscadaFPTopo") || Objects.equals(valor[1], "FPEscada") || Objects.equals(valor[1], "EscadaFPBase")) {
                     int tipo;
-                    if (Objects.equals(valor[1], "EscadaTopo")) {
+                    if (Objects.equals(valor[1], "EscadaTopo") || Objects.equals(valor[1], "EscadaFPTopo")) {
                         tipo = 3;
-                    } else if (Objects.equals(valor[1], "Escada")) {
+                    } else if (Objects.equals(valor[1], "Escada") || Objects.equals(valor[1], "FPEscada")) {
                         tipo = 2;
                     } else {
                         tipo = 1;
