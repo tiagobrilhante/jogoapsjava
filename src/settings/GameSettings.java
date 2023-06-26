@@ -6,6 +6,14 @@ public abstract class GameSettings {
     //-------------//
     private final static String gameName = "ScrAPS World";
 
+    // ----------------------------------------- //
+    //                                           //
+    //                                           //
+    //                    PATHS                  //
+    //                                           //
+    //                                           //
+    // ----------------------------------------- //
+
     //-------------//
     //  GAME ICON  //
     //-------------//

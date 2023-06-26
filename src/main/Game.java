@@ -298,67 +298,34 @@ public class Game extends Canvas implements Runnable {
                 }
             }
 
-            // atribuo a responsabilidade para a entidade realizar os ticks dos seus filhos
             for (Entity entidade : entidades) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (Ceu entidade : ceuVetor) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (MountainsParalax entidade : mountainVetor) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
-            for (WallFundo1 entidade : wallFundo1Vetor) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
             for (LuzWallFundo1 entidade : luzWallFundo1Vetor) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para o ceu realizar os ticks dos seus filhos
-            for (PredioFundo1 entidade : predioFundo1Vetor) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para o nuvens realizar os ticks dos seus filhos
             for (Nuvens entidade : nuvemVetor) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para o inimigo realizar os ticks dos seus filhos
             for (Inimigo entidade : inimigo) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para grama, que é uma entidade não colisora, realize os seus ticks
             for (Grama entidade : grama) {
                 entidade.tick();
             }
 
-            // atribuo a responsabilidade para grama, que é uma entidade não colisora, realize os seus ticks
-            for (Espinho entidade : espinhos) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para darkBricks, que é uma entidade não colisora, realize os seus ticks
-            for (FundoDarkBrick entidade : darkBricksFundo) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para escadas, que é uma entidade não colisora, realize os seus ticks
-            for (Escada entidade : escada) {
-                entidade.tick();
-            }
-
-            // atribuo a responsabilidade para tiroPLayer, realize os seus ticks
             for (TiroPlayer entidade : tirosPLayer) {
                 entidade.tick();
             }
@@ -384,7 +351,7 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, GameSettings.getGAME_WIDTH() , GameSettings.getGAME_HEIGHT());
 
         // renderiza as entidades
-        // popula o mundo com o vetor do céu (de acordo com a fase)
+
         for (Ceu ceu : ceuVetor) {
             ceu.render(g);
         }
@@ -401,12 +368,10 @@ public class Game extends Canvas implements Runnable {
             luzWallFundo1.render(g);
         }
 
-        // popula o mundo com o vetor do céu (de acordo com a fase)
         for (PredioFundo1 predioFundo1 : predioFundo1Vetor) {
             predioFundo1.render(g);
         }
 
-        // popula o mundo com o vetor do céu (de acordo com a fase)
         for (Nuvens nuvem : nuvemVetor) {
             nuvem.render(g);
         }
@@ -531,9 +496,7 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    //herdado de runnable (gera os ciclos de FPS)
-    // foram implementadas melhorias (possibilidade de pausar o jogo)
-    // Otimizações de processamento
+    // MÉTODO RUN APRIMORADO
     @Override
     public void run() {
         long lastTime = System.nanoTime();
