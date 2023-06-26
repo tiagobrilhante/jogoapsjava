@@ -217,15 +217,12 @@ public abstract class GameSettings {
     // array de conjuntos de entidades basicas:
 
     // fundoDarkBrick e fundoCaverna
-    // REQUER ABSTRAÇAO EM MundoGenerator
     public static String[] arrayFundoDarkBrickBase = {"fundoDarkBrickBase", "fundoDarkBrickBrokenBase1", "fundoDarkBrickDireito", "fundoDarkBrickEsquerdo", "fundoCaverna1", "fundoCavernaEntradaEsquerda", "fundoCavernaEntradaDireita"};
-
     // escadas
-    // REQUER ABSTRAÇAO EM MundoGenerator
     public static String[] arrayEscadas = {"EscadaTopo", "Escada", "EscadaBase", "EscadaFPTopo", "FPEscada", "EscadaFPBase"};
-
+    public static String[] arrayEscadasTopo = {"EscadaTopo", "EscadaFPTopo"};
+    public static String[] arrayEscadasBase = {"EscadaBase", "EscadaFPBase"};
     // inimigos
-    // REQUER ABSTRAÇAO EM MundoGenerator
     public static String[] arrayInimigos = {"Inimigo1", "Inimigo2", "Inimigo3", "Inimigo4"};
 
     // Solido

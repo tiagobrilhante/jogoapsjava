@@ -44,20 +44,17 @@ public class MundoGenerator {
                 } else if (Arrays.asList(GameSettings.arrayFundoDarkBrickBase).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         String valorOpcao = valor[1];
-                        BufferedImage fundoDarkBrickValue = switch (valorOpcao) {
-                            case "fundoDarkBrickBase" -> Entity.fundoDarkBrickBase;
-                            case "fundoCaverna1" -> Entity.fundoCaverna1;
-                            case "fundoCavernaEntradaEsquerda" -> Entity.fundoCavernaEntradaEsquerda;
-                            case "fundoCavernaEntradaDireita" -> Entity.fundoCavernaEntradaDireita;
-                            case "fundoDarkBrickBrokenBase1" -> Entity.fundoDarkBrickBrokenBase1;
-                            case "fundoDarkBrickDireito" -> Entity.fundoDarkBrickDireito;
-                            case "fundoDarkBrickEsquerdo" -> Entity.fundoDarkBrickEsquerdo;
-                            default ->
-                                // Valor padrão caso não seja nenhuma das opções
-                                    null;
-                        };
-                        FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, fundoDarkBrickValue, "CenarioDarkBrick");
-                        Game.darkBricksFundo.add(fundoDarkBrick);
+
+                        try {
+                            Field field = Entity.class.getField(valorOpcao);
+                            BufferedImage fundoDarkBrickValue = (BufferedImage) field.get(null);
+
+                            FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, fundoDarkBrickValue, "CenarioDarkBrick");
+                            Game.darkBricksFundo.add(fundoDarkBrick);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            // Lidar com exceções
+                            e.printStackTrace();
+                        }
                     }
                 } else if (Arrays.asList(GameSettings.arrayGrama).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
@@ -235,12 +232,12 @@ public class MundoGenerator {
                     }
                 } else if (Arrays.asList(GameSettings.arrayEscadas).contains(valor[1])) {
                     int tipo;
-                    if (Objects.equals(valor[1], "EscadaTopo") || Objects.equals(valor[1], "EscadaFPTopo")) {
+                    if (Arrays.asList(GameSettings.arrayEscadasTopo).contains(valor[1])) {
                         tipo = 3;
-                    } else if (Objects.equals(valor[1], "Escada") || Objects.equals(valor[1], "FPEscada")) {
-                        tipo = 2;
-                    } else {
+                    } else if (Arrays.asList(GameSettings.arrayEscadasBase).contains(valor[1])) {
                         tipo = 1;
+                    } else {
+                        tipo = 2;
                     }
                     if (pixelAtual == montaCor(valor[0])) {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
@@ -256,16 +253,13 @@ public class MundoGenerator {
                     }
                 } else if (Arrays.asList(GameSettings.arrayInimigos).contains(valor[1])) {
 
-                    int tipoInimigo = switch (valor[1]) {
-                        case "Inimigo1" -> 1;
-                        case "Inimigo2" -> 2;
-                        case "Inimigo3" -> 3;
-                        default -> 4;
-                    };
+                    int tipoInimigo = 0;
+                    String valorOpcao = valor[1];
 
-                    int incremento = 1;
-                    if (Inimigo.SIZEENEMYX == 16) {
-                        incremento = 2;
+                    try {
+                        tipoInimigo = Integer.parseInt(valorOpcao.replaceAll("[^0-9]", ""));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Tipo de Inimigo não Encontrado");
                     }
 
                     if (pixelAtual == montaCor(valor[0])) {
@@ -273,7 +267,7 @@ public class MundoGenerator {
                         String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
                         nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
 
-                        Inimigo inimigo = new Inimigo(identificadorUnicoInimigo, x * Inimigo.SIZEENEMYX * incremento, y * Inimigo.SIZEENEMYY * incremento, Inimigo.SIZEENEMYX, Inimigo.SIZEENEMYY, tipoInimigo, Entity.inimigo, nomeAtributo);
+                        Inimigo inimigo = new Inimigo(identificadorUnicoInimigo, x * Inimigo.SIZEENEMYX, y * Inimigo.SIZEENEMYY, Inimigo.SIZEENEMYX, Inimigo.SIZEENEMYY, tipoInimigo, Entity.inimigo, nomeAtributo);
                         identificadorUnicoInimigo++;
                         Game.inimigo.add(inimigo);
 
