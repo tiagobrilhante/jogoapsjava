@@ -8,7 +8,6 @@ import entidades.solidos.Solido;
 import main.Game;
 import settings.GameSettings;
 
-import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
@@ -30,205 +29,63 @@ public class MundoGenerator {
 
                 if (Arrays.asList(GameSettings.arraySolido).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            Solido solido = new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, imagem, nomeAtributo);
-                            Game.entidades.add(solido);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.entidades.add(new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayFundoDarkBrickBase).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String valorOpcao = valor[1];
-
-                        try {
-                            Field field = Entity.class.getField(valorOpcao);
-                            BufferedImage fundoDarkBrickValue = (BufferedImage) field.get(null);
-
-                            FundoDarkBrick fundoDarkBrick = new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, fundoDarkBrickValue, "CenarioDarkBrick");
-                            Game.darkBricksFundo.add(fundoDarkBrick);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            // Lidar com exceções
-                            e.printStackTrace();
-                        }
+                        Game.darkBricksFundo.add(new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayGrama).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            Grama grama = new Grama(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, imagem, nomeAtributo);
-                            Game.entidades.add(grama);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.entidades.add(new Grama(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
-
                 } else if (Arrays.asList(GameSettings.arrayEspinho).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            Espinho espinho = new Espinho(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, imagem, nomeAtributo);
-                            Game.espinhos.add(espinho);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.espinhos.add(new Espinho(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayGalhosSecos).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            GalhosSecos galho = new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, imagem, nomeAtributo);
-                            Game.entidades.add(galho);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.entidades.add(new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayWallFundo1).contains(valor[1])) {
-
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            WallFundo1 wallFundo1 = new WallFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.wallFundo1Vetor.add(wallFundo1);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.wallFundo1Vetor.add(new WallFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayLuzWallFundo1).contains(valor[1])) {
-
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            LuzWallFundo1 luzWallFundo1 = new LuzWallFundo1(x* Entity.SIZEENTITYX-16 , y* Entity.SIZEENTITYY , 64, 64, imagem, nomeAtributo);
-                            Game.luzWallFundo1Vetor.add(luzWallFundo1);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.luzWallFundo1Vetor.add(new LuzWallFundo1(x * Entity.SIZEENTITYX - 16, y * Entity.SIZEENTITYY, 64, 64, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
-                }else if (Arrays.asList(GameSettings.arrayPredioFundo1).contains(valor[1])) {
+                } else if (Arrays.asList(GameSettings.arrayPredioFundo1).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            PredioFundo1 predioFundo1 = new PredioFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.predioFundo1Vetor.add(predioFundo1);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.predioFundo1Vetor.add(new PredioFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
-                }
-
-                else if (Arrays.asList(GameSettings.arrayCeu).contains(valor[1])) {
+                } else if (Arrays.asList(GameSettings.arrayCeu).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            Ceu ceu = new Ceu(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.ceuVetor.add(ceu);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.ceuVetor.add(new Ceu(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayMountainParalax).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            MountainsParalax mountainsParalax = new MountainsParalax(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.mountainVetor.add(mountainsParalax);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.mountainVetor.add(new MountainsParalax(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayVidaExtra).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            VidaExtra vidaExtra = new VidaExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.vidasExtras.add(vidaExtra);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.vidasExtras.add(new VidaExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayAmmunitionExtra).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            AmmunitionExtra ammunitionExtra = new AmmunitionExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo, 5);
-                            Game.ammunitionExtras.add(ammunitionExtra);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.ammunitionExtras.add(new AmmunitionExtra(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo), 5));
                     }
                 } else if (Arrays.asList(GameSettings.arrayTrashBag).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            TrashBag trashBag = new TrashBag(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.trashBags.add(trashBag);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.trashBags.add(new TrashBag(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayKitHealth).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            KitHealth kitHealth = new KitHealth(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.kitHealth.add(kitHealth);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.kitHealth.add(new KitHealth(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
-                } else if (Arrays.asList(GameSettings.arrayCheckPoint).contains(valor[1])){
+                } else if (Arrays.asList(GameSettings.arrayCheckPoint).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            CheckPoint checkPoint = new CheckPoint(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, imagem, nomeAtributo);
-                            Game.checkPoints.add(checkPoint);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.checkPoints.add(new CheckPoint(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayEscadas).contains(valor[1])) {
                     int tipo;
@@ -240,16 +97,7 @@ public class MundoGenerator {
                         tipo = 2;
                     }
                     if (pixelAtual == montaCor(valor[0])) {
-                        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
-                        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
-                        try {
-                            Field field = Entity.class.getDeclaredField(nomeAtributo);
-                            BufferedImage imagem = (BufferedImage) field.get(Entity.class);
-                            Escada escada = new Escada(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, tipo, imagem, nomeAtributo);
-                            Game.escada.add(escada);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
+                        Game.escada.add(new Escada(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, tipo, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
                 } else if (Arrays.asList(GameSettings.arrayInimigos).contains(valor[1])) {
 
@@ -282,10 +130,17 @@ public class MundoGenerator {
                 e.printStackTrace();
             }
         }
+
     }
 
     public static int montaCor(String corHexaDecimal) {
         int prefixCor = 0xFF;
         return prefixCor << 24 | Integer.parseInt(String.valueOf(corHexaDecimal), 16);
+    }
+
+    public static String pegaNomeAttr(Field campo) {
+        String nomeAtributo = campo.getName().substring(3); // Remove os primeiros três caracteres ("cor")
+        nomeAtributo = nomeAtributo.substring(0, 1).toLowerCase() + nomeAtributo.substring(1);
+        return nomeAtributo;
     }
 }

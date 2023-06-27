@@ -52,7 +52,7 @@ public class Mundo {
             for (int x = 0; x < level.getWidth(); x++) {
                 posX = x;
 
-                Ceu ceu = new Ceu(x * Entity.SIZEENTITYX - 32, 0, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.ceu, "Ceu");
+                Ceu ceu = new Ceu(x * Entity.SIZEENTITYX - 32, 0, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator("ceu"), "Ceu");
                 Game.ceuVetor.add(ceu);
 
                 for (int y = 0; y < level.getHeight(); y++) {

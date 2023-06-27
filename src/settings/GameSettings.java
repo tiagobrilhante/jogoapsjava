@@ -236,6 +236,27 @@ public abstract class GameSettings {
 
     // Solido
     public static String[] arraySolido = {"Solido"};
+
+    public static String[] arrayEscadaDisc = {
+            "escadaTopo", "escada", "escadaBase", "escadaFPTopo", "fPEscada", "escadaFPBase"
+    };
+
+    // usada para separar as arrays de solidos em entity
+    public static String[] arraySolidoDisc = {
+            "chaoNucleo", "chaoIsoladoTopo", "chaoIsoladoFundo", "nucleoBifurcaChaoIsoladoTopo",
+            "nucleoBifurcaChaoIsoladoFundo", "nucleoConverteDireitaChaoIsoladoTopo", "nucleoConverteEsquerdaChaoIsoladoTopo",
+            "nucleoConverteDireitaChaoIsoladoFundo", "nucleoConverteEsquerdaChaoIsoladoFundo", "chaoEsquerdoTopo",
+            "chaoEsquerdoCavernaTopo", "chaoEsquerdo", "chaoEsquerdoCaverna", "chaoDireitoTopo",
+            "chaoDireitoCavernaTopo", "chaoDireito", "chaoDireitoCaverna", "chaoNormalTopo", "chaoNormalMontanhaTopo",
+            "chaoNormalFundo", "chaoNormalMontanhaFundo", "juncaoBuEsquerdaBaixo", "juncaoBuDireitaBaixo",
+            "buSimples", "chaoEsquerdoFundo", "chaoEsquerdoCavernaFundo", "chaoDireitoFundo", "chaoDireitoCavernaFundo",
+            "tijoloDeserto", "juncaoTopoEsquerda", "juncaoFundoEsquerda", "juncaoTopoDireita", "juncaoFundoDireita",
+            "juncaoDupla1", "juncaoDupla2", "juncaoSimplesLateralTopoDireita", "chaoIsoladoEsquerda",
+            "chaoIsoladoDireita", "juncaoSimplesFundoDireita", "juncaoSimplesFundoDireitaCaverna",
+            "chaoIsoladoMeioVertical", "pedra1", "juncaoSimplesUmBlocoDuploDireita", "juncaoSimplesUmBlocoDuploEsquerda",
+            "juncaoSimplesUmBlocoDuploDireitaCaverna", "juncaoSimplesUmBlocoDuploEsquerdaCaverna", "juncaoUmBlocoDireita",
+            "juncaoUmBlocoEsquerda"
+    };
     // Grama
     public static String[] arrayGrama = {"Grama"};
     // Espinho
