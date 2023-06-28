@@ -186,9 +186,9 @@ public abstract class GameSettings {
 
     // array de conjuntos de entidades basicas:
     // escadas
-    public static String[] arrayEscadas = {"EscadaTopo", "Escada", "EscadaBase", "EscadaFPTopo", "FPEscada", "EscadaFPBase"};
-    public static String[] arrayEscadasTopo = {"EscadaTopo", "EscadaFPTopo"};
-    public static String[] arrayEscadasBase = {"EscadaBase", "EscadaFPBase"};
+    public static String[] arrayEscadas = {"EscadaTopo", "Escada", "EscadaBase", "EscadaMetalTopo", "MetalEscada", "EscadaMetalBase"};
+    public static String[] arrayEscadasTopo = {"EscadaTopo", "EscadaMetalTopo"};
+    public static String[] arrayEscadasBase = {"EscadaBase", "EscadaMetalBase"};
     // inimigos
     public static String[] arrayInimigos = {"Inimigo1", "Inimigo2", "Inimigo3", "Inimigo4"};
 
