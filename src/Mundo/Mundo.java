@@ -3,6 +3,7 @@ package Mundo;
 import Mundo.Generator.MundoGenerator;
 import entidades.Entity;
 import entidades.naoSolidos.Ceu;
+import entidades.naoSolidos.FundoEstatico;
 import entidades.naoSolidos.Nuvens;
 import entidades.player.Player;
 import graficos.Spritsheet;
@@ -15,6 +16,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // extremamente importante....
 // praticamente toda a lógica de como as coisas acontecem na fase estão aqui
@@ -35,7 +38,21 @@ public class Mundo {
     // método construtor
     public Mundo(String path) {
 
+
+        // remove o numero do level para que seja usado no carregamento das demais imagens da fase
+        Pattern pattern = Pattern.compile("/res/fases/level(\\d+)\\.png");
+        Matcher matcher = pattern.matcher(path);
+        int number = 0;
+        if (matcher.find()) {
+            String numberString = matcher.group(1);
+            number = Integer.parseInt(numberString);
+        }
+
         try {
+
+            Game.fundoEstaticoVetor.add(new FundoEstatico(0, 0, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.fundoEstatico, "FundoEstatico"));
+            Game.nuvemVetor.add(new Nuvens(Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.nuvens, "Nuvem"));
+
             // mapeamento do mundo (de acordo com os pixel da base da fase)
             BufferedImage level = ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
             int[] pixels = new int[level.getWidth() * level.getHeight()];
@@ -52,8 +69,7 @@ public class Mundo {
             for (int x = 0; x < level.getWidth(); x++) {
                 posX = x;
 
-                Ceu ceu = new Ceu(x * Entity.SIZEENTITYX - 32, 0, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator("ceu"), "Ceu");
-                Game.ceuVetor.add(ceu);
+                Game.ceuVetor.add(new Ceu(x * Entity.SIZEENTITYX - 32, 0, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator("ceu"), "Ceu"));
 
                 for (int y = 0; y < level.getHeight(); y++) {
                     posY = y;
@@ -66,8 +82,7 @@ public class Mundo {
                 }
             }
 
-            Nuvens nuvem = new Nuvens(Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.nuvens, "Nuvem");
-            Game.nuvemVetor.add(nuvem);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,12 +117,10 @@ public class Mundo {
         Game.ceuVetor = new ArrayList<>();
         Game.mountainVetor = new ArrayList<>();
         Game.nuvemVetor = new ArrayList<>();
-        Game.predioFundo1Vetor = new ArrayList<>();
-        Game.wallFundo1Vetor = new ArrayList<>();
+        Game.fundoEstaticoVetor = new ArrayList<>();
         Game.luzWallFundo1Vetor = new ArrayList<>();
         Game.checkPoints = new ArrayList<>();
         Game.espinhos = new ArrayList<>();
-        Game.darkBricksFundo = new ArrayList<>();
         Game.trashBags = new ArrayList<>();
         Game.vidasExtras = new ArrayList<>();
         Game.ammunitionExtras = new ArrayList<>();

@@ -31,10 +31,6 @@ public class MundoGenerator {
                     if (pixelAtual == montaCor(valor[0])) {
                         Game.entidades.add(new Solido(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
-                } else if (Arrays.asList(GameSettings.arrayFundoDarkBrickBase).contains(valor[1])) {
-                    if (pixelAtual == montaCor(valor[0])) {
-                        Game.darkBricksFundo.add(new FundoDarkBrick(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
-                    }
                 } else if (Arrays.asList(GameSettings.arrayGrama).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         Game.entidades.add(new Grama(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
@@ -47,19 +43,11 @@ public class MundoGenerator {
                     if (pixelAtual == montaCor(valor[0])) {
                         Game.entidades.add(new GalhosSecos(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYY, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
-                } else if (Arrays.asList(GameSettings.arrayWallFundo1).contains(valor[1])) {
-                    if (pixelAtual == montaCor(valor[0])) {
-                        Game.wallFundo1Vetor.add(new WallFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
-                    }
                 } else if (Arrays.asList(GameSettings.arrayLuzWallFundo1).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         Game.luzWallFundo1Vetor.add(new LuzWallFundo1(x * Entity.SIZEENTITYX - 16, y * Entity.SIZEENTITYY, 64, 64, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }
-                } else if (Arrays.asList(GameSettings.arrayPredioFundo1).contains(valor[1])) {
-                    if (pixelAtual == montaCor(valor[0])) {
-                        Game.predioFundo1Vetor.add(new PredioFundo1(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
-                    }
-                } else if (Arrays.asList(GameSettings.arrayCeu).contains(valor[1])) {
+                }  else if (Arrays.asList(GameSettings.arrayCeu).contains(valor[1])) {
                     if (pixelAtual == montaCor(valor[0])) {
                         Game.ceuVetor.add(new Ceu(x * Entity.SIZEENTITYX, y * Entity.SIZEENTITYY, Entity.SIZEENTITYX, Entity.SIZEENTITYX, Entity.entityGenerator(pegaNomeAttr(campo)), pegaNomeAttr(campo)));
                     }

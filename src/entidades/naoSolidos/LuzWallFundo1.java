@@ -20,7 +20,7 @@ public class LuzWallFundo1 extends Entity {
         super(x, y, width, height, sprite, tipo);
         luzAnimation = new BufferedImage[4];
         for (int i = 0; i < 4; i++) {
-            luzAnimation[i] = Game.spriteDecoration.getSprite((i * 64)+320, 64, 64, 64);
+            luzAnimation[i] = Game.spriteDecoration.getSprite((i * 64), 96, 64, 64);
         }
     }
 

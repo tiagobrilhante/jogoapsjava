@@ -32,6 +32,7 @@ public abstract class GameSettings {
     public static String spriteMountainPath = "/res/spritesheets/terrain/decoration/mountain1lvlsprite2.png";
     public static String spriteNuvemPath = "/res/spritesheets/terrain/decoration/ceuspriteClouds.png";
     public static String levelPath = "/res/fases/";
+    public static String spriteFundoEstaticoPath = levelPath + "level1Fundo.png";
 
     //-------------------//
     //  Entity Settings  //
@@ -42,19 +43,11 @@ public abstract class GameSettings {
                 // -----------------//
                 //  DECORATIVOS     //
                 // -----------------//
-                corFundoDarkBrickBase = {"0E5050", "fundoDarkBrickBase"},
-                corFundoDarkBrickBrokenBase1 = {"0E1052", "fundoDarkBrickBrokenBase1"},
-                corFundoDarkBrickDireito = {"494949", "fundoDarkBrickDireito"},
-                corFundoDarkBrickEsquerdo = {"646464", "fundoDarkBrickEsquerdo"},
+
                 corGrama = {"38385D", "Grama"},
                 corEspinho = {"4D8080", "Espinho"},
                 corGalhoSeco = {"4D4D80", "GalhosSecos"},
-                corWallFundo1 = {"2D3425", "WallFundo1"},
                 corLuzWallFundo1 = {"604FFE", "LuzWallFundo1"},
-                corFundoCaverna1 = {"1D3B32", "fundoCaverna1"},
-                corFundoCavernaEntradaEsquerda = {"236351", "fundoCavernaEntradaEsquerda"},
-                corFundoCavernaEntradaDireita = {"634425", "fundoCavernaEntradaDireita"},
-                corPredioFundo1 = {"157920", "PredioFundo1"},
                 corCeu = {"639BFF", "Ceu"},
                 corMountainParalax = {"3E7682", "MountainParalax"},
         // --------------//
@@ -63,11 +56,11 @@ public abstract class GameSettings {
         corVidaExtra = {"97DF67", "VidaExtra"},
                 corAmmunitionExtra = {"827719", "AmmunitionExtra"},
                 corEscadaTopo = {"EE8FBE", "EscadaTopo"},
-                corEscadaFPTopo = {"822D37", "EscadaFPTopo"},
+                corEscadaMetalTopo = {"822D37", "EscadaMetalTopo"},
                 corEscada = {"C4759D", "Escada"},
-                corFPEscada = {"827869", "FPEscada"},
+                corMetalEscada = {"827869", "MetalEscada"},
                 corEscadaBase = {"9B5D7C", "EscadaBase"},
-                corEscadaFPBase = {"3A8082", "EscadaFPBase"},
+                corEscadaMetalBase = {"3A8082", "EscadaMetalBase"},
                 corTrashBag = {"F600F6", "TrashBag"},
                 corKitHealth = {"F6EFEF", "KitHealth"},
                 corCheckPoint = {"808033", "CheckPoint"},
@@ -79,13 +72,9 @@ public abstract class GameSettings {
         // -------------//
         //   SOLIDOS    //
         // -------------//
-        corChaoNucleo = {"086910", "Solido"},
                 corChaoEsquerdo = {"AC4839", "Solido"},
-                corChaoEsquerdoCaverna = {"F279E0", "Solido"},
                 corChaoEsquerdoTopo = {"18B229", "Solido"},
-                corChaoEsquerdoCavernaTopo = {"A9F2E7", "Solido"},
                 corChaoEsquerdoFundo = {"946d4A", "Solido"},
-                corChaoEsquerdoCavernaFundo = {"F24138", "Solido"},
                 corJuncaoTopoEsquerda = {"FF9D52", "Solido"},
                 corJuncaoFundoEsquerda = {"FF713D", "Solido"},
                 corJuncaoTopoDireita = {"FF4551", "Solido"},
@@ -93,15 +82,10 @@ public abstract class GameSettings {
                 corJuncaoDupla1 = {"61FF88", "Solido"},
                 corJuncaoDupla2 = {"C8FF52", "Solido"},
                 corChaoDireito = {"AC6920", "Solido"},
-                corChaoDireitoCaverna = {"4C678F", "Solido"},
                 corChaoDireitoTopo = {"CD3420", "Solido"},
-                corChaoDireitoCavernaTopo = {"F2AD35", "Solido"},
                 corChaoDireitoFundo = {"6722AC", "Solido"},
-                corChaoDireitoCavernaFundo = {"1E2415", "Solido"},
                 corChaoNormalTopo = {"6A91A4", "Solido"},
-                corChaoNormalMontanhaTopo = {"5A6EF2", "Solido"},
                 corChaoNormalFundo = {"4A2420", "Solido"},
-                corChaoNormalMontanhaFundo = {"F24D95", "Solido"},
                 corJuncaoSimplesLateralTopoDireita = {"496372", "Solido"},
                 corNucleoConverteDireitaChaoIsoladoTopo = {"55D595", "Solido"},
                 corNucleoConverteDireitaChaoIsoladoFundo = {"D5D580", "Solido"},
@@ -118,23 +102,18 @@ public abstract class GameSettings {
                 corChaoIsoladoEsquerda = {"355240", "Solido"},
                 corChaoIsoladoDireita = {"793B34", "Solido"},
                 corJuncaoSimplesFundoDireita = {"F22778", "Solido"},
-                corJuncaoSimplesFundoDireitaCaverna = {"1C2F42", "Solido"},
                 corChaoIsoladoMeioVertical = {"2D2C7A", "Solido"},
                 corPedra1 = {"1A3917", "Solido"},
                 corJuncaoUmBlocoDireita = {"203766", "Solido"},
                 corJuncaoUmBlocoEsquerda = {"364366", "Solido"},
                 corJuncaoSimplesUmBlocoDuploDireita = {"72CCF2", "Solido"},
-                corJuncaoSimplesUmBlocoDuploDireitaCaverna = {"6D1857", "Solido"},
-                corJuncaoSimplesUmBlocoDuploEsquerda = {"F294CB", "Solido"},
-                corJuncaoSimplesUmBlocoDuploEsquerdaCaverna = {"6B6D4F", "Solido"};
-
+                corJuncaoSimplesUmBlocoDuploEsquerda = {"F294CB", "Solido"};
     }
 
     public static int[]
             //--------------------------//
             //          SOLIDO          //
             //--------------------------//
-            posChaoNucleo = {32, 64},
             posChaoIsoladoTopo = {96, 0},
             posChaoIsoladoFundo = {96, 96},
             posNucleoBifurcaChaoIsoladoTopo = {96, 32},
@@ -144,24 +123,16 @@ public abstract class GameSettings {
             posNucleoConverteDireitaChaoIsoladoFundo = {128, 64},
             posNucleoConverteEsquerdaChaoIsoladoFundo = {160, 64},
             posChaoEsquerdoTopo = {0, 32},
-            posChaoEsquerdoCavernaTopo = {320, 32},
             posChaoEsquerdo = {0, 64},
-            posChaoEsquerdoCaverna = {320, 64},
             posChaoDireitoTopo = {64, 32},
-            posChaoDireitoCavernaTopo = {384, 32},
             posChaoDireito = {64, 64},
-            posChaoDireitoCaverna = {384, 64},
             posChaoNormalTopo = {32, 32},
-            posChaoNormalMontanhaTopo = {352, 32},
             posChaoNormalFundo = {32, 96},
-            posChaoNormalMontanhaFundo = {352, 96},
             posJuncaoBuEsquerdaBaixo = {224, 96},
             posJuncaoBuDireitaBaixo = {288, 96},
             posBuSimples = {256, 96},
             posChaoEsquerdoFundo = {0, 96},
-            posChaoEsquerdoCavernaFundo = {320, 96},
             posChaoDireitoFundo = {64, 96},
-            posChaoDireitoCavernaFundo = {384, 96},
             posTijoloDeserto = {32, 0},
             posJuncaoTopoEsquerda = {192, 32},
             posJuncaoFundoEsquerda = {192, 64},
@@ -173,37 +144,28 @@ public abstract class GameSettings {
             posChaoIsoladoEsquerda = {160, 0},
             posChaoIsoladoDireita = {128, 0},
             posJuncaoSimplesFundoDireita = {64, 0},
-            posJuncaoSimplesFundoDireitaCaverna = {320, 0},
             posChaoIsoladoMeioVertical = {160, 96},
             posPedra1 = {128, 96},
             posJuncaoSimplesUmBlocoDuploDireita = {192, 0},
             posJuncaoSimplesUmBlocoDuploEsquerda = {224, 0},
-            posJuncaoSimplesUmBlocoDuploDireitaCaverna = {352, 0},
-            posJuncaoSimplesUmBlocoDuploEsquerdaCaverna = {384, 0},
             posJuncaoUmBlocoDireita = {288, 32},
             posJuncaoUmBlocoEsquerda = {288, 64},
             posEmpty = {0, 0},
     //--------------------------//
     //        DECORATION        //
     //--------------------------//
-    posGrama = {0, 64},
-            posGalhoSeco = {0, 96},
-            posFundoDarkBrickEsquerdo = {0, 0},
-            posFundoDarkBrickDireito = {64, 0},
-            posFundoDarkBrickBase = {32, 0},
-            posFundoDarkBrickBrokenBase1 = {0, 32},
-            posFundoCaverna1 = {96, 0},
-            posFundoCavernaEntradaEsquerda = {128, 0},
-            posFundoCavernaEntradaDireita = {160, 0},
+    posGrama = {0, 0},
+            posGalhoSeco = {0, 32},
+
     //--------------------------//
     //        INTERATIVE        //
     //--------------------------//
     posEscadaTopo = {0, 0},
-            posEscadaFPTopo = {96, 0},
+            posEscadaMetalTopo = {96, 0},
             posEscada = {32, 0},
-            posFPEscada = {128, 0},
+            posMetalEscada = {128, 0},
             posEscadaBase = {64, 0},
-            posEscadaFPBase = {160, 0},
+            posEscadaMetalBase = {160, 0},
             posEspinho = {0, 96},
             posKitHealth = {32, 32},
             posSavePoint = {0, 64},
@@ -217,16 +179,12 @@ public abstract class GameSettings {
 
     attrCeu = {0, 0, 32, 800},
             attrMountainParalax = {0, 0, 3200, 800},
-            attrWallFundo1 = {240, 128, 224, 128},
-            attrLuzWallFundo1 = {320, 64, 64, 64},
-            attrPredioFundo1 = {0, 128, 224, 300},
-            attrNuvens = {0, 0, 1471, 700};
+            attrLuzWallFundo1 = {0, 96, 64, 64},
+            attrNuvens = {0, 0, 1471, 700},
+            attrFundoEstatico = {0, 0, 3840, 800};
 
 
     // array de conjuntos de entidades basicas:
-
-    // fundoDarkBrick e fundoCaverna
-    public static String[] arrayFundoDarkBrickBase = {"fundoDarkBrickBase", "fundoDarkBrickBrokenBase1", "fundoDarkBrickDireito", "fundoDarkBrickEsquerdo", "fundoCaverna1", "fundoCavernaEntradaEsquerda", "fundoCavernaEntradaDireita"};
     // escadas
     public static String[] arrayEscadas = {"EscadaTopo", "Escada", "EscadaBase", "EscadaFPTopo", "FPEscada", "EscadaFPBase"};
     public static String[] arrayEscadasTopo = {"EscadaTopo", "EscadaFPTopo"};
@@ -243,19 +201,17 @@ public abstract class GameSettings {
 
     // usada para separar as arrays de solidos em entity
     public static String[] arraySolidoDisc = {
-            "chaoNucleo", "chaoIsoladoTopo", "chaoIsoladoFundo", "nucleoBifurcaChaoIsoladoTopo",
+            "chaoIsoladoTopo", "chaoIsoladoFundo", "nucleoBifurcaChaoIsoladoTopo",
             "nucleoBifurcaChaoIsoladoFundo", "nucleoConverteDireitaChaoIsoladoTopo", "nucleoConverteEsquerdaChaoIsoladoTopo",
-            "nucleoConverteDireitaChaoIsoladoFundo", "nucleoConverteEsquerdaChaoIsoladoFundo", "chaoEsquerdoTopo",
-            "chaoEsquerdoCavernaTopo", "chaoEsquerdo", "chaoEsquerdoCaverna", "chaoDireitoTopo",
-            "chaoDireitoCavernaTopo", "chaoDireito", "chaoDireitoCaverna", "chaoNormalTopo", "chaoNormalMontanhaTopo",
-            "chaoNormalFundo", "chaoNormalMontanhaFundo", "juncaoBuEsquerdaBaixo", "juncaoBuDireitaBaixo",
-            "buSimples", "chaoEsquerdoFundo", "chaoEsquerdoCavernaFundo", "chaoDireitoFundo", "chaoDireitoCavernaFundo",
+            "nucleoConverteDireitaChaoIsoladoFundo", "nucleoConverteEsquerdaChaoIsoladoFundo", "chaoEsquerdoTopo"
+            , "chaoEsquerdo", "chaoDireitoTopo", "chaoDireito", "chaoNormalTopo",
+            "chaoNormalFundo", "juncaoBuEsquerdaBaixo", "juncaoBuDireitaBaixo",
+            "buSimples", "chaoEsquerdoFundo", "chaoDireitoFundo",
             "tijoloDeserto", "juncaoTopoEsquerda", "juncaoFundoEsquerda", "juncaoTopoDireita", "juncaoFundoDireita",
             "juncaoDupla1", "juncaoDupla2", "juncaoSimplesLateralTopoDireita", "chaoIsoladoEsquerda",
-            "chaoIsoladoDireita", "juncaoSimplesFundoDireita", "juncaoSimplesFundoDireitaCaverna",
+            "chaoIsoladoDireita", "juncaoSimplesFundoDireita",
             "chaoIsoladoMeioVertical", "pedra1", "juncaoSimplesUmBlocoDuploDireita", "juncaoSimplesUmBlocoDuploEsquerda",
-            "juncaoSimplesUmBlocoDuploDireitaCaverna", "juncaoSimplesUmBlocoDuploEsquerdaCaverna", "juncaoUmBlocoDireita",
-            "juncaoUmBlocoEsquerda"
+            "juncaoUmBlocoDireita", "juncaoUmBlocoEsquerda"
     };
     // Grama
     public static String[] arrayGrama = {"Grama"};
@@ -263,12 +219,9 @@ public abstract class GameSettings {
     public static String[] arrayEspinho = {"Espinho"};
     //Galhos Secos
     public static String[] arrayGalhosSecos = {"GalhosSecos"};
-    //Wall Fundo 1
-    public static String[] arrayWallFundo1 = {"WallFundo1"};
     // luz de wallfundo1
     public static String[] arrayLuzWallFundo1 = {"LuzWallFundo1"};
-    // predio de fundo
-    public static String[] arrayPredioFundo1 = {"PredioFundo1"};
+
     // ceu
     public static String[] arrayCeu = {"Ceu"};
     // mountain paralax

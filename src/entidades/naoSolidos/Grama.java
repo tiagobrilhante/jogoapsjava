@@ -20,7 +20,7 @@ public class Grama extends Entity {
         super(x, y, width, height, sprite, tipo);
         gramaAnimation = new BufferedImage[4];
         for (int i = 0; i < 4; i++) {
-            gramaAnimation[i] = Game.spriteDecoration.getSprite((i * Entity.SIZEENTITYX), 64, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
+            gramaAnimation[i] = Game.spriteDecoration.getSprite((i * Entity.SIZEENTITYX), 0, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
         }
     }
 

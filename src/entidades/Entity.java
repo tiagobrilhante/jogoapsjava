@@ -30,6 +30,7 @@ public class Entity {
     //-----------------------//
 
     public static BufferedImage nuvens = Game.nuvens.getSprite(GameSettings.attrNuvens[0], GameSettings.attrNuvens[1], GameSettings.attrNuvens[2], GameSettings.attrNuvens[3]);
+    public static BufferedImage fundoEstatico = Game.fundoEstatico.getSprite(GameSettings.attrFundoEstatico[0], GameSettings.attrFundoEstatico[1], GameSettings.attrFundoEstatico[2], GameSettings.attrFundoEstatico[3]);
 
     //-----------------------//
     //      INTERATIVOS      //
@@ -83,41 +84,24 @@ public class Entity {
             return Game.mountain.getSprite(GameSettings.attrMountainParalax[0], GameSettings.attrMountainParalax[1], GameSettings.attrMountainParalax[2], GameSettings.attrMountainParalax[3]);
         } else if (Objects.equals(type, "ceu")) {
             return Game.ceu.getSprite(GameSettings.attrCeu[0], GameSettings.attrCeu[1], GameSettings.attrCeu[2], GameSettings.attrCeu[3]);
-        } else if (Objects.equals(type, "predioFundo1")) {
-            return Game.spriteDecoration.getSprite(GameSettings.attrPredioFundo1[0], GameSettings.attrPredioFundo1[1], GameSettings.attrPredioFundo1[2], GameSettings.attrPredioFundo1[3]);
-        } else if (Objects.equals(type, "luzWallFundo1Vetor")) {
+        }  else if (Objects.equals(type, "luzWallFundo1Vetor")) {
             return Game.spriteDecoration.getSprite(GameSettings.attrLuzWallFundo1[0], GameSettings.attrLuzWallFundo1[1], GameSettings.attrLuzWallFundo1[2], GameSettings.attrLuzWallFundo1[3]);
-        } else if (Objects.equals(type, "wallFundo1")) {
-            return Game.spriteDecoration.getSprite(GameSettings.attrWallFundo1[0], GameSettings.attrWallFundo1[1], GameSettings.attrWallFundo1[2], GameSettings.attrWallFundo1[3]);
-        }else if (Objects.equals(type, "galhoSeco")) {
+        } else if (Objects.equals(type, "galhoSeco")) {
             return Game.spriteDecoration.getSprite(GameSettings.posGalhoSeco[0], GameSettings.posGalhoSeco[1], SIZEENTITYX, SIZEENTITYY);
         }else if (Objects.equals(type, "espinho")) {
             return Game.spriteInterative.getSprite(GameSettings.posEspinho[0], GameSettings.posEspinho[1], SIZEENTITYX, SIZEENTITYY);
         } else if (Objects.equals(type, "grama")) {
             return Game.spriteDecoration.getSprite(GameSettings.posGrama[0], GameSettings.posGrama[1], SIZEENTITYX, SIZEENTITYY);
-        }else if (Arrays.asList(GameSettings.arrayFundoDarkBrickBase).contains(type)) {
-            Map<String, BufferedImage> imageMap = new HashMap<>();
-            imageMap.put("fundoDarkBrickBase", Game.spriteDecoration.getSprite(GameSettings.posFundoDarkBrickBase[0], GameSettings.posFundoDarkBrickBase[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("fundoDarkBrickBrokenBase1", Game.spriteDecoration.getSprite(GameSettings.posFundoDarkBrickBrokenBase1[0], GameSettings.posFundoDarkBrickBrokenBase1[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("fundoDarkBrickDireito", Game.spriteDecoration.getSprite(GameSettings.posFundoDarkBrickDireito[0], GameSettings.posFundoDarkBrickDireito[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("fundoDarkBrickEsquerdo", Game.spriteDecoration.getSprite(GameSettings.posFundoDarkBrickEsquerdo[0], GameSettings.posFundoDarkBrickEsquerdo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("fundoCaverna1", Game.spriteDecoration.getSprite(GameSettings.posFundoCaverna1[0], GameSettings.posFundoCaverna1[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("fundoCavernaEntradaEsquerda", Game.spriteDecoration.getSprite(GameSettings.posFundoCavernaEntradaEsquerda[0], GameSettings.posFundoCavernaEntradaEsquerda[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("fundoCavernaEntradaDireita", Game.spriteDecoration.getSprite(GameSettings.posFundoCavernaEntradaDireita[0], GameSettings.posFundoCavernaEntradaDireita[1], SIZEENTITYX, SIZEENTITYY));
-
-            return imageMap.get(type);
         } else if (Arrays.asList(GameSettings.arraySolidoDisc).contains(type)){
 
             Map<String, BufferedImage> imageMap = new HashMap<>();
-
-            imageMap.put("chaoNucleo", Game.spriteSolid.getSprite(GameSettings.posChaoNucleo[0], GameSettings.posChaoNucleo[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("chaoIsoladoTopo", Game.spriteSolid.getSprite(GameSettings.posChaoIsoladoTopo[0], GameSettings.posChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("chaoIsoladoEsquerda", Game.spriteSolid.getSprite(GameSettings.posChaoIsoladoEsquerda[0], GameSettings.posChaoIsoladoEsquerda[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("chaoIsoladoDireita", Game.spriteSolid.getSprite(GameSettings.posChaoIsoladoDireita[0], GameSettings.posChaoIsoladoDireita[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("juncaoSimplesUmBlocoDuploDireita", Game.spriteSolid.getSprite(GameSettings.posJuncaoSimplesUmBlocoDuploDireita[0], GameSettings.posJuncaoSimplesUmBlocoDuploDireita[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("juncaoSimplesUmBlocoDuploDireitaCaverna", Game.spriteSolid.getSprite(GameSettings.posJuncaoSimplesUmBlocoDuploDireitaCaverna[0], GameSettings.posJuncaoSimplesUmBlocoDuploDireitaCaverna[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("juncaoSimplesUmBlocoDuploEsquerda", Game.spriteSolid.getSprite(GameSettings.posJuncaoSimplesUmBlocoDuploEsquerda[0], GameSettings.posJuncaoSimplesUmBlocoDuploEsquerda[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("juncaoSimplesUmBlocoDuploEsquerdaCaverna", Game.spriteSolid.getSprite(GameSettings.posJuncaoSimplesUmBlocoDuploEsquerdaCaverna[0], GameSettings.posJuncaoSimplesUmBlocoDuploEsquerdaCaverna[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoIsoladoFundo", Game.spriteSolid.getSprite(GameSettings.posChaoIsoladoFundo[0], GameSettings.posChaoIsoladoFundo[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("nucleoBifurcaChaoIsoladoTopo", Game.spriteSolid.getSprite(GameSettings.posNucleoBifurcaChaoIsoladoTopo[0], GameSettings.posNucleoBifurcaChaoIsoladoTopo[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("nucleoBifurcaChaoIsoladoFundo", Game.spriteSolid.getSprite(GameSettings.posNucleoBifurcaChaoIsoladoFundo[0], GameSettings.posNucleoBifurcaChaoIsoladoFundo[1], SIZEENTITYX, SIZEENTITYY));
@@ -128,21 +112,21 @@ public class Entity {
             imageMap.put("chaoIsoladoMeioVertical", Game.spriteSolid.getSprite(GameSettings.posChaoIsoladoMeioVertical[0], GameSettings.posChaoIsoladoMeioVertical[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("pedra1", Game.spriteSolid.getSprite(GameSettings.posPedra1[0], GameSettings.posPedra1[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("chaoEsquerdoTopo", Game.spriteSolid.getSprite(GameSettings.posChaoEsquerdoTopo[0], GameSettings.posChaoEsquerdoTopo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoEsquerdoCavernaTopo", Game.spriteSolid.getSprite(GameSettings.posChaoEsquerdoCavernaTopo[0], GameSettings.posChaoEsquerdoCavernaTopo[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoEsquerdo", Game.spriteSolid.getSprite(GameSettings.posChaoEsquerdo[0], GameSettings.posChaoEsquerdo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoEsquerdoCaverna", Game.spriteSolid.getSprite(GameSettings.posChaoEsquerdoCaverna[0], GameSettings.posChaoEsquerdoCaverna[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoDireitoTopo", Game.spriteSolid.getSprite(GameSettings.posChaoDireitoTopo[0], GameSettings.posChaoDireitoTopo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoDireitoCavernaTopo", Game.spriteSolid.getSprite(GameSettings.posChaoDireitoCavernaTopo[0], GameSettings.posChaoDireitoCavernaTopo[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoDireito", Game.spriteSolid.getSprite(GameSettings.posChaoDireito[0], GameSettings.posChaoDireito[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoDireitoCaverna", Game.spriteSolid.getSprite(GameSettings.posChaoDireitoCaverna[0], GameSettings.posChaoDireitoCaverna[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoNormalTopo", Game.spriteSolid.getSprite(GameSettings.posChaoNormalTopo[0], GameSettings.posChaoNormalTopo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoNormalMontanhaTopo", Game.spriteSolid.getSprite(GameSettings.posChaoNormalMontanhaTopo[0], GameSettings.posChaoNormalMontanhaTopo[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoNormalFundo", Game.spriteSolid.getSprite(GameSettings.posChaoNormalFundo[0], GameSettings.posChaoNormalFundo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoNormalMontanhaFundo", Game.spriteSolid.getSprite(GameSettings.posChaoNormalMontanhaFundo[0], GameSettings.posChaoNormalMontanhaFundo[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoDireitoFundo", Game.spriteSolid.getSprite(GameSettings.posChaoDireitoFundo[0], GameSettings.posChaoDireitoFundo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoDireitoCavernaFundo", Game.spriteSolid.getSprite(GameSettings.posChaoDireitoCavernaFundo[0], GameSettings.posChaoDireitoCavernaFundo[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("chaoEsquerdoFundo", Game.spriteSolid.getSprite(GameSettings.posChaoEsquerdoFundo[0], GameSettings.posChaoEsquerdoFundo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("chaoEsquerdoCavernaFundo", Game.spriteSolid.getSprite(GameSettings.posChaoEsquerdoCavernaFundo[0], GameSettings.posChaoEsquerdoCavernaFundo[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("juncaoTopoEsquerda", Game.spriteSolid.getSprite(GameSettings.posJuncaoTopoEsquerda[0], GameSettings.posJuncaoTopoEsquerda[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("juncaoFundoEsquerda", Game.spriteSolid.getSprite(GameSettings.posJuncaoFundoEsquerda[0], GameSettings.posJuncaoFundoEsquerda[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("juncaoTopoDireita", Game.spriteSolid.getSprite(GameSettings.posJuncaoTopoDireita[0], GameSettings.posJuncaoTopoDireita[1], SIZEENTITYX, SIZEENTITYY));
@@ -156,18 +140,18 @@ public class Entity {
             imageMap.put("juncaoUmBlocoEsquerda", Game.spriteSolid.getSprite(GameSettings.posJuncaoUmBlocoEsquerda[0], GameSettings.posJuncaoUmBlocoEsquerda[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("juncaoSimplesLateralTopoDireita", Game.spriteSolid.getSprite(GameSettings.posJuncaoSimplesLateralTopoDireita[0], GameSettings.posJuncaoSimplesLateralTopoDireita[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("juncaoSimplesFundoDireita", Game.spriteSolid.getSprite(GameSettings.posJuncaoSimplesFundoDireita[0], GameSettings.posJuncaoSimplesFundoDireita[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("juncaoSimplesFundoDireitaCaverna", Game.spriteSolid.getSprite(GameSettings.posJuncaoSimplesFundoDireitaCaverna[0], GameSettings.posJuncaoSimplesFundoDireitaCaverna[1], SIZEENTITYX, SIZEENTITYY));
+
             imageMap.put("tijoloDeserto", Game.spriteSolid.getSprite(GameSettings.posTijoloDeserto[0], GameSettings.posTijoloDeserto[1], SIZEENTITYX, SIZEENTITYY));
 
             return imageMap.get(type);
         }else if (Arrays.asList(GameSettings.arrayEscadaDisc).contains(type)) {
             Map<String, BufferedImage> imageMap = new HashMap<>();
             imageMap.put("escadaTopo", Game.spriteInterative.getSprite(GameSettings.posEscadaTopo[0], GameSettings.posEscadaTopo[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("escadaFPTopo", Game.spriteInterative.getSprite(GameSettings.posEscadaFPTopo[0], GameSettings.posEscadaFPTopo[1], SIZEENTITYX, SIZEENTITYY));
+            imageMap.put("escadaMetalTopo", Game.spriteInterative.getSprite(GameSettings.posEscadaMetalTopo[0], GameSettings.posEscadaMetalTopo[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("escada", Game.spriteInterative.getSprite(GameSettings.posEscada[0], GameSettings.posEscada[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("fPEscada", Game.spriteInterative.getSprite(GameSettings.posFPEscada[0], GameSettings.posFPEscada[1], SIZEENTITYX, SIZEENTITYY));
+            imageMap.put("metalEscada", Game.spriteInterative.getSprite(GameSettings.posMetalEscada[0], GameSettings.posMetalEscada[1], SIZEENTITYX, SIZEENTITYY));
             imageMap.put("escadaBase", Game.spriteInterative.getSprite(GameSettings.posEscadaBase[0], GameSettings.posEscadaBase[1], SIZEENTITYX, SIZEENTITYY));
-            imageMap.put("escadaFPBase", Game.spriteInterative.getSprite(GameSettings.posEscadaFPBase[0], GameSettings.posEscadaFPBase[1], SIZEENTITYX, SIZEENTITYY));
+            imageMap.put("escadaMetalBase", Game.spriteInterative.getSprite(GameSettings.posEscadaMetalBase[0], GameSettings.posEscadaMetalBase[1], SIZEENTITYX, SIZEENTITYY));
 
             return imageMap.get(type);
         }

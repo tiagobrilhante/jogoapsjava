@@ -2,7 +2,6 @@ package main;
 
 import Mundo.Mundo;
 import entidades.Entity;
-import entidades.naoSolidos.Grama;
 import entidades.interativos.*;
 import entidades.naoSolidos.*;
 import entidades.player.Player;
@@ -17,7 +16,6 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.Serial;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -65,11 +63,10 @@ public class Game extends Canvas implements Runnable {
     // prepara a lista de CEU (cenário)
     public static List<Ceu> ceuVetor;
     public static List<MountainsParalax> mountainVetor;
-    public static List<WallFundo1> wallFundo1Vetor;
     public static List<LuzWallFundo1> luzWallFundo1Vetor;
-    public static List<PredioFundo1> predioFundo1Vetor;
     public static List<CheckPoint> checkPoints;
     public static List<Nuvens> nuvemVetor;
+    public static List<FundoEstatico> fundoEstaticoVetor;
     public static List<KitHealth> kitHealth;
     public static List<TrashBag> trashBags;
     public static List<VidaExtra> vidasExtras;
@@ -77,12 +74,11 @@ public class Game extends Canvas implements Runnable {
     public static List<Inimigo> inimigo;
     public static List<Grama> grama;
     public static List<Espinho> espinhos;
-    public static List<FundoDarkBrick> darkBricksFundo;
     public static List<Escada> escada;
     public static List<TiroPlayer> tirosPLayer;
 
     // instancia sprites
-    public static Spritsheet spriteSolid, spriteDecoration, spriteInterative, spritePlayer, spriteEnemy, ceu, mountain, nuvens;
+    public static Spritsheet spriteSolid, spriteDecoration, spriteInterative, spritePlayer, spriteEnemy, ceu, mountain, nuvens, fundoEstatico;
 
     // se o jogo está rodando... começa em verdadeiro
     private boolean isRunning = true;
@@ -103,7 +99,7 @@ public class Game extends Canvas implements Runnable {
         gameMenu = new GameMenu();
         gameOver = new GameOver();
         historia = new Historia();
-        controles= new Controles();
+        controles = new Controles();
         leaderBoard = new LeaderBoard();
         sobre = new Sobre();
 
@@ -121,14 +117,14 @@ public class Game extends Canvas implements Runnable {
         ceu = new Spritsheet(GameSettings.spriteCeuPath);
         mountain = new Spritsheet(GameSettings.spriteMountainPath);
         nuvens = new Spritsheet(GameSettings.spriteNuvemPath);
+        fundoEstatico = new Spritsheet(GameSettings.spriteFundoEstaticoPath);
 
         entidades = new ArrayList<>();
         ceuVetor = new ArrayList<>();
         mountainVetor = new ArrayList<>();
-        wallFundo1Vetor = new ArrayList<>();
         luzWallFundo1Vetor = new ArrayList<>();
-        predioFundo1Vetor = new ArrayList<>();
         nuvemVetor = new ArrayList<>();
+        fundoEstaticoVetor = new ArrayList<>();
         kitHealth = new ArrayList<>();
         trashBags = new ArrayList<>();
         vidasExtras = new ArrayList<>();
@@ -137,7 +133,6 @@ public class Game extends Canvas implements Runnable {
         inimigo = new ArrayList<>();
         grama = new ArrayList<>();
         espinhos = new ArrayList<>();
-        darkBricksFundo = new ArrayList<>();
         escada = new ArrayList<>();
         tirosPLayer = new ArrayList<>();
         player = new Player(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer(), spritePlayer.getSprite(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
@@ -145,7 +140,7 @@ public class Game extends Canvas implements Runnable {
 
         dustSpawner = new DustSpawner();
 
-        mundo = new Mundo(GameSettings.levelPath+"level"+level+".png");
+        mundo = new Mundo(GameSettings.levelPath + "level" + level + ".png");
 
         new GameContainer(this);
         addKeyListener(new GameListeners(this));
@@ -190,11 +185,10 @@ public class Game extends Canvas implements Runnable {
         entidades = new ArrayList<>();
         ceuVetor = new ArrayList<>();
         mountainVetor = new ArrayList<>();
-        wallFundo1Vetor = new ArrayList<>();
         luzWallFundo1Vetor = new ArrayList<>();
-        predioFundo1Vetor = new ArrayList<>();
         checkPoints = new ArrayList<>();
         nuvemVetor = new ArrayList<>();
+        fundoEstaticoVetor = new ArrayList<>();
         kitHealth = new ArrayList<>();
         trashBags = new ArrayList<>();
         vidasExtras = new ArrayList<>();
@@ -203,11 +197,10 @@ public class Game extends Canvas implements Runnable {
         grama = new ArrayList<>();
         espinhos = new ArrayList<>();
         escada = new ArrayList<>();
-        darkBricksFundo = new ArrayList<>();
         tirosPLayer = new ArrayList<>();
 
         // reinicia o mundo e o jogador
-        mundo = new Mundo(GameSettings.levelPath+"level"+level+".png");
+        mundo = new Mundo(GameSettings.levelPath + "level" + level + ".png");
         player = new Player(64, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer(), spritePlayer.getSprite(0, 0, Player.getLarguraPlayer(), Player.getAlturaPlayer()), "Player");
         Player.pontos = 0;
         Player.tentativas = 3;
@@ -348,7 +341,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = fundoBase.getGraphics();
 
         g.setColor(new Color(18, 32, 32));
-        g.fillRect(0, 0, GameSettings.getGAME_WIDTH() , GameSettings.getGAME_HEIGHT());
+        g.fillRect(0, 0, GameSettings.getGAME_WIDTH(), GameSettings.getGAME_HEIGHT());
 
         // renderiza as entidades
 
@@ -360,20 +353,16 @@ public class Game extends Canvas implements Runnable {
             mountain.render(g);
         }
 
-        for (WallFundo1 wallFundo1 : wallFundo1Vetor) {
-            wallFundo1.render(g);
+        for (Nuvens nuvem : nuvemVetor) {
+            nuvem.render(g);
+        }
+
+        for (FundoEstatico fundoEstatico : fundoEstaticoVetor) {
+            fundoEstatico.render(g);
         }
 
         for (LuzWallFundo1 luzWallFundo1 : luzWallFundo1Vetor) {
             luzWallFundo1.render(g);
-        }
-
-        for (PredioFundo1 predioFundo1 : predioFundo1Vetor) {
-            predioFundo1.render(g);
-        }
-
-        for (Nuvens nuvem : nuvemVetor) {
-            nuvem.render(g);
         }
         //-----------------//
         //   INTERATIVOS   //
@@ -407,10 +396,6 @@ public class Game extends Canvas implements Runnable {
         //-----------------//
 
         for (Grama entidade : grama) {
-            entidade.render(g);
-        }
-
-        for (FundoDarkBrick entidade : darkBricksFundo) {
             entidade.render(g);
         }
 
