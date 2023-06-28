@@ -196,7 +196,7 @@ public abstract class GameSettings {
     public static String[] arraySolido = {"Solido"};
 
     public static String[] arrayEscadaDisc = {
-            "escadaTopo", "escada", "escadaBase", "escadaFPTopo", "fPEscada", "escadaFPBase"
+            "escadaTopo", "escada", "escadaBase", "escadaMetalTopo", "metalEscada", "escadaMetalBase"
     };
 
     // usada para separar as arrays de solidos em entity
