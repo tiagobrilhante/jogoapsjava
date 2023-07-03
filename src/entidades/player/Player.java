@@ -144,7 +144,7 @@ public class Player extends Entity {
     // timer de para Idle
     public int tempoParado;
 
-    public Entity escadaEmColisao;
+    public Escada escadaEmColisao;
     public boolean colisaoTopoBloco, colisaoFundoBloco, colisaoEsquerdaBloco, colisaoDireitaBloco;
 
     // ######################## //
@@ -535,8 +535,8 @@ public class Player extends Entity {
                     // Determinar direção da colisão
                     colisaoTopoBloco = (int) (playerRectangle.getMaxY() - 1) <= (int) solido.getMinY();
                     colisaoFundoBloco = (int) playerRectangle.getMinY() + 1 >= (int) solido.getMaxY();
-                    colisaoEsquerdaBloco = (int) (playerRectangle.getMaxX() + 1) >= (int) solido.getMinX() && ((int)(solido.getMinY()-18) <= (int)y);
-                    colisaoDireitaBloco = (int) (playerRectangle.getMinX() - 1) <= (int) solido.getMaxX() && ((int)(solido.getMinY()-18) <= (int)y);
+                    colisaoEsquerdaBloco = (int) (playerRectangle.getMaxX() + 1) >= (int) solido.getMinX() && ((int) (solido.getMinY() - 18) <= (int) y);
+                    colisaoDireitaBloco = (int) (playerRectangle.getMinX() - 1) <= (int) solido.getMaxX() && ((int) (solido.getMinY() - 18) <= (int) y);
 
                     // Retorne true para indicar que houve colisão
                     return true;
@@ -562,7 +562,6 @@ public class Player extends Entity {
 
             if (retanguloPlayer.intersects(retanguloEscada)) {
                 escadaEmColisao = escada;
-
                 jump = false;
                 isJump = false;
                 attack = false;
@@ -902,7 +901,16 @@ public class Player extends Entity {
             if (up || down) {
                 g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
             } else {
-                g.drawImage(playerEscada[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                if (escadaEmColisao.tipoEscada == 1 || escadaEmColisao.tipoEscada == 3){
+                    if (Objects.equals(direcaoAtual, "direita")){
+                        g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                    } else {
+                        g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                    }
+                } else {
+                    g.drawImage(playerEscada[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+                }
+
             }
         }
 
