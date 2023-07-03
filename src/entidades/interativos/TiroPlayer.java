@@ -3,7 +3,6 @@ package entidades.interativos;
 
 import Mundo.Camera;
 import entidades.Entity;
-import entidades.player.Player;
 import entidades.solidos.Solido;
 import main.Game;
 

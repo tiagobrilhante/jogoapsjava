@@ -5,11 +5,6 @@ import java.util.Random;
 
 public class Dust extends Rectangle {
 
-    // objeto estrela
-
-    // quando em turbo as estrelas apresentam um comportamento diferente
-    // como se fossem umas linhas maiores
-
     public Color color;
 
     public int speed;
@@ -22,7 +17,6 @@ public class Dust extends Rectangle {
 
     }
 
-    // as estrelas são movimentadas da esquerda para a direita
     public void update() {
         y++;
         x -= speed;

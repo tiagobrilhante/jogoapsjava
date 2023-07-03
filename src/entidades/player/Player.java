@@ -191,10 +191,10 @@ public class Player extends Entity {
             playerJumpRight[i] = Game.spritePlayer.getSprite((i * getLarguraPlayer()), 192, getLarguraPlayer(), getAlturaPlayer());
             playerJumpLeft[i] = Game.spritePlayer.getSprite((getLarguraPlayer() * 4) - (i * getLarguraPlayer()), 240, getLarguraPlayer(), getAlturaPlayer());
             playerEscada[i] = Game.spritePlayer.getSprite(192 + (i * getLarguraPlayer()), 192, getLarguraPlayer(), getAlturaPlayer());
-            playerAttackEsquerda[i] = Game.spritePlayer.getSprite(192, 48, getLarguraPlayer() * 2, getAlturaPlayer());
-            playerAttackEsquerdaArma[i] = Game.spritePlayer.getSprite(192, 144, getLarguraPlayer() * 2, getAlturaPlayer());
-            playerAttackDireita[i] = Game.spritePlayer.getSprite(320, 0, getLarguraPlayer() * 2, getAlturaPlayer());
-            playerAttackDireitaArma[i] = Game.spritePlayer.getSprite(192, 96, getLarguraPlayer() * 2, getAlturaPlayer());
+            playerAttackEsquerda[i] = Game.spritePlayer.getSprite(160, 0, getLarguraPlayer() * 2, getAlturaPlayer());
+            playerAttackEsquerdaArma[i] = Game.spritePlayer.getSprite(160, 48, getLarguraPlayer() * 2, getAlturaPlayer());
+            playerAttackDireita[i] = Game.spritePlayer.getSprite(224, 0, getLarguraPlayer() * 2, getAlturaPlayer());
+            playerAttackDireitaArma[i] = Game.spritePlayer.getSprite(224, 48, getLarguraPlayer() * 2, getAlturaPlayer());
         }
 
     }
@@ -252,7 +252,6 @@ public class Player extends Entity {
 
         // se eu estou em uma escada e não existe colisão
         if (emEscada && !emColisao) {
-
             if (down) {
                 y += speed;
                 y = (int) y;
@@ -261,7 +260,6 @@ public class Player extends Entity {
                 y -= speed;
                 y = (int) y;
             }
-
         }
         if (emEscada && emColisao) {
             // se eu tenho uma colisão, tenho que ver a posição que eu me encontro
@@ -273,34 +271,36 @@ public class Player extends Entity {
                 // ou seja nesse caso em especifico eu posso
                 // - tentar descer e bater em algo
                 // - tentar subir e bater em algo
-
                 if (up) {
+                    x = escadaEmColisao.getX();
                     y = atualY + getAlturaPlayer() - Entity.SIZEENTITYY - 13;
                     up = false;
                 }
                 if (down) {
+                    x = escadaEmColisao.getX();
                     y = atualY - 1;
                     down = false;
                 }
-
             } else if (posBottomEscada) {
                 // nesse caso estou na base de uma escada, colidindo com mo chão provavelmente
                 // eu posso:
                 // - voltar a subir
                 // - tentar descer e bater no chão
                 if (up) {
+                    x = escadaEmColisao.getX();
                     y -= speed;
                     y = (int) y;
                 }
-
                 if (down) {
+                    x = escadaEmColisao.getX();
                     y = atualY - 1;
                     down = false;
                 }
-
             } else {
+                x = escadaEmColisao.getX();
                 // nesse caso eu estou no topo de uma escada
                 if (up) {
+                    x = escadaEmColisao.getX();
                     y -= speed;
                     y = (int) y;
                 }
@@ -309,8 +309,6 @@ public class Player extends Entity {
                     up = false;
                 }
             }
-
-
         }
 
         // caso eu me movimente para a direita
@@ -321,7 +319,6 @@ public class Player extends Entity {
             x += speed;
             emMovimento = true;
             direcaoAtual = "direita";
-
         }
 
         // caso eu me movimente para a esquerda
@@ -353,7 +350,6 @@ public class Player extends Entity {
 
             // se não houver colisão
             if (!colisao(this.getX(), this.getY() - 1)) {
-
                 // somo o y até que
                 y -= jumpSpeed;
                 jumpFrames += jumpSpeed;
@@ -362,7 +358,6 @@ public class Player extends Entity {
                 if (jumpFrames == jumpHeigth) {
                     isFalling(true);
                     jumpFrames = 0;
-
                 }
             } else {
                 jumpTimeSound = 0;
@@ -376,15 +371,11 @@ public class Player extends Entity {
 
         // ação de ataque em relação ao inimigo (com o cano)
         if (attack) {
-
             // após o ataque, tenho que fazer o ataque ser falso
-
             if (Objects.equals(selectedWeapon, "Cano")) {
                 // aqui existe a colisão de ataque pelo cano (passo a minha posição)
                 if (ataqueCano(this.getX(), this.getY())) {
-
                     causaDanoInimigo(timerNoDamageEnemy, enemy);
-
                 }
             } else {
                 if (attackTimeSound == 0) {
@@ -393,19 +384,17 @@ public class Player extends Entity {
                         PlayerAudio.tocaAudio("tiro");
                         // aqui começa o problema de ajuste de tiro
                         if (Objects.equals(direcaoAtual, "direita")) {
-                            Game.tirosPLayer.add(new TiroPlayer(Player.atualX - Camera.x, Player.atualY +16 - Camera.y, 30, 3, null, "tiro", "Direita"));
+                            Game.tirosPLayer.add(new TiroPlayer(Player.atualX - Camera.x, Player.atualY + 16 - Camera.y, 30, 3, null, "tiro", "Direita"));
                         } else {
                             Game.tirosPLayer.add(new TiroPlayer(Player.atualX - Camera.x, Player.atualY + 16 - Camera.y, 30, 3, null, "tiro", "Esquerda"));
                         }
                     }
-
                     if (qtdTiro > 0) {
                         qtdTiro--;
                     } else {
                         selectedWeapon = "Cano";
                     }
                 }
-
             }
 
             emMovimento = true;
@@ -432,9 +421,7 @@ public class Player extends Entity {
                     index = 0;
                 }
             }
-
         } else {
-
             // em pulo
             if (isJump) {
                 frames++;
@@ -446,7 +433,6 @@ public class Player extends Entity {
                     }
                 }
             } else {
-
                 // comportamento em idle
                 if (tempoParado / 60 > 4) {
                     frames++;
@@ -460,10 +446,11 @@ public class Player extends Entity {
                 }
             }
         }
-
-        if (colisaoDireitaBloco || colisaoEsquerdaBloco){
+        // colisões laterais param o movimento
+        if (colisaoDireitaBloco || colisaoEsquerdaBloco) {
             emMovimento = false;
         }
+
 
         // dano contra o player (deverá levar em consideração a ameaça)
         if (damage((int) (x + speed), this.getY())) {
@@ -526,7 +513,7 @@ public class Player extends Entity {
         }
 
         // posicionamento da camera, sempre em relaçao ao player
-        Camera.x = Camera.Clamp(this.getX() - (GameSettings.getGAME_WIDTH() / 2), 0, (Mundo.WIDTH * Entity.SIZEENTITYX) - getLarguraPlayer());
+        Camera.x = Camera.Clamp(this.getX() - (GameSettings.getGAME_WIDTH() / 2), 0, Mundo.WIDTH * Entity.SIZEENTITYX - GameSettings.getGAME_WIDTH());
         Camera.y = Camera.Clamp(this.getY() - (GameSettings.getGAME_HEIGHT() / 2), 0, (Mundo.HEIGHT * Entity.SIZEENTITYY) - getAlturaPlayer());
 
     }
@@ -537,9 +524,6 @@ public class Player extends Entity {
     //              Basico              //
     // -------------------------------- //
     //colisão (gravidade)
-    // ------------------------- //
-    // ---------REVISÃO--------- //
-    // ------------------------- //
     public boolean colisao(int nextx, int nexty) {
         Rectangle playerRectangle = new Rectangle(nextx, nexty, getLarguraPlayer(), getAlturaPlayer());
         for (int i = 0; i < Game.entidades.size(); i++) {
@@ -549,10 +533,10 @@ public class Player extends Entity {
                 if (playerRectangle.intersects(solido)) {
 
                     // Determinar direção da colisão
-                    colisaoTopoBloco = playerRectangle.getMaxY()-1 <= solido.getMinY();
-                    colisaoFundoBloco = playerRectangle.getMinY()+1 >= solido.getMaxY();
-                    colisaoEsquerdaBloco = playerRectangle.getMaxX()-3 <= solido.getMinX();
-                    colisaoDireitaBloco = playerRectangle.getMinX()+3 >= solido.getMaxX();
+                    colisaoTopoBloco = (int) (playerRectangle.getMaxY() - 1) <= (int) solido.getMinY();
+                    colisaoFundoBloco = (int) playerRectangle.getMinY() + 1 >= (int) solido.getMaxY();
+                    colisaoEsquerdaBloco = (int) (playerRectangle.getMaxX() + 1) >= (int) solido.getMinX() && ((int)(solido.getMinY()-18) <= (int)y);
+                    colisaoDireitaBloco = (int) (playerRectangle.getMinX() - 1) <= (int) solido.getMaxX() && ((int)(solido.getMinY()-18) <= (int)y);
 
                     // Retorne true para indicar que houve colisão
                     return true;
@@ -573,7 +557,7 @@ public class Player extends Entity {
         for (int i = 0; i < Game.escada.size(); i++) {
             Escada escada = Game.escada.get(i);
 
-            Rectangle retanguloEscada = new Rectangle(escada.getX()-10,
+            Rectangle retanguloEscada = new Rectangle(escada.getX() - 10,
                     escada.getY() - Entity.SIZEENTITYY + (getLarguraPlayer() - (Entity.SIZEENTITYX / 2)) - 2, Entity.SIZEENTITYX, Entity.SIZEENTITYY);
 
             if (retanguloPlayer.intersects(retanguloEscada)) {
@@ -601,7 +585,6 @@ public class Player extends Entity {
 
         return false;
     }
-
 
     // troca de armas
     public synchronized void toggleWeapon() {
@@ -859,7 +842,7 @@ public class Player extends Entity {
         // você pode estar pulando
         // vc pode estar em queda
 
-        if (Objects.equals(direcaoAtual, "direita")&& !emEscada && !attack) {
+        if (Objects.equals(direcaoAtual, "direita") && !emEscada && !attack) {
             // estou em pulo
             if (jump) {
                 g.drawImage(playerJumpRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -885,7 +868,7 @@ public class Player extends Entity {
                     }
                 }
             }
-        } else if (Objects.equals(direcaoAtual, "esquerda")&& !emEscada && !attack){
+        } else if (Objects.equals(direcaoAtual, "esquerda") && !emEscada && !attack) {
 
             // estou em pulo
             if (jump) {
