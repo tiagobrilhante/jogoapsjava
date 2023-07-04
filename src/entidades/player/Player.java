@@ -297,7 +297,6 @@ public class Player extends Entity {
                     down = false;
                 }
             } else {
-                x = escadaEmColisao.getX();
                 // nesse caso eu estou no topo de uma escada
                 if (up) {
                     x = escadaEmColisao.getX();
