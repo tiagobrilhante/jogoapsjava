@@ -239,7 +239,7 @@ public abstract class GameSettings {
 
 
     // WIDTH, HEIGHT, SCALE
-    private final static int[] gameDimensions = {520, 300, 2};
+    private final static int[] gameDimensions = {520, 300, 3};
 
     public static String getGameName() {
         return gameName;

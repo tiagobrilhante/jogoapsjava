@@ -19,7 +19,7 @@ public class LeaderBoard {
     public String menuAnimaPath = "/res/menus/animations/menuSprite1.png";
     public String fundoMenuPath = "/res/menus/images/testeleaderboards.png";
     public BufferedImage[] playerMenuAnima;
-    public BufferedImage[] fundoMenuSimples;
+    public BufferedImage fundoMenuSimples;
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
@@ -28,14 +28,14 @@ public class LeaderBoard {
         animaMenu = new Spritsheet(menuAnimaPath);
         fundoMenu = new Spritsheet(fundoMenuPath);
         playerMenuAnima = new BufferedImage[25];
-        fundoMenuSimples = new BufferedImage[1];
+
 
         // animacao do personagem no menu
         for (int i = 0; i < 25; i++) {
             playerMenuAnima[i] = animaMenu.getSprite((i * 64), 0, 64, 128);
         }
 
-        fundoMenuSimples[0] = fundoMenu.getSprite(0, 0, 520, 292);
+        fundoMenuSimples = fundoMenu.getSprite(0, 0, 520, 292);
 
     }
 
@@ -68,21 +68,21 @@ public class LeaderBoard {
         g.setColor(new Color(255, 255, 255));
 
 
-        g.drawImage(fundoMenuSimples[0], 0, 0, 520 * 2, 292 * 2, null);
+        g.drawImage(fundoMenuSimples, 0, 0, 520 * GameSettings.getGAME_SCALE(), 292 * GameSettings.getGAME_SCALE(), null);
 
-        g.drawImage(playerMenuAnima[index], 30, 30, 64 * 4, 128 * 4, null);
+        g.drawImage(playerMenuAnima[index], 30+GameSettings.getGAME_SCALE(), 30+GameSettings.getGAME_SCALE(), 64 * (GameSettings.getGAME_SCALE()*2), 128 * (GameSettings.getGAME_SCALE()*2), null);
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        g.drawString( "Maior pontuação: ", GameSettings.getGAME_WIDTH() / 2 + 160, GameSettings.getGAME_HEIGHT() / 2 + 50);
+        g.drawString( "Maior pontuação: ", GameSettings.getGAME_WIDTH() / GameSettings.getGAME_SCALE() + GameSettings.getGAME_SCALE()*100, GameSettings.getGAME_HEIGHT() / GameSettings.getGAME_SCALE() + GameSettings.getGAME_SCALE()*40);
         try {
             File arquivo = new File("src/score/leaderboard.txt");
             Scanner scanner = new Scanner(arquivo);
 
-            int saltoLinha = 100;
+            int saltoLinha = GameSettings.getGAME_SCALE()*70;
             while (scanner.hasNextLine()) {
                 String linha = scanner.nextLine(); // lê a linha do arquivo
-                g.drawString( linha, GameSettings.getGAME_WIDTH() / 2 + 160, GameSettings.getGAME_HEIGHT() / 2 + saltoLinha);
+                g.drawString( linha, GameSettings.getGAME_WIDTH() / GameSettings.getGAME_SCALE()+ GameSettings.getGAME_SCALE()*100, GameSettings.getGAME_HEIGHT() / GameSettings.getGAME_SCALE() + saltoLinha);
                 saltoLinha+=40;
 
             }

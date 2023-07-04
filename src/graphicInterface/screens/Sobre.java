@@ -15,7 +15,7 @@ public class Sobre {
     public String menuAnimaPath = "/res/menus/animations/menuSprite1.png";
     public String fundoMenuPath = "/res/menus/images/testesobre.png";
     public BufferedImage[] playerMenuAnima;
-    public BufferedImage[] fundoMenuSimples;
+    public BufferedImage fundoMenuSimples;
 
     public int frames = 0, maxFrames = 25, index = 0, maxIndex = 24;
 
@@ -24,14 +24,13 @@ public class Sobre {
         animaMenu = new Spritsheet(menuAnimaPath);
         fundoMenu = new Spritsheet(fundoMenuPath);
         playerMenuAnima = new BufferedImage[25];
-        fundoMenuSimples = new BufferedImage[1];
 
         // animacao do personagem no menu
         for (int i = 0; i < 25; i++) {
             playerMenuAnima[i] = animaMenu.getSprite((i * 64), 0, 64, 128);
         }
 
-        fundoMenuSimples[0] = fundoMenu.getSprite(0,0, 520,292);
+        fundoMenuSimples = fundoMenu.getSprite(0,0, 520,292);
 
     }
 
@@ -63,9 +62,9 @@ public class Sobre {
         g.fillRect(0, 0, GameSettings.getGAME_WIDTH() * GameSettings.getGAME_SCALE(), GameSettings.getGAME_HEIGHT() * GameSettings.getGAME_SCALE());
         g.setColor(new Color(255, 255, 255));
 
-        g.drawImage(fundoMenuSimples[0], 0, 0, 520*2,292*2, null);
+        g.drawImage(fundoMenuSimples, 0, 0, 520*GameSettings.getGAME_SCALE(),292*GameSettings.getGAME_SCALE(), null);
 
-        g.drawImage(playerMenuAnima[index], 30, 30, 64*4,128*4, null);
+        g.drawImage(playerMenuAnima[index], 30+GameSettings.getGAME_SCALE(), 30+GameSettings.getGAME_SCALE(), 64 * (GameSettings.getGAME_SCALE()*2), 128 * (GameSettings.getGAME_SCALE()*2), null);
 
     }
 
