@@ -6,6 +6,10 @@ import java.awt.image.BufferedImage;
 // escada (não solido) especial, habilita sobre e desce
 public class Escada extends Entity {
 
+    // 3 = topo
+    // 2 = meio
+    // 1 = base
+
     public int tipoEscada;
 
     public Escada(int x, int y, int width, int height, int tipoEscada,  BufferedImage sprite, String tipo) {

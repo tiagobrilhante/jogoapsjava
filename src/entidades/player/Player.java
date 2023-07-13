@@ -210,105 +210,125 @@ public class Player extends Entity {
         emEscada = colisaoEscada(this.getX(), this.getY());
         emColisao = colisao(atualX, atualY + 1);
 
-        if (!right && !left) {
+        // situação de definição de movimento
+        // se não estou apertendo direita e esquerda, significa que estou paradado
+        // em uma escada eu aperto cima e baixo (e entro nesse caso) AJUSTAR
+        if (right) {
+            emMovimento = true;
+        } else if (left) {
+            emMovimento = true;
+        } else if (up && emEscada) {
+            emMovimento = true;
+        } else if (down && emEscada) {
+            emMovimento = true;
+        } else if (jump) {
+            emMovimento = true;
+        } else if (isJump) {
+            emMovimento = true;
+        } else if (!emColisao && !isJump && !emEscada) {
+            emMovimento = true;
+        } else if (attack) {
+            emMovimento = true;
+        } else {
             emMovimento = false;
         }
 
+
+        // se eu não me movimento, inicio o tempo de idle
         if (!emMovimento) {
             tempoParado++;
         } else {
             tempoParado = 0;
         }
 
-        // reset de invulnerabilidade do inimigo
-        if (noDamageStateEnemy) {
-            timerNoDamageEnemy++;
-            if (timerNoDamageEnemy == 20) {
-                noDamageStateEnemy = false;
-                timerNoDamageEnemy = 0;
-            }
-        }
 
-        // gerenciamento de update das particulas (quando o inimigo é derrotado)
-        for (int i = 0; i < particulas.size(); i++) {
-            particulas.get(i).update();
-            Particula part = particulas.get(i);
-            // duração da particula na tela (otimização)
-            if (part.timer >= 100) {
-                particulas.remove(part);
-            }
-        }
-
-        // Gravidade
+        // QUEDA
         // Situação de ação da GRAVIDADE no player
         if (!emColisao && !isJump && !emEscada) {
             // não existe a colisão (ou seja, não estou em contato com uma entidade solida), não estou em pulo e nem em escada eu caio
-            emMovimento = true;
             jump = false;
             attack = false;
             isFalling(true);
-
         }
 
         // se eu estou em uma escada e não existe colisão
-        if (emEscada && !emColisao) {
-            if (down) {
-                y += speed;
-                y = (int) y;
-            }
-            if (up) {
-                y -= speed;
-                y = (int) y;
-            }
-        }
-        if (emEscada && emColisao) {
-            // se eu tenho uma colisão, tenho que ver a posição que eu me encontro
-
-            // no caso inicial eu não estou no topo da escada e não estou no bottom (ou seja, estou no meio)
+        if (emEscada) {
+            // estou no meio da escada
             if (!posTopoEscada && !posBottomEscada) {
-
-                // estou colidindo, mas não estou no topo de uma escada
-                // ou seja nesse caso em especifico eu posso
-                // - tentar descer e bater em algo
-                // - tentar subir e bater em algo
                 if (up) {
                     x = escadaEmColisao.getX();
-                    y = atualY + getAlturaPlayer() - Entity.SIZEENTITYY - 13;
-                    up = false;
+                    y -= speed;
+                    down = false;
                 }
                 if (down) {
                     x = escadaEmColisao.getX();
-                    y = atualY - 1;
-                    down = false;
+                    y += speed;
+                    up = false;
                 }
             } else if (posBottomEscada) {
-                // nesse caso estou na base de uma escada, colidindo com mo chão provavelmente
-                // eu posso:
-                // - voltar a subir
-                // - tentar descer e bater no chão
                 if (up) {
                     x = escadaEmColisao.getX();
                     y -= speed;
                     y = (int) y;
+                    down = false;
                 }
                 if (down) {
-                    x = escadaEmColisao.getX();
-                    y = atualY - 1;
+                    y = escadaEmColisao.getY() - 16;
                     down = false;
                 }
             } else {
                 // nesse caso eu estou no topo de uma escada
                 if (up) {
-                    x = escadaEmColisao.getX();
                     y -= speed;
                     y = (int) y;
+                    down = false;
                 }
                 if (down) {
                     x = escadaEmColisao.getX();
+                    y += speed;
                     up = false;
                 }
             }
         }
+
+
+        // movimentação do player (CONTROLE DE FRAMES)
+        if (emMovimento && !attack || emEscada) {
+            frames++;
+            if (frames == maxFrames) {
+                index++;
+                frames = 0;
+                if (index > maxIndex) {
+                    index = 0;
+                }
+            }
+        } else {
+            // em pulo
+            if (isJump) {
+                frames++;
+                if (frames == maxFrames) {
+                    index++;
+                    frames = 0;
+                    if (index > maxIndex) {
+                        index = 0;
+                    }
+                }
+            } else {
+                // comportamento em idle
+                if (tempoParado / 60 > 4) {
+                    frames++;
+                    if (frames == maxFrames) {
+                        index++;
+                        frames = 0;
+                        if (index > maxIndex) {
+                            index = 0;
+                        }
+                    }
+                }
+            }
+        }
+        // colisões laterais param o movimento
+
 
         // caso eu me movimente para a direita
         // - não estou colidindo com nada
@@ -316,7 +336,6 @@ public class Player extends Entity {
         // - estou dentro dos limites do mundo
         if (right && !attack && !colisao((int) (x + speed), this.getY()) && x <= (Mundo.WIDTH * Entity.SIZEENTITYX) - getLarguraPlayer()) {
             x += speed;
-            emMovimento = true;
             direcaoAtual = "direita";
         }
 
@@ -326,7 +345,6 @@ public class Player extends Entity {
         // - estou dentro dos limites do mundo
         if (left && !attack && !colisao((int) (x - speed), this.getY()) && x >= 0) {
             x -= speed;
-            emMovimento = true;
             direcaoAtual = "esquerda";
         }
 
@@ -335,7 +353,7 @@ public class Player extends Entity {
             if (emColisao) {
                 isJump = true;
                 attack = false;
-                emMovimento = true;
+                //emMovimento = true;
             }
         }
 
@@ -396,7 +414,7 @@ public class Player extends Entity {
                 }
             }
 
-            emMovimento = true;
+
             frames++;
 
             if (frames == maxFrames) {
@@ -410,46 +428,41 @@ public class Player extends Entity {
             }
         }
 
-        // movimentação do player (CONTROLE DE FRAMES)
-        if (emMovimento && !attack || emEscada) {
-            frames++;
-            if (frames == maxFrames) {
-                index++;
-                frames = 0;
-                if (index > maxIndex) {
-                    index = 0;
-                }
-            }
-        } else {
-            // em pulo
-            if (isJump) {
-                frames++;
-                if (frames == maxFrames) {
-                    index++;
-                    frames = 0;
-                    if (index > maxIndex) {
-                        index = 0;
-                    }
-                }
-            } else {
-                // comportamento em idle
-                if (tempoParado / 60 > 4) {
-                    frames++;
-                    if (frames == maxFrames) {
-                        index++;
-                        frames = 0;
-                        if (index > maxIndex) {
-                            index = 0;
-                        }
-                    }
-                }
-            }
-        }
-        // colisões laterais param o movimento
-        if (colisaoDireitaBloco || colisaoEsquerdaBloco) {
-            emMovimento = false;
+        // caindo fora da tela (dano)
+        if (y >= (Mundo.HEIGHT * Entity.SIZEENTITYY)) {
+            life -= damageFactor * 4;
         }
 
+        // quaando a energia acaba
+        if (life <= 0) {
+            tentativas--;
+            setX(posSaveX);
+            setY(posSaveY);
+            life = 100;
+            if (tentativas == 0) {
+                GameOver.gameoverTimer = 0;
+                Game.gameState = "GAMEOVER";
+            }
+        }
+
+        // reset de invulnerabilidade do inimigo
+        if (noDamageStateEnemy) {
+            timerNoDamageEnemy++;
+            if (timerNoDamageEnemy == 20) {
+                noDamageStateEnemy = false;
+                timerNoDamageEnemy = 0;
+            }
+        }
+
+        // gerenciamento de update das particulas (quando o inimigo é derrotado)
+        for (int i = 0; i < particulas.size(); i++) {
+            particulas.get(i).update();
+            Particula part = particulas.get(i);
+            // duração da particula na tela (otimização)
+            if (part.timer >= 100) {
+                particulas.remove(part);
+            }
+        }
 
         // dano contra o player (deverá levar em consideração a ameaça)
         if (damage((int) (x + speed), this.getY())) {
@@ -494,23 +507,6 @@ public class Player extends Entity {
             life -= damageFactorEspinho;
         }
 
-        // caindo fora da tela (dano)
-        if (y >= (Mundo.HEIGHT * Entity.SIZEENTITYY)) {
-            life -= damageFactor * 4;
-        }
-
-        // quaando a energia acaba
-        if (life <= 0) {
-            tentativas--;
-            setX(posSaveX);
-            setY(posSaveY);
-            life = 100;
-            if (tentativas == 0) {
-                GameOver.gameoverTimer = 0;
-                Game.gameState = "GAMEOVER";
-            }
-        }
-
         // posicionamento da camera, sempre em relaçao ao player
         Camera.x = Camera.Clamp(this.getX() - (GameSettings.getGAME_WIDTH() / 2), 0, Mundo.WIDTH * Entity.SIZEENTITYX - GameSettings.getGAME_WIDTH());
         Camera.y = Camera.Clamp(this.getY() - (GameSettings.getGAME_HEIGHT() / 2), 0, (Mundo.HEIGHT * Entity.SIZEENTITYY) - getAlturaPlayer());
@@ -536,6 +532,10 @@ public class Player extends Entity {
                     colisaoFundoBloco = (int) playerRectangle.getMinY() + 1 >= (int) solido.getMaxY();
                     colisaoEsquerdaBloco = (int) (playerRectangle.getMaxX() + 1) >= (int) solido.getMinX() && ((int) (solido.getMinY() - 18) <= (int) y);
                     colisaoDireitaBloco = (int) (playerRectangle.getMinX() - 1) <= (int) solido.getMaxX() && ((int) (solido.getMinY() - 18) <= (int) y);
+
+                    if (colisaoDireitaBloco || colisaoEsquerdaBloco) {
+                        emMovimento = false;
+                    }
 
                     // Retorne true para indicar que houve colisão
                     return true;
@@ -564,7 +564,6 @@ public class Player extends Entity {
                 jump = false;
                 isJump = false;
                 attack = false;
-                emMovimento = true;
                 if (escada.tipoEscada == 3) {
                     posTopoEscada = true;
                     posBottomEscada = false;
@@ -586,7 +585,6 @@ public class Player extends Entity {
 
     // troca de armas
     public synchronized void toggleWeapon() {
-
         if (Objects.equals(selectedWeapon, "Cano")) {
             if (qtdTiro > 0) {
                 selectedWeapon = "Arma";
@@ -609,7 +607,6 @@ public class Player extends Entity {
             if (!colisao(atualX, newY + 1)) {
                 y += TAXADEQUEDA;
             } else {
-
                 y += 1;
             }
         }
@@ -827,95 +824,152 @@ public class Player extends Entity {
         return false;
     }
 
+    // -------------------------------- //
+    //       Padrão de Movimento        //
+    // -------------------------------- //
+
+    public void andarNormal(Graphics g, String direcao) {
+        if (Objects.equals(direcao, "direita")) {
+            g.drawImage(playerRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        } else {
+            g.drawImage(playerLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        }
+    }
+
+    public void posicaoIdle(Graphics g, String direcao) {
+        if (Objects.equals(direcao, "direita")) {
+            g.drawImage(playerIdleRigth[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        } else {
+            g.drawImage(playerIdleLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        }
+    }
+
+    public void posicaoParado(Graphics g, String direcao) {
+        if (Objects.equals(direcao, "direita")) {
+            g.drawImage(playerIdleRigth[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        } else {
+            g.drawImage(playerIdleLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        }
+    }
+
+    public void posicaoPulo(Graphics g, String direcao) {
+        if (Objects.equals(direcao, "direita")) {
+            g.drawImage(playerJumpRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        } else {
+            g.drawImage(playerJumpLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        }
+    }
+
+    public void posicaoQueda(Graphics g, String direcao) {
+        if (Objects.equals(direcao, "direita")) {
+            g.drawImage(playerJumpRight[3], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        } else {
+            g.drawImage(playerJumpLeft[3], this.getX() - Camera.x, this.getY() - Camera.y, null);
+        }
+    }
+
+    public void posicaoEmEscada(Graphics g) {
+        g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+    }
+
+    public void posicaoEmEscadaParado(Graphics g) {
+        g.drawImage(playerEscada[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
+    }
 
     // renderiza tudão
     public void render(Graphics g) {
 
-        // Auxiliar (remover depois)
-        // g.fillRect((int)Player.atualX-Camera.x, (int)Player.atualY + 16-Camera.y,  32,32);
+        System.out.println("-----------------");
+        System.out.println("em colisão: " + emColisao);
+        System.out.println("em escada: " + emEscada);
+        System.out.println("em movimento: " + emMovimento);
+        System.out.println("jump: " + jump);
+        System.out.println("is Jump: " + isJump);
+        System.out.println("-----------------");
 
-        // situação quando virado para a direita e esquerda
-        // você pode estar parado
-        // você pode estar andando
-        // você pode estar pulando
-        // vc pode estar em queda
-
-        if (Objects.equals(direcaoAtual, "direita") && !emEscada && !attack) {
-            // estou em pulo
-            if (jump) {
-                g.drawImage(playerJumpRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            }
-            // estou caindo
-            if (!emColisao && !jump) {
-                g.drawImage(playerJumpRight[3], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            }
-            // aqui eu estou no chão provavelmente
-            if (emColisao) {
-                // aqui eu estou andando
-                if (emMovimento) {
-                    g.drawImage(playerRight[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                }
-                // aqui estou parado
-                if (!emMovimento) {
-                    if (tempoParado / 60 <= 4) {
-                        g.drawImage(playerIdleRigth[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    } else if (tempoParado / 60 > 4) {
-                        g.drawImage(playerIdleRigth[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    } else {
-                        g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    }
-                }
-            }
-        } else if (Objects.equals(direcaoAtual, "esquerda") && !emEscada && !attack) {
-
-            // estou em pulo
-            if (jump) {
-                g.drawImage(playerJumpLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            }
-            // estou caindo
-            if (!emColisao && !jump) {
-                g.drawImage(playerJumpLeft[3], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            }
-            // aqui eu estou no chão provavelmente
-            if (emColisao) {
-                // aqui eu estou andando
-                if (emMovimento) {
-                    g.drawImage(playerLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                }
-                // aqui estou parado
-                if (!emMovimento) {
-                    if (tempoParado / 60 <= 4) {
-                        g.drawImage(playerIdleLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    } else if (tempoParado / 60 > 4) {
-                        g.drawImage(playerIdleLeft[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    } else {
-                        g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    }
-                }
-            }
+        // se em movimento
+/*
+        if (right) {
+            emMovimento = true;
+        } else if (left) {
+            emMovimento = true;
+        } else if (up && emEscada) {
+            emMovimento = true;
+        } else if (down && emEscada) {
+            emMovimento = true;
+        } else if (jump) {
+            emMovimento = true;
+        } else if (isJump) {
+            emMovimento = true;
+        } else if (!emColisao && !isJump && !emEscada) {
+            emMovimento = true;
+        } else if (attack) {
+            emMovimento = true;
         }
+        else {
+            emMovimento = false;
+        }Golpe
+*/
 
-        // rederização para movimento em escada
-        if (emEscada) {
-            if (up || down) {
-                g.drawImage(playerEscada[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-            } else {
-                if (escadaEmColisao.tipoEscada == 1 || escadaEmColisao.tipoEscada == 3){
-                    if (Objects.equals(direcaoAtual, "direita")){
-                        g.drawImage(playerRight[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    } else {
-                        g.drawImage(playerLeft[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                    }
-                } else {
-                    g.drawImage(playerEscada[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
-                }
-
+        if (!attack) {
+            // estou em pulo e não estou em escada
+            if (jump && !emEscada) {
+                posicaoPulo(g, direcaoAtual);
             }
-        }
+            // estou caindo (não colido com nada, o pulo terminou e não estou em escada)
+            if (!emColisao && !emEscada && !jump) {
+                posicaoQueda(g, direcaoAtual);
+            }
+            // aqui eu estou andando no chão
+            if (emColisao && emMovimento && !jump) {
+                andarNormal(g, direcaoAtual);
+            }
 
-        // renderiza as particulas se houverem
-        for (Particula particula : particulas) {
-            particula.render(g);
+            // não tenho colisão mas estou em uma escada
+            if (emEscada) {
+                // topo
+                if (escadaEmColisao.tipoEscada == 3) {
+                    if (up || down) {
+                        posicaoEmEscada(g);
+                    }
+
+                }
+                // meio - ok
+                if (escadaEmColisao.tipoEscada == 2) {
+                    if (up || down) {
+                        posicaoEmEscada(g);
+                    } else {
+                        posicaoEmEscadaParado(g);
+                    }
+                }
+                // base - ok
+                if (escadaEmColisao.tipoEscada == 1) {
+                    if (up) {
+                        posicaoEmEscada(g);
+                    }
+                }
+            }
+
+            // um detalhe importante, eu posso estar sem colisão em uma escada e isso tem impacto na animação
+            // se eu estiver em um momento parado e sem colisão em uma escada ou me movimentando sem colisão em uma escada
+            // outro detalhe é que eu posso também estar em colisão e em uma escada ao mesmo tempo
+
+            // IDLE
+            // aqui estou parado (em escadas eu fico parado sem idle, e idle não pode acontecer em pulo)
+            if (!emMovimento && !emEscada && !isJump) {
+                if (tempoParado / 60 <= 4) {
+                    posicaoParado(g, direcaoAtual);
+                } else if (tempoParado / 60 > 4) {
+                    posicaoIdle(g, direcaoAtual);
+                }
+            } else if (emEscada && !emMovimento && escadaEmColisao.tipoEscada == 3) {
+                if (tempoParado / 60 <= 4) {
+                    posicaoParado(g, direcaoAtual);
+                } else if (tempoParado / 60 > 4) {
+                    posicaoIdle(g, direcaoAtual);
+                }
+            }
+
         }
 
         // ataque
@@ -925,7 +979,6 @@ public class Player extends Entity {
                 if (Objects.equals(selectedWeapon, "Cano")) {
                     PlayerAudio.tocaAudio("ataqueCano");
                 }
-
             }
             attackTimeSound++;
 
@@ -946,6 +999,10 @@ public class Player extends Entity {
 
         }
 
+        // renderiza as particulas se houverem
+        for (Particula particula : particulas) {
+            particula.render(g);
+        }
     }
 
     public static int getLarguraPlayer() {
